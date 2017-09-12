@@ -2,16 +2,16 @@ const webpack = require('webpack');
 const ExtractTextPlugin = require("extract-text-webpack-plugin");
 
 module.exports = {
-    entry: './src/index.js',
+    entry: './lib/style.css',
     output: {
-        filename: './lib/index.js'
+        filename: './lib/style.js'
     },
     module: {
         rules: [{
             test: /\.css$/,
             use: [
                 'style-loader',
-                'css-loader?importLoaders=1&modules!postcss-loader'
+                'css-loader'
             ],
             exclude: /node_modules/
         }]
