@@ -1,0 +1,66 @@
+/*  imported from ScrollArea.css  */
+
+.ScrollArea__outer___37v-o {
+    overflow: hidden;
+    position: relative;
+
+    height: 100%;
+}
+
+.ScrollArea__overflow___3EGck {
+    position: relative;
+    overflow-y: scroll;
+    overflow-x: hidden;
+    height: 100%;
+    margin-right: -30px;
+    padding-right: 30px;
+}
+
+.ScrollArea__inner___34zZx {
+    position: relative;
+}
+
+.ScrollArea__track___1Rpps {
+    position: absolute;
+    top: 2px; right: 2px;
+    width: 7px;
+    height: 100%;
+
+    padding: 0;
+
+    border-radius: 4px;
+
+    opacity: 1;
+
+    pointer-events: none;
+
+    transition: opacity .4s linear;
+    -webkit-transition: opacity .4s linear;
+    -moz-transition: opacity .4s linear;
+    -ms-transition: opacity .4s linear;
+    -o-transition: opacity .4s linear;
+}
+
+.ScrollArea__handler___hkHU7 {
+    position: absolute;
+    top: 0px; left: -1px;
+    width: 7px; height: 50px;
+
+    background: #d7d7d7;
+    border-radius: 4px;
+
+    transition: background .2s linear;
+    -webkit-transition: background .4s linear;
+    -moz-transition: background .2s linear;
+    -ms-transition: background .2s linear;
+    -o-transition: background .2s linear;
+}
+
+.ScrollArea__handlerHover___coLlQ,
+.ScrollArea__handlerIsDragging___34UZt {
+    background: #909090;
+}
+
+.ScrollArea__trackHidden_____l1I {
+    opacity: 0;
+}

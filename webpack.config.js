@@ -1,4 +1,5 @@
 const webpack = require('webpack');
+const ExtractTextPlugin = require("extract-text-webpack-plugin");
 
 module.exports = {
     entry: './src/index.js',
@@ -7,17 +8,11 @@ module.exports = {
     },
     module: {
         rules: [{
-            test: /\.jsx?$/,
-            use: ['babel-loader'],
-            exclude: /node_modules/
-        }, {
             test: /\.css$/,
-            use: ['style-loader', {
-                loader: 'css-loader',
-                query: {
-                    modules: true
-                }
-            }],
+            use: [
+                'style-loader',
+                'css-loader?importLoaders=1&modules!postcss-loader'
+            ],
             exclude: /node_modules/
         }]
     }
