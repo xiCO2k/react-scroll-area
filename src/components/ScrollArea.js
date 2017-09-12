@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import ReactDOM from 'react-dom';
 import _ from 'lodash';
 import $ from 'jquery';
 
@@ -28,7 +27,7 @@ export default class ScrollArea extends Component {
     }
 
     componentDidMount() {
-        var $elem = $(ReactDOM.findDOMNode(this)),
+        var $elem = $(this.refs['outer']),
             $overflow = $elem.find("> ." + style.overflow);
 
         this.onResize(true);
