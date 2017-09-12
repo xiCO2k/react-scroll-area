@@ -19,5 +19,8 @@
     "react-dom": "^15.6.1",
     "style-loader": "^0.18.2",
     "webpack": "^3.5.6"
+  },
+  "scripts": {
+    "lib": "babel src --out-dir lib --copy-files && webpack"
   }
 }
