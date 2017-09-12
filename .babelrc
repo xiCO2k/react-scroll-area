@@ -1,8 +1,17 @@
 {
-    "presets": ["es2015", "react", "stage-0"],
-    "plugins": [
-        ["css-modules-transform", {
-            "extractCss": "./lib/style.css"
-        }]
-    ]
+    "env": {
+        "production": {
+            "presets": ["es2015", "react", "stage-0"],
+            "plugins": [
+                [
+                    "css-modules-transform", {
+                        "extractCss": "./lib/style.css"
+                    }
+                ]
+            ]
+        },
+        "development": {
+            "presets": ["es2015", "react", "stage-0"]
+        }
+    }
 }

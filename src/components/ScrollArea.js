@@ -27,15 +27,8 @@ export default class ScrollArea extends Component {
     }
 
     componentDidMount() {
-        var $elem = $(this.refs['outer']),
-            $overflow = $elem.find("> ." + style.overflow);
-
         this.onResize(true);
         this.onScrollTop();
-
-        $overflow.on({
-            'mousewheel': this.onMouseWheel.bind(this)
-        });
     }
 
     componentDidUpdate() {
@@ -142,7 +135,7 @@ export default class ScrollArea extends Component {
 
     onMouseWheel(event) {
         var $target = $(event.target),
-            scrollTop = $(this.refs['overflow']).scrollTop(),
+            scrollTop = this.getScrollTop(),
             innerHeight = this.getInnerHeight(),
             outerHeight = this.getOuterHeight();
 
@@ -190,7 +183,7 @@ export default class ScrollArea extends Component {
             $inner = $(this.refs['inner']),
             method = 'animate',
             scrollTop = this.props.scrollTopPos || scrollTopPos,
-            actualScrollTop = $overflow.scrollTop(),
+            actualScrollTop = this.getScrollTop(),
             relativeScrollTop = (scrollTop + actualScrollTop) - $elem.offset().top;
 
         if (this.props.scrollToBottom || scrollToBottom) {
@@ -204,7 +197,7 @@ export default class ScrollArea extends Component {
             if (noAnim) {
                 $overflow.scrollTop(relativeScrollTop);
 
-                if( _.isFunction(this.props.scrollTopCallback) ){
+                if (_.isFunction(this.props.scrollTopCallback)) {
                     this.props.scrollTopCallback();
                 }
 
@@ -296,6 +289,7 @@ export default class ScrollArea extends Component {
 
     onMouseEnter() {
         clearTimeout(this.scrollTrackVisibleTimeout);
+
         this.setState({
             trackVisible: true
         });
@@ -401,6 +395,7 @@ export default class ScrollArea extends Component {
                 <div
                     ref="overflow"
                     className={style.overflow}
+                    onWheel={this.onMouseWheel.bind(this)}
                     onScroll={this.onScroll.bind(this)}
                 >
                     <div

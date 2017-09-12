@@ -1,16 +1,20 @@
 const webpack = require('webpack');
 
 module.exports = {
-    entry: './lib/style.css',
+    entry: './src/entry.js',
     output: {
-        filename: './lib/style.js'
+        filename: './dist/bundle.js'
     },
     module: {
         rules: [{
+            test: /\.jsx?$/,
+            use: ['babel-loader'],
+            exclude: /node_modules/
+        }, {
             test: /\.css$/,
             use: [
                 'style-loader',
-                'css-loader'
+                'css-loader?importLoaders=1&modules'
             ],
             exclude: /node_modules/
         }]
