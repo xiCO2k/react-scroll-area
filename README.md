@@ -8,14 +8,14 @@ With [npm](https://www.npmjs.com):
 ```
 $ npm i xico2k-react-scroll-area
 ```
-Or with [Yarn](https://yarnpkg.com):
+or with [Yarn](https://yarnpkg.com):
 ```
 $ yarn add xico2k-react-scroll-area
 ```
 
 ## Usage
 
-On your js file just add:
+On your Component file just add:
 
 ```javascript
 import ScrollArea from 'xico2k-react-scroll-area';
