@@ -2,6 +2,7 @@
 
 A scroll area wrapper to mimic Facebook Scroll Area
 
+
 ## Installation
 With [npm](https://www.npmjs.com):
 ```
