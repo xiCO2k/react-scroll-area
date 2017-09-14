@@ -93,8 +93,8 @@ export default class ScrollArea extends Component {
     }
 
     getInnerMargin() {
-        let outer = this.refs['outer'] || {},
-            inner = this.refs['inner'] || {};
+        let outer = this.refs['outer'],
+            inner = this.refs['inner'];
 
         if (!inner.offsetWidth || !outer.offsetWidth) {
             return -1;
@@ -155,8 +155,7 @@ export default class ScrollArea extends Component {
             let data = {
                 scrollTop: this.getScrollTop(),
                 innerHeight: this.getInnerHeight(),
-                outerHeight: this.getOuterHeight(),
-                complete: 0
+                outerHeight: this.getOuterHeight()
             };
             data.complete = (data.scrollTop + data.outerHeight) / data.innerHeight;
 
@@ -171,12 +170,19 @@ export default class ScrollArea extends Component {
     }
 
     onMouseEnter() {
-        clearTimeout(this.scrollTrackVisibleTimeout);
+        if (this.props.trackHidden) {
+            return;
+        }
 
+        clearTimeout(this.scrollTrackVisibleTimeout);
         this.setState({ trackVisible: true });
     }
 
     onMouseLeave() {
+        if (this.props.trackHidden) {
+            return;
+        }
+
         this.scrollTrackVisibleTimeout = _.delay(() => {
             if(this.unMounted) {
                 return;

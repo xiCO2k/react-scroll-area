@@ -28,7 +28,7 @@ ShallowWrapper {
           }
         }
       >
-        Analytcs
+        Lorem Ipsum
       </div>
     </div>
     <div
@@ -66,7 +66,7 @@ ShallowWrapper {
             }
           }
         >
-          Analytcs
+          Lorem Ipsum
         </div>
       </div>
       <div
@@ -91,7 +91,7 @@ ShallowWrapper {
       "_compositeType": 0,
       "_context": Object {},
       "_currentElement": <ScrollArea>
-        Analytcs
+        Lorem Ipsum
       </ScrollArea>,
       "_debugID": 1,
       "_hostContainerInfo": null,
@@ -102,7 +102,7 @@ ShallowWrapper {
         "handlerMargin": 4,
         "minTrackHandlerHeight": 70,
         "props": Object {
-          "children": "Analytcs",
+          "children": "Lorem Ipsum",
         },
         "refs": Object {},
         "scrollTrackVisibleTimeout": false,
@@ -154,7 +154,7 @@ ShallowWrapper {
                 }
               }
             >
-              Analytcs
+              Lorem Ipsum
             </div>
           </div>
           <div
@@ -192,7 +192,7 @@ ShallowWrapper {
                 }
               }
             >
-              Analytcs
+              Lorem Ipsum
             </div>
           </div>
           <div
@@ -221,7 +221,7 @@ ShallowWrapper {
   },
   "root": [Circular],
   "unrendered": <ScrollArea>
-    Analytcs
+    Lorem Ipsum
   </ScrollArea>,
 }
 `;

@@ -1,27 +1,35 @@
 import React from 'react';
 import ScrollArea from '../ScrollArea';
-import { shallow } from 'enzyme';
+import { shallow, render, mount } from 'enzyme';
 import renderer from 'react-test-renderer';
 
 it('renders correctly', () => {
-    const comp = shallow(<ScrollArea>Analytcs</ScrollArea>);
+    const wrapper = shallow(<ScrollArea>Lorem Ipsum</ScrollArea>);
 
-    expect(comp).toMatchSnapshot();
+    expect(wrapper).toMatchSnapshot();
 });
 
-// it('should have the same width and height of the parent DOM', () => {
-//     expect(true).toEqual(true);
-// });
+it('shows the scroll track when mouse enter', () => {
+    const wrapper = mount(<ScrollArea></ScrollArea>);
 
-// it('shows the scroll track when mouse enter', () => {
-//     expect(true).toEqual(true);
-// });
+    expect(wrapper.state('trackVisible')).toEqual(false);
 
-// it('should not show the track when mouse enter when the props.trackHidden is true', () => {
-//     expect(true).toEqual(true);
-// });
+    wrapper.instance().onMouseEnter();
 
-// it('should change the class to handlerHover when the scroll handler is hovered', () => {
-//     expect(true).toEqual(true);
-// });
+    expect(wrapper.state('trackVisible')).toEqual(true);
+});
 
+it('should not show the track when mouse enter when the props.trackHidden is true', () => {
+    const wrapper = mount(<ScrollArea trackHidden={true}></ScrollArea>);
+
+    expect(wrapper.state('trackVisible')).toEqual(false);
+
+    wrapper.instance().onMouseEnter();
+
+    expect(wrapper.state('trackVisible')).toEqual(false);
+});
+
+it('should call the callback props.onScroll when scrolling if its a prop', done => {
+    const wrapper = mount(<ScrollArea onScroll={() => done()}></ScrollArea>);
+    wrapper.instance().triggerScroll();
+});
