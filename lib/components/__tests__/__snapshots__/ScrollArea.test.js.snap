@@ -1,0 +1,227 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`renders correctly 1`] = `
+ShallowWrapper {
+  "complexSelector": ComplexSelector {
+    "buildPredicate": [Function],
+    "childrenOfNode": [Function],
+    "findWhereUnwrapped": [Function],
+  },
+  "length": 1,
+  "node": <div
+    className="ScrollArea__outer___37v-o"
+    onMouseDown={[Function]}
+    onMouseEnter={[Function]}
+    onMouseLeave={[Function]}
+    onMouseMove={[Function]}
+  >
+    <div
+      className="ScrollArea__overflow___3EGck"
+      onScroll={[Function]}
+      onWheel={[Function]}
+    >
+      <div
+        className="ScrollArea__inner___34zZx"
+        style={
+          Object {
+            "marginRight": -1,
+          }
+        }
+      >
+        Analytcs
+      </div>
+    </div>
+    <div
+      className="ScrollArea__track___1Rpps ScrollArea__trackHidden_____l1I"
+    >
+      <div
+        className="ScrollArea__handler___hkHU7"
+        style={
+          Object {
+            "height": 0,
+            "top": -0,
+          }
+        }
+      />
+    </div>
+  </div>,
+  "nodes": Array [
+    <div
+      className="ScrollArea__outer___37v-o"
+      onMouseDown={[Function]}
+      onMouseEnter={[Function]}
+      onMouseLeave={[Function]}
+      onMouseMove={[Function]}
+    >
+      <div
+        className="ScrollArea__overflow___3EGck"
+        onScroll={[Function]}
+        onWheel={[Function]}
+      >
+        <div
+          className="ScrollArea__inner___34zZx"
+          style={
+            Object {
+              "marginRight": -1,
+            }
+          }
+        >
+          Analytcs
+        </div>
+      </div>
+      <div
+        className="ScrollArea__track___1Rpps ScrollArea__trackHidden_____l1I"
+      >
+        <div
+          className="ScrollArea__handler___hkHU7"
+          style={
+            Object {
+              "height": 0,
+              "top": -0,
+            }
+          }
+        />
+      </div>
+    </div>,
+  ],
+  "options": Object {},
+  "renderer": ReactShallowRenderer {
+    "_instance": ShallowComponentWrapper {
+      "_calledComponentWillUnmount": false,
+      "_compositeType": 0,
+      "_context": Object {},
+      "_currentElement": <ScrollArea>
+        Analytcs
+      </ScrollArea>,
+      "_debugID": 1,
+      "_hostContainerInfo": null,
+      "_hostParent": null,
+      "_instance": ScrollArea {
+        "_reactInternalInstance": [Circular],
+        "context": Object {},
+        "handlerMargin": 4,
+        "minTrackHandlerHeight": 70,
+        "props": Object {
+          "children": "Analytcs",
+        },
+        "refs": Object {},
+        "scrollTrackVisibleTimeout": false,
+        "state": Object {
+          "innerHeight": 0,
+          "innerMargin": -1,
+          "isDragging": false,
+          "outerHeight": 0,
+          "trackHandlerHeight": 0,
+          "trackHidden": undefined,
+          "trackVisible": false,
+        },
+        "unMounted": false,
+        "updater": Object {
+          "enqueueCallback": [Function],
+          "enqueueCallbackInternal": [Function],
+          "enqueueElementInternal": [Function],
+          "enqueueForceUpdate": [Function],
+          "enqueueReplaceState": [Function],
+          "enqueueSetState": [Function],
+          "isMounted": [Function],
+          "validateCallback": [Function],
+        },
+      },
+      "_mountOrder": 1,
+      "_pendingCallbacks": null,
+      "_pendingElement": null,
+      "_pendingForceUpdate": false,
+      "_pendingReplaceState": false,
+      "_pendingStateQueue": null,
+      "_renderedComponent": NoopInternalComponent {
+        "_currentElement": <div
+          className="ScrollArea__outer___37v-o"
+          onMouseDown={[Function]}
+          onMouseEnter={[Function]}
+          onMouseLeave={[Function]}
+          onMouseMove={[Function]}
+        >
+          <div
+            className="ScrollArea__overflow___3EGck"
+            onScroll={[Function]}
+            onWheel={[Function]}
+          >
+            <div
+              className="ScrollArea__inner___34zZx"
+              style={
+                Object {
+                  "marginRight": -1,
+                }
+              }
+            >
+              Analytcs
+            </div>
+          </div>
+          <div
+            className="ScrollArea__track___1Rpps ScrollArea__trackHidden_____l1I"
+          >
+            <div
+              className="ScrollArea__handler___hkHU7"
+              style={
+                Object {
+                  "height": 0,
+                  "top": -0,
+                }
+              }
+            />
+          </div>
+        </div>,
+        "_debugID": 2,
+        "_renderedOutput": <div
+          className="ScrollArea__outer___37v-o"
+          onMouseDown={[Function]}
+          onMouseEnter={[Function]}
+          onMouseLeave={[Function]}
+          onMouseMove={[Function]}
+        >
+          <div
+            className="ScrollArea__overflow___3EGck"
+            onScroll={[Function]}
+            onWheel={[Function]}
+          >
+            <div
+              className="ScrollArea__inner___34zZx"
+              style={
+                Object {
+                  "marginRight": -1,
+                }
+              }
+            >
+              Analytcs
+            </div>
+          </div>
+          <div
+            className="ScrollArea__track___1Rpps ScrollArea__trackHidden_____l1I"
+          >
+            <div
+              className="ScrollArea__handler___hkHU7"
+              style={
+                Object {
+                  "height": 0,
+                  "top": -0,
+                }
+              }
+            />
+          </div>
+        </div>,
+      },
+      "_renderedNodeType": 0,
+      "_rootNodeID": 0,
+      "_topLevelWrapper": null,
+      "_updateBatchNumber": null,
+      "_warnedAboutRefsInRender": false,
+    },
+    "getRenderOutput": [Function],
+    "render": [Function],
+  },
+  "root": [Circular],
+  "unrendered": <ScrollArea>
+    Analytcs
+  </ScrollArea>,
+}
+`;

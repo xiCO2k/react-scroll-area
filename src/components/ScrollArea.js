@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import _ from 'lodash';
-import $ from 'jquery';
 
+import DOMHelper from '../helpers/DOMHelper';
 import style from './ScrollArea.css';
 
 export default class ScrollArea extends Component {
@@ -28,15 +28,12 @@ export default class ScrollArea extends Component {
 
     componentDidMount() {
         this.onResize(true);
-        this.onScrollTop();
     }
 
     componentDidUpdate() {
         if (this.getInnerHeight() !== this.state.innerHeight) {
             this.onResize();
         }
-
-        this.onScrollTop();
     }
 
     componentWillUnmount() {
@@ -44,13 +41,9 @@ export default class ScrollArea extends Component {
     }
 
     getOuterHeight(fromState = false) {
-        let $outer = $(this.refs['outer']);
-
-        if (fromState) {
-            return this.state.outerHeight;
-        }
-
-        return $outer.outerHeight();
+        return fromState ?
+            this.state.outerHeight :
+            this.refs['outer'] && this.refs['outer'].offsetHeight;
     }
 
     getTrackHeight(fromState = false) {
@@ -73,12 +66,9 @@ export default class ScrollArea extends Component {
             return 0;
         }
 
-        let ratio = this.getTrackHandlerRatio(),
-            handlerHeight = Math.round((trackHeight) / ratio);
-
         return Math.max(
             this.minTrackHandlerHeight,
-            handlerHeight
+            Math.round((trackHeight) / this.getTrackHandlerRatio())
         );
     }
 
@@ -103,59 +93,42 @@ export default class ScrollArea extends Component {
     }
 
     getInnerMargin() {
-        let $outer = $(this.refs['outer']),
-            $inner = $(this.refs['inner']);
+        let outer = this.refs['outer'] || {},
+            inner = this.refs['inner'] || {};
 
-        if (!$inner.width() || !$outer.width()) {
+        if (!inner.offsetWidth || !outer.offsetWidth) {
             return -1;
         }
 
-        return ($inner.width() - $outer.width()) - 1;
+        return (inner.offsetWidth - outer.offsetWidth) - 1;
     }
 
     getInnerHeight(fromState = false) {
-        var $inner = $(this.refs['inner']);
-
-        if (fromState) {
-            return this.state.innerHeight;
-        }
-
-        return $inner.height();
+        return fromState ? this.state.innerHeight :
+            this.refs['inner'] && this.refs['inner'].offsetHeight;
     }
 
     getScrollTop() {
-        var $overflow = $(this.refs['overflow']);
-
-        return $overflow.scrollTop() || 0;
+        return this.refs['overflow'] && this.refs['overflow'].scrollTop || 0;
     }
 
     getScrollTopAnimTime() {
-        return this.props.scrollTopAnim ? this.props.scrollTopAnimTime || 400 : 0;
+        return this.props.scrollTopAnimTime || 400;
     }
 
     onMouseWheel(event) {
-        var $target = $(event.target),
-            scrollTop = this.getScrollTop(),
+        var scrollTop = this.getScrollTop(),
             innerHeight = this.getInnerHeight(),
             outerHeight = this.getOuterHeight();
 
-        if ((!$target.is($(this.refs['outer'])) &&
-            !$target.parents('.scroll-outer:first').is($(this.refs['outer']))
-            ) || $target.is("textarea")) {
+        if (!DOMHelper.isChildOf(event.target, this.refs['outer'], true)) {
             return;
         }
 
-        if (event.originalEvent.wheelDelta < 0 &&
-            scrollTop >= innerHeight - outerHeight) {
-
+        if ((event.deltaY > 0 && scrollTop >= innerHeight - outerHeight) ||
+            (event.deltaY < 0 && scrollTop === 0)) {
             event.stopPropagation();
             event.preventDefault();
-
-            return;
-        } else if (event.originalEvent.wheelDelta >= 0 && scrollTop === 0) {
-            event.stopPropagation();
-            event.preventDefault();
-
             return;
         }
     }
@@ -177,86 +150,117 @@ export default class ScrollArea extends Component {
         this.setState(state);
     }
 
-    onScrollTop(scrollTopPos = false, scrollToBottom = false, noAnim = false) {
-        let $elem = $(this.refs['outer']),
-            $overflow = $(this.refs['overflow']),
-            $inner = $(this.refs['inner']),
-            method = 'animate',
-            scrollTop = this.props.scrollTopPos || scrollTopPos,
-            actualScrollTop = this.getScrollTop(),
-            relativeScrollTop = (scrollTop + actualScrollTop) - $elem.offset().top;
-
-        if (this.props.scrollToBottom || scrollToBottom) {
-            relativeScrollTop = $inner.height();
-            scrollTop = true;
-        }
-
-        if (scrollTop !== false) {
-            $overflow.stop();
-
-            if (noAnim) {
-                $overflow.scrollTop(relativeScrollTop);
-
-                if (_.isFunction(this.props.scrollTopCallback)) {
-                    this.props.scrollTopCallback();
-                }
-
-                return;
-            }
-
-            $overflow[method]({
-                scrollTop: relativeScrollTop
-            }, this.getScrollTopAnimTime());
-
-            _.delay(() => {
-                if (!_.isFunction(this.props.scrollTopCallback)) {
-                    return;
-                }
-
-                this.props.scrollTopCallback();
-            }, this.getScrollTopAnimTime());
-        }
-    }
-
-    goToBottom(noAnim = false) {
-        this.onScrollTop(false, true, noAnim);
-    }
-
-    goToPos(pos, noAnim = false) {
-        this.onScrollTop(pos, false, noAnim);
-    }
-
     onScroll() {
-        let data = {
-            scrollTop: this.getScrollTop(),
-            innerHeight: this.getInnerHeight(),
-            outerHeight: this.getOuterHeight(),
-            complete: 0
-        };
-
-        data.complete = (data.scrollTop + data.outerHeight) / data.innerHeight;
-
         if (_.isFunction(this.props.onScroll)) {
+            let data = {
+                scrollTop: this.getScrollTop(),
+                innerHeight: this.getInnerHeight(),
+                outerHeight: this.getOuterHeight(),
+                complete: 0
+            };
+            data.complete = (data.scrollTop + data.outerHeight) / data.innerHeight;
+
             this.props.onScroll(data, this);
         }
 
         this.forceUpdate();
     }
 
-    onTrackHandlerDragging(event, dd) {
-        let top = dd.offsetY,
-            scrollTop = top * this.getTrackHandlerRatio(true);
+    onTrackHandlerDragging(offsetY) {
+        this.refs['overflow'].scrollTop = offsetY * this.getTrackHandlerRatio(true);
+    }
 
-        $(this.refs['overflow'])
-            .scrollTop(scrollTop);
+    onMouseEnter() {
+        clearTimeout(this.scrollTrackVisibleTimeout);
+
+        this.setState({ trackVisible: true });
+    }
+
+    onMouseLeave() {
+        this.scrollTrackVisibleTimeout = _.delay(() => {
+            if(this.unMounted) {
+                return;
+            }
+
+            this.setState({ trackVisible: false });
+        }, 1000);
+    }
+
+    onMouseDown(event) {
+        let handlerPosition = DOMHelper.position(this.refs['handler']),
+            handlerOffset = DOMHelper.offset(this.refs['handler']),
+            originalY = handlerPosition.top,
+            startY = event.pageY;
+
+        if (event.pageX < handlerOffset.left) {
+            return;
+        }
+
+        this.setState({
+            isDragging: true,
+            startY, originalY
+        });
+
+        this.onMouseMoveFn = this.onMouseMove.bind(this);
+        this.onMouseUpFn = this.onMouseUp.bind(this);
+        window.addEventListener('mousemove', this.onMouseMoveFn, false);
+        window.addEventListener('mouseup', this.onMouseUpFn, false);
+    }
+
+    onMouseUp() {
+        this.setState({
+            isDragging: false,
+            handlerHover: false
+        });
+
+        this.ignoreSelection();
+
+        window.removeEventListener('mouseup', this.onMouseUpFn);
+        window.removeEventListener('mousemove', this.onMouseMoveFn);
+    }
+
+    onMouseMove(event) {
+        if (!this.state.isDragging) {
+            return;
+        }
+
+        let deltaY = event.pageY - this.state.startY,
+            originalY = this.state.originalY,
+            offsetY = originalY + deltaY;
+
+        this.ignoreSelection();
+        this.onTrackHandlerDragging(offsetY);
+    }
+
+    onMouseMoveHover(event) {
+        if (this.state.isDragging) {
+            return;
+        }
+
+        let handlerOffset = DOMHelper.offset(this.refs['handler']) || {},
+            handlerHover = false;
+
+        if (event.pageX > handlerOffset.left) {
+            handlerHover = true;
+        }
+
+        this.setState({ handlerHover });
+    }
+
+    ignoreSelection() {
+        if (document.selection) {
+            document.selection.empty();
+        } else {
+            window.getSelection().removeAllRanges();
+        }
     }
 
     isTrackVisible() {
-        if (this.props.trackHidden) {
-            return false;
-        }
+        return this.props.trackHidden ? false : this.state.trackVisible;
+    }
 
-        return this.state.trackVisible;
+    triggerScroll() {
+        this.onScroll();
     }
 
     getTrackClassNames() {
@@ -287,101 +291,6 @@ export default class ScrollArea extends Component {
         return classNames.join(' ');
     }
 
-    onMouseEnter() {
-        clearTimeout(this.scrollTrackVisibleTimeout);
-
-        this.setState({
-            trackVisible: true
-        });
-    }
-
-    onMouseLeave() {
-        this.scrollTrackVisibleTimeout = _.delay(() => {
-            if(this.unMounted) {
-                return;
-            }
-
-            this.setState({
-                trackVisible: false
-            });
-        }, 1000);
-    }
-
-    onMouseDown(event) {
-        let handlerPosition = $(this.refs['handler']).position() || {},
-            handlerOffset = $(this.refs['handler']).offset() || {},
-            originalY = handlerPosition.top,
-            startY = event.pageY;
-
-        if (event.pageX < handlerOffset.left) {
-            return;
-        }
-
-        this.setState({
-            isDragging: true,
-            startY, originalY
-        });
-
-        this.onMouseMoveFn = this.onMouseMove.bind(this);
-        this.onMouseUpFn = this.onMouseUp.bind(this);
-
-        window.addEventListener('mousemove', this.onMouseMoveFn, false);
-        window.addEventListener('mouseup', this.onMouseUpFn, false);
-    }
-
-    onMouseUp() {
-        this.setState({ isDragging: false, handlerHover: false });
-
-        this.ignoreSelection();
-
-        window.removeEventListener('mouseup', this.onMouseUpFn);
-        window.removeEventListener('mousemove', this.onMouseMoveFn);
-    }
-
-    onMouseMove(event) {
-        if (!this.state.isDragging) {
-            return;
-        }
-
-        this.ignoreSelection();
-
-        let deltaY = event.pageY - this.state.startY,
-            originalY = this.state.originalY,
-            offsetY = originalY + deltaY;
-
-        this.onTrackHandlerDragging({}, { offsetY });
-    }
-
-    onMouseMoveHover(event) {
-        if (this.state.isDragging) {
-            return;
-        }
-
-        let handlerOffset = $(this.refs['handler']).offset() || {};
-
-        if (event.pageX > handlerOffset.left) {
-            this.setState({
-                handlerHover: true
-            });
-        } else {
-            this.setState({
-                handlerHover: false
-            });
-        }
-    }
-
-    ignoreSelection() {
-        if (document.selection) {
-            document.selection.empty();
-        } else {
-            window.getSelection().removeAllRanges();
-        }
-    }
-
-    triggerScroll() {
-        this.onScroll();
-    }
-
     render() {
         return (
             <div
@@ -395,12 +304,12 @@ export default class ScrollArea extends Component {
                 <div
                     ref="overflow"
                     className={style.overflow}
-                    onWheel={this.onMouseWheel.bind(this)}
                     onScroll={this.onScroll.bind(this)}
+                    onWheel={this.onMouseWheel.bind(this)}
                 >
                     <div
                         ref="inner"
-                        className={`${style.inner} clearfix`}
+                        className={style.inner}
                         style={{marginRight: this.state.innerMargin}}
                     >
                         {this.props.children}

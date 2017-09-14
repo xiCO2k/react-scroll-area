@@ -18,6 +18,16 @@
     position: relative;
 }
 
+.inner:before,
+.inner:after {
+    content: " ";
+    display: table;
+}
+
+ .inner:after {
+    clear: both;
+}
+
 .track {
     position: absolute;
     top: 2px; right: 2px;

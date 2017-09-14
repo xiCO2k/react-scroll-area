@@ -20,6 +20,16 @@
     position: relative;
 }
 
+.ScrollArea__inner___34zZx:before,
+.ScrollArea__inner___34zZx:after {
+    content: " ";
+    display: table;
+}
+
+ .ScrollArea__inner___34zZx:after {
+    clear: both;
+}
+
 .ScrollArea__track___1Rpps {
     position: absolute;
     top: 2px; right: 2px;
