@@ -1,6 +1,6 @@
 {
   "name": "xico2k-react-scroll-area",
-  "version": "0.0.12",
+  "version": "0.0.13",
   "devDependencies": {
     "babel-cli": "^6.26.0",
     "babel-jest": "^21.0.2",
@@ -32,7 +32,7 @@
     "test": "cross-env NODE_ENV=testing jest"
   },
   "jest": {
-    "testEnvironment": "node",
+    "testEnvironment": "jsdom",
     "moduleNameMapper": {
       "^.+\\.css$": "identity-obj-proxy"
     }
