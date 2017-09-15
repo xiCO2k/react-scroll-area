@@ -34,6 +34,7 @@
     "test": "cross-env NODE_ENV=testing jest"
   },
   "jest": {
+    "roots": ["src/"],
     "testEnvironment": "jsdom",
     "moduleNameMapper": {
       "^.+\\.css$": "identity-obj-proxy"

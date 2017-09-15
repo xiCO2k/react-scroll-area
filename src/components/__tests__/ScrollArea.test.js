@@ -1,5 +1,5 @@
 import React from 'react';
-import ScrollArea, { style } from '../ScrollArea';
+import ScrollArea from '../ScrollArea';
 import { shallow, mount } from 'enzyme';
 
 describe('rendering', () => {

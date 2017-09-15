@@ -10,13 +10,10 @@ export default class ScrollArea extends Component {
     static propTypes = {
         width: PropTypes.oneOfType([PropTypes.number, PropTypes.string]),
         height: PropTypes.oneOfType([PropTypes.number, PropTypes.string]),
-
         trackHidden: PropTypes.bool,
         trackHideTime: PropTypes.number,
-
         minHandlerHeight: PropTypes.number,
         handlerMargin: PropTypes.number,
-
         onScroll: PropTypes.func
     };
 
