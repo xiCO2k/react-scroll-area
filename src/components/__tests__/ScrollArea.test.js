@@ -1,35 +1,83 @@
 import React from 'react';
-import ScrollArea from '../ScrollArea';
-import { shallow, render, mount } from 'enzyme';
-import renderer from 'react-test-renderer';
+import ScrollArea, { style } from '../ScrollArea';
+import { shallow, mount } from 'enzyme';
 
-it('renders correctly', () => {
-    const wrapper = shallow(<ScrollArea>Lorem Ipsum</ScrollArea>);
+describe('rendering', () => {
+    it('renders correctly', () => {
+        expect(shallow(<ScrollArea />)).toMatchSnapshot();
+    });
 
-    expect(wrapper).toMatchSnapshot();
+    it('has the width and height sent by the props', () => {
+        const wrapper = mount(<ScrollArea width="100px" height="100px" />),
+            style = wrapper.ref('outer').getNode().style;
+
+        expect(style.width).toBe('100px');
+        expect(style.height).toBe('100px');
+    });
 });
 
-it('shows the scroll track when mouse enter', () => {
-    const wrapper = mount(<ScrollArea></ScrollArea>);
+describe('interaction', () => {
+    it('should not show the track if the "outer" is taller than the "inner"');
 
-    expect(wrapper.state('trackVisible')).toEqual(false);
+    it('shows the scroll track when mouse enter', () => {
+        const wrapper = mount(<ScrollArea />);
 
-    wrapper.instance().onMouseEnter();
+        expect(wrapper.state('trackActive')).toBe(false);
 
-    expect(wrapper.state('trackVisible')).toEqual(true);
-});
+        wrapper.instance().onMouseEnter();
 
-it('should not show the track when mouse enter when the props.trackHidden is true', () => {
-    const wrapper = mount(<ScrollArea trackHidden={true}></ScrollArea>);
+        expect(wrapper.state('trackActive')).toBe(true);
+    });
 
-    expect(wrapper.state('trackVisible')).toEqual(false);
+    it('checks if the track is hidden after props.trackHideTime', () => {
+        const wrapper = mount(<ScrollArea trackHideTime={100} />);
 
-    wrapper.instance().onMouseEnter();
+        jest.useFakeTimers();
 
-    expect(wrapper.state('trackVisible')).toEqual(false);
-});
+        expect(wrapper.state('trackActive')).toBe(false);
 
-it('should call the callback props.onScroll when scrolling if its a prop', done => {
-    const wrapper = mount(<ScrollArea onScroll={() => done()}></ScrollArea>);
-    wrapper.instance().triggerScroll();
+        wrapper.instance().onMouseEnter();
+        expect(wrapper.state('trackActive')).toBe(true);
+
+        wrapper.instance().onMouseLeave();
+        jest.runTimersToTime(100);
+        expect(wrapper.state('trackActive')).toBe(false);
+    });
+
+    it('not show the track when mouseEnter if the props.trackHidden is true', () => {
+        const wrapper = mount(<ScrollArea trackHidden={true} />);
+
+        expect(wrapper.state('trackActive')).toBe(false);
+
+        wrapper.instance().onMouseEnter();
+
+        expect(wrapper.state('trackActive')).toBe(false);
+    });
+
+    it('checks if the track is always visible', () => {
+        const wrapper = mount(<ScrollArea trackVisible={true} trackHideTime={0} />);
+
+        expect(wrapper.state('trackActive')).toBe(true);
+
+        wrapper.instance().onMouseEnter();
+        wrapper.instance().onMouseLeave();
+
+        expect(wrapper.state('trackActive')).toBe(true);
+    });
+
+    it('calls the callback props.onScroll', () => {
+        const props = { onScroll: jest.fn() },
+            wrapper = mount(<ScrollArea {...props} />);
+
+        wrapper.instance().triggerScroll();
+
+        expect(props.onScroll).toHaveBeenCalledTimes(1);
+    });
+
+    it('sets "handlerHover: true" when handler area is hovered');
+    it('sets "isDragging: true" when handler area is onMouseDown');
+
+    it('should scroll to bottom when the func goToBottom is called');
+    it('should scroll to top when the func goToTop is called');
+    it('should scroll to "pos" when the func goToPos is called');
 });

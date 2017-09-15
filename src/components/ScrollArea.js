@@ -1,27 +1,42 @@
 import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 import _ from 'lodash';
 
 import DOMHelper from '../helpers/DOMHelper';
 import style from './ScrollArea.css';
 
 export default class ScrollArea extends Component {
+
+    static propTypes = {
+        width: PropTypes.oneOfType([PropTypes.number, PropTypes.string]),
+        height: PropTypes.oneOfType([PropTypes.number, PropTypes.string]),
+
+        trackHidden: PropTypes.bool,
+        trackHideTime: PropTypes.number,
+
+        minHandlerHeight: PropTypes.number,
+        handlerMargin: PropTypes.number,
+
+        onScroll: PropTypes.func
+    };
+
+    static defaultProps = {
+        trackVisible: false,
+        trackHidden: false,
+        trackHideTime: 1000,
+        minHandlerHeight: 70,
+        handlerMargin: 4
+    };
+
     constructor(props) {
         super(props);
 
-        this.minTrackHandlerHeight = 70;
-        this.handlerMargin = 4;
-        this.scrollTrackVisibleTimeout = false;
-        this.unMounted = false;
-
         this.state = {
-            trackVisible: false,
-            trackHidden: props.trackHidden,
+            trackActive: props.trackVisible,
+            trackHandlerHeight: 0,
             innerMargin: -1,
-
             innerHeight: 0,
             outerHeight: 0,
-            trackHandlerHeight: 0,
-
             isDragging: false
         };
     }
@@ -31,13 +46,13 @@ export default class ScrollArea extends Component {
     }
 
     componentDidUpdate() {
-        if (this.getInnerHeight() !== this.state.innerHeight) {
+        if (this.getInnerHeight() !== this.getInnerHeight(true)) {
             this.onResize();
         }
     }
 
     componentWillUnmount() {
-        this.unMounted = true;
+        clearTimeout(this.scrollTrackVisibleTimeout);
     }
 
     getOuterHeight(fromState = false) {
@@ -47,7 +62,7 @@ export default class ScrollArea extends Component {
     }
 
     getTrackHeight(fromState = false) {
-        return this.getOuterHeight(fromState) - this.handlerMargin;
+        return this.getOuterHeight(fromState) - this.props.handlerMargin;
     }
 
     getTrackHandlerRatio(fromState = false) {
@@ -67,7 +82,7 @@ export default class ScrollArea extends Component {
         }
 
         return Math.max(
-            this.minTrackHandlerHeight,
+            this.props.minHandlerHeight,
             Math.round((trackHeight) / this.getTrackHandlerRatio())
         );
     }
@@ -78,7 +93,7 @@ export default class ScrollArea extends Component {
             trackHeight = this.getTrackHeight(true),
             trackHandlerHeight = this.getTrackHandlerHeight(trackHeight);
 
-        if (trackHandlerHeight === this.minTrackHandlerHeight) {
+        if (trackHandlerHeight === this.props.minHandlerHeight) {
             return (
                 (trackHeight - trackHandlerHeight) *
                 (scrollTop / (innerHeight - trackHeight))
@@ -112,10 +127,6 @@ export default class ScrollArea extends Component {
         return this.refs['overflow'] && this.refs['overflow'].scrollTop || 0;
     }
 
-    getScrollTopAnimTime() {
-        return this.props.scrollTopAnimTime || 400;
-    }
-
     onMouseWheel(event) {
         var scrollTop = this.getScrollTop(),
             innerHeight = this.getInnerHeight(),
@@ -135,13 +146,12 @@ export default class ScrollArea extends Component {
 
     onResize(fromMount = false) {
         let outerHeight = this.getOuterHeight(),
-            trackHandlerHeight = this.getTrackHandlerHeight(outerHeight);
-
-        let state = {
-            innerHeight: this.getInnerHeight(),
-            trackHandlerHeight,
-            outerHeight
-        }
+            trackHandlerHeight = this.getTrackHandlerHeight(outerHeight),
+            state = {
+                innerHeight: this.getInnerHeight(),
+                trackHandlerHeight,
+                outerHeight
+            };
 
         if (this.state.innerMargin === -1) {
             state.innerMargin = this.getInnerMargin();
@@ -151,7 +161,7 @@ export default class ScrollArea extends Component {
     }
 
     onScroll() {
-        if (_.isFunction(this.props.onScroll)) {
+        if (this.props.onScroll) {
             let data = {
                 scrollTop: this.getScrollTop(),
                 innerHeight: this.getInnerHeight(),
@@ -170,26 +180,29 @@ export default class ScrollArea extends Component {
     }
 
     onMouseEnter() {
-        if (this.props.trackHidden) {
+        if (this.props.trackHidden ||
+            this.props.trackVisible) {
             return;
         }
 
         clearTimeout(this.scrollTrackVisibleTimeout);
-        this.setState({ trackVisible: true });
+        this.setState({ trackActive: true });
     }
 
     onMouseLeave() {
-        if (this.props.trackHidden) {
+        if (this.props.trackHidden ||
+            this.props.trackVisible) {
+            return;
+        }
+
+        if (!this.props.trackHideTime) {
+            this.setState({ trackActive: false });
             return;
         }
 
         this.scrollTrackVisibleTimeout = _.delay(() => {
-            if(this.unMounted) {
-                return;
-            }
-
-            this.setState({ trackVisible: false });
-        }, 1000);
+            this.setState({ trackActive: false });
+        }, this.props.trackHideTime);
     }
 
     onMouseDown(event) {
@@ -219,7 +232,7 @@ export default class ScrollArea extends Component {
             handlerHover: false
         });
 
-        this.ignoreSelection();
+        DOMHelper.ignoreSelection();
 
         window.removeEventListener('mouseup', this.onMouseUpFn);
         window.removeEventListener('mousemove', this.onMouseMoveFn);
@@ -231,10 +244,9 @@ export default class ScrollArea extends Component {
         }
 
         let deltaY = event.pageY - this.state.startY,
-            originalY = this.state.originalY,
-            offsetY = originalY + deltaY;
+            offsetY = this.state.originalY + deltaY;
 
-        this.ignoreSelection();
+        DOMHelper.ignoreSelection();
         this.onTrackHandlerDragging(offsetY);
     }
 
@@ -243,7 +255,7 @@ export default class ScrollArea extends Component {
             return;
         }
 
-        let handlerOffset = DOMHelper.offset(this.refs['handler']) || {},
+        let handlerOffset = DOMHelper.offset(this.refs['handler']),
             handlerHover = false;
 
         if (event.pageX > handlerOffset.left) {
@@ -253,18 +265,6 @@ export default class ScrollArea extends Component {
         this.setState({ handlerHover });
     }
 
-    ignoreSelection() {
-        if (document.selection) {
-            document.selection.empty();
-        } else {
-            window.getSelection().removeAllRanges();
-        }
-    }
-
-    isTrackVisible() {
-        return this.props.trackHidden ? false : this.state.trackVisible;
-    }
-
     triggerScroll() {
         this.onScroll();
     }
@@ -272,7 +272,7 @@ export default class ScrollArea extends Component {
     getTrackClassNames() {
         let classNames = [style.track];
 
-        if (!this.isTrackVisible()) {
+        if (!this.state.trackActive) {
             classNames.push(style.trackHidden);
         }
 
@@ -300,7 +300,11 @@ export default class ScrollArea extends Component {
     render() {
         return (
             <div
-                ref="outer"
+                ref='outer'
+                style={{
+                    width: this.props.width,
+                    height: this.props.height
+                }}
                 className={style.outer}
                 onMouseEnter={this.onMouseEnter.bind(this)}
                 onMouseLeave={this.onMouseLeave.bind(this)}
@@ -308,13 +312,13 @@ export default class ScrollArea extends Component {
                 onMouseMove={this.onMouseMoveHover.bind(this)}
             >
                 <div
-                    ref="overflow"
+                    ref='overflow'
                     className={style.overflow}
                     onScroll={this.onScroll.bind(this)}
                     onWheel={this.onMouseWheel.bind(this)}
                 >
                     <div
-                        ref="inner"
+                        ref='inner'
                         className={style.inner}
                         style={{marginRight: this.state.innerMargin}}
                     >
@@ -322,11 +326,11 @@ export default class ScrollArea extends Component {
                     </div>
                 </div>
                 <div
-                    ref="track"
+                    ref='track'
                     className={this.getTrackClassNames()}
                 >
                     <div
-                        ref="handler"
+                        ref='handler'
                         className={this.getHandleClassNames()}
                         style={{
                             height: this.state.trackHandlerHeight,

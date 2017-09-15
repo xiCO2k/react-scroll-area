@@ -1,3 +1,5 @@
+import _ from 'lodash';
+
 function position(elem) {
     if (!elem) {
         return;
@@ -39,29 +41,31 @@ function offset(elem) {
   *  @return boolean
  */
 function isChildOf(child, parent, checkEqual = false) {
-  let found = false;
+    let found = false;
 
-  if (!(parent instanceof NodeList)) {
-    parent = [parent];
-  }
-
-  // if (parent) {
-  //   parent = [parent];
-  // }
-
-  _.each(parent, (_parent) => {
-    if (found) {
-      return false;
+    if (!(parent instanceof NodeList)) {
+        parent = [parent];
     }
 
-    let _child = child;
+    _.each(parent, _parent => {
+        let _child = child;
 
-    if(checkEqual && _child === _parent) return true;
-    while ((_child = _child.parentNode) && _child !== _parent);
-    found = !!_child;
-  });
+        if (found) return false;
+        if (checkEqual && _child === _parent) return true;
 
-  return found;
+        while ((_child = _child.parentNode) && _child !== _parent);
+        found = !!_child;
+    });
+
+    return found;
 }
 
-export default { offset, position, isChildOf };
+function ignoreSelection() {
+    if (document.selection) {
+        document.selection.empty();
+    } else {
+        window.getSelection().removeAllRanges();
+    }
+}
+
+export default { offset, position, isChildOf, ignoreSelection };
