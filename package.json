@@ -1,6 +1,10 @@
 {
   "name": "xico2k-react-scroll-area",
-  "version": "0.0.17",
+  "version": "0.0.18",
+  "author": "Francisco Madeira",
+  "homepage": "https://xico2k.github.io/react-scroll-area/",
+  "license": "MIT",
+  "repository": "https://github.com/xico2k/react-scroll-area",
   "devDependencies": {
     "babel-cli": "^6.26.0",
     "babel-jest": "^21.0.2",
@@ -22,11 +26,13 @@
     "webpack": "^3.5.6",
     "webpack-dev-server": "^2.8.2"
   },
+  "peerDependencies": {
+    "react": ">= 0.13.x",
+    "react-dom": ">= 0.13.x"
+  },
   "dependencies": {
     "lodash": "^4.17.4",
-    "prop-types": "^15.5.10",
-    "react": "^15.6.1",
-    "react-dom": "^15.6.1"
+    "prop-types": "^15.5.10"
   },
   "scripts": {
     "start": "cross-env NODE_ENV=development webpack-dev-server --config webpack.config.dev.js --open",
