@@ -101,6 +101,7 @@ ShallowWrapper {
       "_currentElement": <ScrollArea
         handlerMargin={4}
         minHandlerHeight={70}
+        testInnerHeight={0}
         trackHidden={false}
         trackHideTime={1000}
         trackVisible={false}
@@ -114,6 +115,7 @@ ShallowWrapper {
         "props": Object {
           "handlerMargin": 4,
           "minHandlerHeight": 70,
+          "testInnerHeight": 0,
           "trackHidden": false,
           "trackHideTime": 1000,
           "trackVisible": false,
@@ -242,6 +244,7 @@ ShallowWrapper {
   "unrendered": <ScrollArea
     handlerMargin={4}
     minHandlerHeight={70}
+    testInnerHeight={0}
     trackHidden={false}
     trackHideTime={1000}
     trackVisible={false}

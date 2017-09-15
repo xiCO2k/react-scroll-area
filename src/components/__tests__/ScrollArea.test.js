@@ -17,10 +17,20 @@ describe('rendering', () => {
 });
 
 describe('interaction', () => {
-    it('should not show the track if the "outer" is taller than the "inner"');
+    it('should not show the track if the "outer" is taller than the "inner"', () => {
+        const wrapper = mount(<ScrollArea />);
+
+        expect(wrapper.state('trackActive')).toBe(false);
+
+        wrapper.instance().onMouseEnter();
+
+        expect(wrapper.state('trackActive')).toBe(false);
+    });
 
     it('shows the scroll track when mouse enter', () => {
-        const wrapper = mount(<ScrollArea />);
+        const wrapper = mount(<ScrollArea width="100px" height="100px" testInnerHeight={200} />);
+
+        wrapper.instance().onResize();
 
         expect(wrapper.state('trackActive')).toBe(false);
 
@@ -30,7 +40,7 @@ describe('interaction', () => {
     });
 
     it('checks if the track is hidden after props.trackHideTime', () => {
-        const wrapper = mount(<ScrollArea trackHideTime={100} />);
+        const wrapper = mount(<ScrollArea trackHideTime={100} width="100px" height="100px" testInnerHeight={200} />);
 
         jest.useFakeTimers();
 
@@ -45,7 +55,7 @@ describe('interaction', () => {
     });
 
     it('not show the track when mouseEnter if the props.trackHidden is true', () => {
-        const wrapper = mount(<ScrollArea trackHidden={true} />);
+        const wrapper = mount(<ScrollArea width="100px" height="100px" testInnerHeight={200} trackHidden={true} />);
 
         expect(wrapper.state('trackActive')).toBe(false);
 
@@ -77,7 +87,7 @@ describe('interaction', () => {
     it('sets "handlerHover: true" when handler area is hovered');
     it('sets "isDragging: true" when handler area is onMouseDown');
 
-    it('should scroll to bottom when the func goToBottom is called');
-    it('should scroll to top when the func goToTop is called');
-    it('should scroll to "pos" when the func goToPos is called');
+    it('should scroll to bottom when the goToBottom() is called');
+    it('should scroll to top when the goToTop() is called');
+    it('should scroll to "pos" when the  goToPos() is called');
 });

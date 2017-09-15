@@ -19,14 +19,6 @@ export default class App extends Component {
         return (
             <div style={style}>
                 <ScrollArea>
-                    <p>
-                        Lorem ipsum dolor sit amet, consectetur adipisicing elit. Doloremque modi neque explicabo dolore sint aliquid dolorum. Eum delectus autem, accusantium magnam laboriosam, possimus nihil inventore ab recusandae obcaecati, tempora ducimus.
-                        Lorem ipsum dolor sit amet, consectetur adipisicing elit. Doloremque modi neque explicabo dolore sint aliquid dolorum. Eum delectus autem, accusantium magnam laboriosam, possimus nihil inventore ab recusandae obcaecati, tempora ducimus.
-                        Lorem ipsum dolor sit amet, consectetur adipisicing elit. Doloremque modi neque explicabo dolore sint aliquid dolorum. Eum delectus autem, accusantium magnam laboriosam, possimus nihil inventore ab recusandae obcaecati, tempora ducimus.
-                        Lorem ipsum dolor sit amet, consectetur adipisicing elit. Doloremque modi neque explicabo dolore sint aliquid dolorum. Eum delectus autem, accusantium magnam laboriosam, possimus nihil inventore ab recusandae obcaecati, tempora ducimus.
-                        Lorem ipsum dolor sit amet, consectetur adipisicing elit. Doloremque modi neque explicabo dolore sint aliquid dolorum. Eum delectus autem, accusantium magnam laboriosam, possimus nihil inventore ab recusandae obcaecati, tempora ducimus.
-                        Lorem ipsum dolor sit amet, consectetur adipisicing elit. Doloremque modi neque explicabo dolore sint aliquid dolorum. Eum delectus autem, accusantium magnam laboriosam, possimus nihil inventore ab recusandae obcaecati, tempora ducimus.
-                    </p>
                     <textarea name="" id="" cols="30" rows="10"></textarea>
                 </ScrollArea>
             </div>

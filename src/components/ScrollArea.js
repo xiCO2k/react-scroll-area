@@ -14,7 +14,10 @@ export default class ScrollArea extends Component {
         trackHideTime: PropTypes.number,
         minHandlerHeight: PropTypes.number,
         handlerMargin: PropTypes.number,
-        onScroll: PropTypes.func
+        onScroll: PropTypes.func,
+
+        //for testing purpose
+        testInnerHeight: PropTypes.number
     };
 
     static defaultProps = {
@@ -22,7 +25,10 @@ export default class ScrollArea extends Component {
         trackHidden: false,
         trackHideTime: 1000,
         minHandlerHeight: 70,
-        handlerMargin: 4
+        handlerMargin: 4,
+
+        //for testing purpose
+        testInnerHeight: 0
     };
 
     constructor(props) {
@@ -53,9 +59,27 @@ export default class ScrollArea extends Component {
     }
 
     getOuterHeight(fromState = false) {
-        return fromState ?
-            this.state.outerHeight :
-            this.refs['outer'] && this.refs['outer'].offsetHeight;
+        if (fromState) {
+            return this.state.outerHeight;
+        }
+
+        if (process.env.NODE_ENV === 'testing') {
+            return parseInt(this.props.height || 0, 10);
+        }
+
+        return parseInt(this.props.height || this.refs['outer'].offsetHeight, 10);
+    }
+
+    getInnerHeight(fromState = false) {
+        if (fromState) {
+            return this.state.innerHeight;
+        }
+
+        if (process.env.NODE_ENV === 'testing') {
+            return this.props.testInnerHeight;
+        }
+
+        return this.refs['inner'].offsetHeight;
     }
 
     getTrackHeight(fromState = false) {
@@ -113,11 +137,6 @@ export default class ScrollArea extends Component {
         }
 
         return (inner.offsetWidth - outer.offsetWidth) - 1;
-    }
-
-    getInnerHeight(fromState = false) {
-        return fromState ? this.state.innerHeight :
-            this.refs['inner'] && this.refs['inner'].offsetHeight;
     }
 
     getScrollTop() {
@@ -178,7 +197,8 @@ export default class ScrollArea extends Component {
 
     onMouseEnter() {
         if (this.props.trackHidden ||
-            this.props.trackVisible) {
+            this.props.trackVisible ||
+            this.getOuterHeight(true) >= this.getInnerHeight(true)) {
             return;
         }
 
@@ -188,7 +208,8 @@ export default class ScrollArea extends Component {
 
     onMouseLeave() {
         if (this.props.trackHidden ||
-            this.props.trackVisible) {
+            this.props.trackVisible ||
+            this.getOuterHeight(true) >= this.getInnerHeight(true)) {
             return;
         }
 
@@ -270,10 +291,6 @@ export default class ScrollArea extends Component {
         let classNames = [style.track];
 
         if (!this.state.trackActive) {
-            classNames.push(style.trackHidden);
-        }
-
-        if (this.getOuterHeight(true) > this.getInnerHeight(true)) {
             classNames.push(style.trackHidden);
         }
 
