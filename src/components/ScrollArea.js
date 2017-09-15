@@ -67,7 +67,10 @@ export default class ScrollArea extends Component {
             return parseInt(this.props.height || 0, 10);
         }
 
-        return parseInt(this.props.height || this.refs['outer'].offsetHeight, 10);
+        return parseInt(
+            this.props.height || (
+            this.refs['outer'] && this.refs['outer'].offsetHeight
+        ), 10);
     }
 
     getInnerHeight(fromState = false) {
@@ -79,7 +82,7 @@ export default class ScrollArea extends Component {
             return this.props.testInnerHeight;
         }
 
-        return this.refs['inner'].offsetHeight;
+        return this.refs['inner'] && this.refs['inner'].offsetHeight;
     }
 
     getTrackHeight(fromState = false) {

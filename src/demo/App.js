@@ -19,7 +19,19 @@ export default class App extends Component {
         return (
             <div style={style}>
                 <ScrollArea>
-                    <textarea name="" id="" cols="30" rows="10"></textarea>
+                    Lorem ipsum dolor sit amet, consectetur adipisicing elit. Iste id, animi repellat laborum eligendi impedit illum placeat mollitia similique eaque cupiditate neque, reiciendis eum consequuntur quibusdam dolores minus molestiae veniam.
+                    Lorem ipsum dolor sit amet, consectetur adipisicing elit. Iste id, animi repellat laborum eligendi impedit illum placeat mollitia similique eaque cupiditate neque, reiciendis eum consequuntur quibusdam dolores minus molestiae veniam.
+                    Lorem ipsum dolor sit amet, consectetur adipisicing elit. Iste id, animi repellat laborum eligendi impedit illum placeat mollitia similique eaque cupiditate neque, reiciendis eum consequuntur quibusdam dolores minus molestiae veniam.
+                    Lorem ipsum dolor sit amet, consectetur adipisicing elit. Iste id, animi repellat laborum eligendi impedit illum placeat mollitia similique eaque cupiditate neque, reiciendis eum consequuntur quibusdam dolores minus molestiae veniam.
+                    Lorem ipsum dolor sit amet, consectetur adipisicing elit. Iste id, animi repellat laborum eligendi impedit illum placeat mollitia similique eaque cupiditate neque, reiciendis eum consequuntur quibusdam dolores minus molestiae veniam.
+                    Lorem ipsum dolor sit amet, consectetur adipisicing elit. Iste id, animi repellat laborum eligendi impedit illum placeat mollitia similique eaque cupiditate neque, reiciendis eum consequuntur quibusdam dolores minus molestiae veniam.
+                    Lorem ipsum dolor sit amet, consectetur adipisicing elit. Iste id, animi repellat laborum eligendi impedit illum placeat mollitia similique eaque cupiditate neque, reiciendis eum consequuntur quibusdam dolores minus molestiae veniam.
+                    Lorem ipsum dolor sit amet, consectetur adipisicing elit. Iste id, animi repellat laborum eligendi impedit illum placeat mollitia similique eaque cupiditate neque, reiciendis eum consequuntur quibusdam dolores minus molestiae veniam.
+                    Lorem ipsum dolor sit amet, consectetur adipisicing elit. Iste id, animi repellat laborum eligendi impedit illum placeat mollitia similique eaque cupiditate neque, reiciendis eum consequuntur quibusdam dolores minus molestiae veniam.
+                    Lorem ipsum dolor sit amet, consectetur adipisicing elit. Iste id, animi repellat laborum eligendi impedit illum placeat mollitia similique eaque cupiditate neque, reiciendis eum consequuntur quibusdam dolores minus molestiae veniam.
+                    Lorem ipsum dolor sit amet, consectetur adipisicing elit. Iste id, animi repellat laborum eligendi impedit illum placeat mollitia similique eaque cupiditate neque, reiciendis eum consequuntur quibusdam dolores minus molestiae veniam.
+                    Lorem ipsum dolor sit amet, consectetur adipisicing elit. Iste id, animi repellat laborum eligendi impedit illum placeat mollitia similique eaque cupiditate neque, reiciendis eum consequuntur quibusdam dolores minus molestiae veniam.
+                    Lorem ipsum dolor sit amet, consectetur adipisicing elit. Iste id, animi repellat laborum eligendi impedit illum placeat mollitia similique eaque cupiditate neque, reiciendis eum consequuntur quibusdam dolores minus molestiae veniam.
                 </ScrollArea>
             </div>
         );
