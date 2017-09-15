@@ -68,4 +68,12 @@ function ignoreSelection() {
     }
 }
 
-export default { offset, position, isChildOf, ignoreSelection };
+function getHeight(elem, defaultValue = 0) {
+    return elem && elem.offsetHeight || defaultValue;
+}
+
+function getWidth(elem, defaultValue = 0) {
+    return elem && elem.offsetHeight || defaultValue;
+}
+
+export default { offset, position, isChildOf, ignoreSelection, getHeight, getWidth };

@@ -36,7 +36,7 @@ export default class ScrollArea extends Component {
 
         this.state = {
             trackActive: props.trackVisible,
-            trackHandlerHeight: 0,
+            handlerHeight: 0,
             innerMargin: -1,
             innerHeight: 0,
             outerHeight: 0,
@@ -58,6 +58,10 @@ export default class ScrollArea extends Component {
         clearTimeout(this.scrollTrackVisibleTimeout);
     }
 
+    getOuterWidth() {
+        return parseInt(this.props.width || DOMHelper.getWidth(this.refs['outer']), 10);
+    }
+
     getOuterHeight(fromState = false) {
         if (fromState) {
             return this.state.outerHeight;
@@ -67,10 +71,7 @@ export default class ScrollArea extends Component {
             return parseInt(this.props.height || 0, 10);
         }
 
-        return parseInt(
-            this.props.height || (
-            this.refs['outer'] && this.refs['outer'].offsetHeight
-        ), 10);
+        return parseInt(this.props.height || DOMHelper.getHeight(this.refs['outer']), 10);
     }
 
     getInnerHeight(fromState = false) {
@@ -82,14 +83,14 @@ export default class ScrollArea extends Component {
             return this.props.testInnerHeight;
         }
 
-        return this.refs['inner'] && this.refs['inner'].offsetHeight;
+        return DOMHelper.getHeight(this.refs['inner']);
     }
 
     getTrackHeight(fromState = false) {
         return this.getOuterHeight(fromState) - this.props.handlerMargin;
     }
 
-    getTrackHandlerRatio(fromState = false) {
+    getHandlerRatio(fromState = false) {
         let innerHeight = this.getInnerHeight(fromState),
             trackHeight = this.getTrackHeight(fromState);
 
@@ -100,26 +101,26 @@ export default class ScrollArea extends Component {
         return innerHeight / trackHeight;
     }
 
-    getTrackHandlerHeight(trackHeight) {
+    getHandlerHeight(trackHeight) {
         if (!trackHeight) {
             return 0;
         }
 
-        return Math.max(
+        return Math.min(Math.max(
             this.props.minHandlerHeight,
-            Math.round((trackHeight) / this.getTrackHandlerRatio())
-        );
+            Math.round((trackHeight) / this.getHandlerRatio())
+        ), trackHeight);
     }
 
-    getTrackHandlerTop() {
+    getHandlerTop() {
         let scrollTop = this.getScrollTop(),
             innerHeight = this.getInnerHeight(true),
             trackHeight = this.getTrackHeight(true),
-            trackHandlerHeight = this.getTrackHandlerHeight(trackHeight);
+            handlerHeight = this.getHandlerHeight(trackHeight);
 
-        if (trackHandlerHeight === this.props.minHandlerHeight) {
+        if (handlerHeight === this.props.minHandlerHeight) {
             return (
-                (trackHeight - trackHandlerHeight) *
+                (trackHeight - handlerHeight) *
                 (scrollTop / (innerHeight - trackHeight))
             );
         }
@@ -128,7 +129,7 @@ export default class ScrollArea extends Component {
             return 0;
         }
 
-        return Math.round(scrollTop / this.getTrackHandlerRatio());
+        return Math.round(scrollTop / this.getHandlerRatio());
     }
 
     getInnerMargin() {
@@ -142,8 +143,14 @@ export default class ScrollArea extends Component {
         return (inner.offsetWidth - outer.offsetWidth) - 1;
     }
 
-    getScrollTop() {
-        return this.refs['overflow'] && this.refs['overflow'].scrollTop || 0;
+    getScrollTop(target = this.refs['overflow']) {
+        return target && target.scrollTop || 0;
+    }
+
+    isTrackNeedEvents() {
+        return !this.props.trackHidden &&
+            !this.props.trackVisible &&
+            this.getInnerHeight(true) > this.getOuterHeight(true);
     }
 
     onMouseWheel(event) {
@@ -165,10 +172,10 @@ export default class ScrollArea extends Component {
 
     onResize(fromMount = false) {
         let outerHeight = this.getOuterHeight(),
-            trackHandlerHeight = this.getTrackHandlerHeight(outerHeight),
+            handlerHeight = this.getHandlerHeight(outerHeight),
             state = {
                 innerHeight: this.getInnerHeight(),
-                trackHandlerHeight,
+                handlerHeight,
                 outerHeight
             };
 
@@ -180,6 +187,10 @@ export default class ScrollArea extends Component {
     }
 
     onScroll() {
+        if (!this.isTrackNeedEvents()) {
+            return;
+        }
+
         if (this.props.onScroll) {
             let data = {
                 scrollTop: this.getScrollTop(),
@@ -195,13 +206,11 @@ export default class ScrollArea extends Component {
     }
 
     onTrackHandlerDragging(offsetY) {
-        this.refs['overflow'].scrollTop = offsetY * this.getTrackHandlerRatio(true);
+        this.refs['overflow'].scrollTop = offsetY * this.getHandlerRatio(true);
     }
 
     onMouseEnter() {
-        if (this.props.trackHidden ||
-            this.props.trackVisible ||
-            this.getOuterHeight(true) >= this.getInnerHeight(true)) {
+        if (!this.isTrackNeedEvents()) {
             return;
         }
 
@@ -210,9 +219,7 @@ export default class ScrollArea extends Component {
     }
 
     onMouseLeave() {
-        if (this.props.trackHidden ||
-            this.props.trackVisible ||
-            this.getOuterHeight(true) >= this.getInnerHeight(true)) {
+        if (!this.isTrackNeedEvents()) {
             return;
         }
 
@@ -227,18 +234,21 @@ export default class ScrollArea extends Component {
     }
 
     onMouseDown(event) {
-        let handlerPosition = DOMHelper.position(this.refs['handler']),
-            handlerOffset = DOMHelper.offset(this.refs['handler']),
-            originalY = handlerPosition.top,
-            startY = event.pageY;
+        let position = DOMHelper.position(this.refs['handler']),
+            offset = DOMHelper.offset(this.refs['handler']);
 
-        if (event.pageX < handlerOffset.left) {
+        if (process.env.NODE_ENV === 'testing') {
+            offset = { top: 0, left: this.getOuterWidth() - 5 };
+        }
+
+        if (event.pageX < offset.left) {
             return;
         }
 
         this.setState({
             isDragging: true,
-            startY, originalY
+            startY: event.pageY,
+            originalY: position.top
         });
 
         this.onMouseMoveFn = this.onMouseMove.bind(this);
@@ -276,10 +286,14 @@ export default class ScrollArea extends Component {
             return;
         }
 
-        let handlerOffset = DOMHelper.offset(this.refs['handler']),
+        let offset = DOMHelper.offset(this.refs['handler']),
             handlerHover = false;
 
-        if (event.pageX > handlerOffset.left) {
+        if (process.env.NODE_ENV === 'testing') {
+            offset = { top: 0, left: this.getOuterWidth() - 5};
+        }
+
+        if (event.pageX > offset.left) {
             handlerHover = true;
         }
 
@@ -350,8 +364,8 @@ export default class ScrollArea extends Component {
                         ref='handler'
                         className={this.getHandleClassNames()}
                         style={{
-                            height: this.state.trackHandlerHeight,
-                            top: this.getTrackHandlerTop()
+                            height: this.state.handlerHeight,
+                            top: this.getHandlerTop()
                         }}
                     />
                 </div>

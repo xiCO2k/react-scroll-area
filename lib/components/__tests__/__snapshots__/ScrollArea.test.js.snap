@@ -43,7 +43,7 @@ ShallowWrapper {
         style={
           Object {
             "height": 0,
-            "top": -0,
+            "top": 0,
           }
         }
       />
@@ -85,7 +85,7 @@ ShallowWrapper {
           style={
             Object {
               "height": 0,
-              "top": -0,
+              "top": 0,
             }
           }
         />
@@ -122,12 +122,12 @@ ShallowWrapper {
         },
         "refs": Object {},
         "state": Object {
+          "handlerHeight": 0,
           "innerHeight": 0,
           "innerMargin": -1,
           "isDragging": false,
           "outerHeight": 0,
           "trackActive": false,
-          "trackHandlerHeight": 0,
         },
         "updater": Object {
           "enqueueCallback": [Function],
@@ -182,7 +182,7 @@ ShallowWrapper {
               style={
                 Object {
                   "height": 0,
-                  "top": -0,
+                  "top": 0,
                 }
               }
             />
@@ -224,7 +224,7 @@ ShallowWrapper {
               style={
                 Object {
                   "height": 0,
-                  "top": -0,
+                  "top": 0,
                 }
               }
             />
