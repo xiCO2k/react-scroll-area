@@ -37,6 +37,12 @@ ShallowWrapper {
     </div>
     <div
       className="track trackHidden"
+      style={
+        Object {
+          "height": -4,
+          "top": 2,
+        }
+      }
     >
       <div
         className="handler"
@@ -79,6 +85,12 @@ ShallowWrapper {
       </div>
       <div
         className="track trackHidden"
+        style={
+          Object {
+            "height": -4,
+            "top": 2,
+          }
+        }
       >
         <div
           className="handler"
@@ -99,11 +111,11 @@ ShallowWrapper {
       "_compositeType": 0,
       "_context": Object {},
       "_currentElement": <ScrollArea
-        handlerMargin={4}
         minHandlerHeight={70}
         testInnerHeight={0}
         trackHidden={false}
         trackHideTime={1000}
+        trackMargin={4}
         trackVisible={false}
       />,
       "_debugID": 1,
@@ -113,11 +125,11 @@ ShallowWrapper {
         "_reactInternalInstance": [Circular],
         "context": Object {},
         "props": Object {
-          "handlerMargin": 4,
           "minHandlerHeight": 70,
           "testInnerHeight": 0,
           "trackHidden": false,
           "trackHideTime": 1000,
+          "trackMargin": 4,
           "trackVisible": false,
         },
         "refs": Object {},
@@ -176,6 +188,12 @@ ShallowWrapper {
           </div>
           <div
             className="track trackHidden"
+            style={
+              Object {
+                "height": -4,
+                "top": 2,
+              }
+            }
           >
             <div
               className="handler"
@@ -218,6 +236,12 @@ ShallowWrapper {
           </div>
           <div
             className="track trackHidden"
+            style={
+              Object {
+                "height": -4,
+                "top": 2,
+              }
+            }
           >
             <div
               className="handler"
@@ -242,11 +266,11 @@ ShallowWrapper {
   },
   "root": [Circular],
   "unrendered": <ScrollArea
-    handlerMargin={4}
     minHandlerHeight={70}
     testInnerHeight={0}
     trackHidden={false}
     trackHideTime={1000}
+    trackMargin={4}
     trackVisible={false}
   />,
 }

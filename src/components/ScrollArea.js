@@ -13,7 +13,7 @@ export default class ScrollArea extends Component {
         trackHidden: PropTypes.bool,
         trackHideTime: PropTypes.number,
         minHandlerHeight: PropTypes.number,
-        handlerMargin: PropTypes.number,
+        trackMargin: PropTypes.number,
         onScroll: PropTypes.func,
 
         //for testing purpose
@@ -25,7 +25,7 @@ export default class ScrollArea extends Component {
         trackHidden: false,
         trackHideTime: 1000,
         minHandlerHeight: 70,
-        handlerMargin: 4,
+        trackMargin: 4,
 
         //for testing purpose
         testInnerHeight: 0
@@ -63,7 +63,7 @@ export default class ScrollArea extends Component {
     }
 
     getOuterHeight(fromState = false) {
-        if (fromState) {
+        if (fromState && this.state.outerHeight) {
             return this.state.outerHeight;
         }
 
@@ -87,7 +87,7 @@ export default class ScrollArea extends Component {
     }
 
     getTrackHeight(fromState = false) {
-        return this.getOuterHeight(fromState) - this.props.handlerMargin;
+        return this.getOuterHeight(fromState) - this.props.trackMargin;
     }
 
     getHandlerRatio(fromState = false) {
@@ -112,13 +112,22 @@ export default class ScrollArea extends Component {
         ), trackHeight);
     }
 
+    getMinHandlerHeight() {
+        return Math.min(this.getTrackHeight(true), this.props.minHandlerHeight);
+    }
+
     getHandlerTop() {
         let scrollTop = this.getScrollTop(),
             innerHeight = this.getInnerHeight(true),
             trackHeight = this.getTrackHeight(true),
             handlerHeight = this.getHandlerHeight(trackHeight);
 
-        if (handlerHeight === this.props.minHandlerHeight) {
+
+        if (handlerHeight === this.getMinHandlerHeight()) {
+            if (!trackHeight) {
+                throw new TypeError('the trackHeight can\'t be zero');
+            }
+
             return (
                 (trackHeight - handlerHeight) *
                 (scrollTop / (innerHeight - trackHeight))
@@ -128,6 +137,8 @@ export default class ScrollArea extends Component {
         if (!scrollTop) {
             return 0;
         }
+
+
 
         return Math.round(scrollTop / this.getHandlerRatio());
     }
@@ -172,7 +183,8 @@ export default class ScrollArea extends Component {
 
     onResize(fromMount = false) {
         let outerHeight = this.getOuterHeight(),
-            handlerHeight = this.getHandlerHeight(outerHeight),
+            trackHeight = this.getTrackHeight(),
+            handlerHeight = this.getHandlerHeight(trackHeight),
             state = {
                 innerHeight: this.getInnerHeight(),
                 handlerHeight,
@@ -393,6 +405,10 @@ export default class ScrollArea extends Component {
                 <div
                     ref='track'
                     className={this.getTrackClassNames()}
+                    style={{
+                        top: this.props.trackMargin / 2,
+                        height: this.getTrackHeight(true)
+                    }}
                 >
                     <div
                         ref='handler'

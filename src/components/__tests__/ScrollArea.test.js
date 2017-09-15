@@ -55,7 +55,7 @@ describe('interaction', () => {
                 height: '100px',
                 testInnerHeight: 200,
                 minHandlerHeight: 1,
-                handlerMargin: 0
+                trackMargin: 0
             },
             bottomPos = props.testInnerHeight - parseInt(props.height, 10),
             wrapper = mount(<ScrollArea {...props} />);
@@ -101,15 +101,6 @@ describe('interaction', () => {
     });
 
     describe('track', () => {
-        it('should not show if the "outer" is >= than the "inner"', () => {
-            const wrapper = mount(<ScrollArea />);
-
-            expect(wrapper.state('trackActive')).toBe(false);
-
-            wrapper.instance().onMouseEnter();
-
-            expect(wrapper.state('trackActive')).toBe(false);
-        });
 
         it('shows when mouse enter', () => {
             const wrapper = mount(<ScrollArea
@@ -123,6 +114,31 @@ describe('interaction', () => {
             wrapper.instance().onMouseEnter();
 
             expect(wrapper.state('trackActive')).toBe(true);
+        });
+
+        it('subtracts the height if the props.trackMargin has value', () => {
+            const margin = 10,
+                wrapper = mount(
+                    <ScrollArea
+                        width='100px'
+                        height='100px'
+                        testInnerHeight={100}
+                        trackMargin={margin}
+                    />
+                );
+
+            expect(wrapper.ref('track').getNode().style.height).toBe((100 - margin) + "px");
+            expect(wrapper.ref('track').getNode().style.top).toBe((margin / 2) + "px");
+        });
+
+        it('should not show if the "outer" is >= than the "inner"', () => {
+            const wrapper = mount(<ScrollArea />);
+
+            expect(wrapper.state('trackActive')).toBe(false);
+
+            wrapper.instance().onMouseEnter();
+
+            expect(wrapper.state('trackActive')).toBe(false);
         });
 
         it('checks if is hidden after props.trackHideTime', () => {
@@ -208,7 +224,7 @@ describe('interaction', () => {
                     trackVisible={true}
                     trackHideTime={0}
                     minHandlerHeight={1}
-                    handlerMargin={0}
+                    trackMargin={0}
                 />
             );
 
@@ -314,7 +330,7 @@ describe('interaction', () => {
                 <ScrollArea
                     {...props}
                     testInnerHeight={100}
-                    handlerMargin={0}
+                    trackMargin={0}
                 />
             );
 
@@ -326,24 +342,11 @@ describe('interaction', () => {
                 <ScrollArea
                     {...props}
                     testInnerHeight={1}
-                    handlerMargin={0}
+                    trackMargin={50}
                 />
             );
 
-            expect(wrapper.ref('handler').getNode().style.height).toBe(props.height);
-        });
-
-        it('subtracts the height if the props.handlerMargin has value', () => {
-            const margin = 10,
-                wrapper = mount(
-                    <ScrollArea
-                        {...props}
-                        testInnerHeight={100}
-                        handlerMargin={margin}
-                    />
-                );
-
-            expect(wrapper.ref('handler').getNode().style.height).toBe((100 - margin) + "px");
+            expect(wrapper.ref('handler').getNode().style.height).toBe((parseInt(props.height, 10) - 50) + "px");
         });
 
         it('limits the minimum height to the value props.minHandlerHeight', () => {
@@ -352,7 +355,7 @@ describe('interaction', () => {
                     <ScrollArea
                         {...props}
                         testInnerHeight={1000}
-                        handlerMargin={0}
+                        trackMargin={0}
                         minHandlerHeight={minHandlerHeight}
                     />
                 );
@@ -360,18 +363,25 @@ describe('interaction', () => {
             expect(wrapper.ref('handler').getNode().style.height).toBe(minHandlerHeight + "px");
         });
 
-        it('not limits the minimum height to the value props.minHandlerHeight if its bigger than the outer height', () => {
-            const minHandlerHeight = 101,
+        it('not limits the minimum height to the value props.minHandlerHeight if its bigger than the track height', () => {
+            const trackMargin = 100,
+                height = 500,
                 wrapper = mount(
-                    <ScrollArea
-                        {...props}
-                        testInnerHeight={1000}
-                        handlerMargin={0}
-                        minHandlerHeight={minHandlerHeight}
-                    />
-                );
+                <ScrollArea
+                    {...props}
+                    height={height}
+                    testInnerHeight={10000}
+                    trackMargin={trackMargin}
+                    minHandlerHeight={height}
+                />
+            );
 
-            expect(wrapper.ref('handler').getNode().style.height).toBe("100px");
+            expect(wrapper.ref('handler').getNode().style.height).toBe((height - trackMargin) + "px");
+
+            wrapper.ref('overflow').getNode().scrollTop = 250;
+            wrapper.instance().triggerScroll();
+
+            expect(wrapper.ref('handler').getNode().style.top).toBe("0px");
         });
     });
 });
