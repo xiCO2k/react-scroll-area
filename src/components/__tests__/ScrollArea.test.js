@@ -77,6 +77,25 @@ describe('interaction', () => {
             expect(wrapper.state('trackActive')).toBe(false);
         });
 
+        it('should not hide if isDragging is true', () => {
+            const wrapper = mount(
+                <ScrollArea
+                    width="100px"
+                    height="100px"
+                    testInnerHeight={200}
+                    trackHideTime={0}
+                />
+            );
+
+            //Sets isDragging to True
+            wrapper.instance().onMouseEnter();
+            wrapper.instance().onMouseMoveHover({ pageX: 96 });
+            wrapper.instance().onMouseDown({ pageX: 96 });
+            wrapper.instance().onMouseLeave();
+
+            expect(wrapper.state('trackActive')).toBe(true);
+        })
+
         it('not show when mouseEnter if the props.trackHidden is true', () => {
             const wrapper = mount(
                 <ScrollArea
@@ -112,11 +131,16 @@ describe('interaction', () => {
     });
 
     describe('handler', () => {
-        const props = { width: '100px', height: '100px', testInnerHeight: 200 };
+        const props = {
+            width: '100px',
+            height: '100px',
+            testInnerHeight: 200
+        };
 
         it('sets "handlerHover: true" when the area is hovered', () => {
             const wrapper = mount(<ScrollArea {...props} />);
 
+            wrapper.instance().onMouseEnter();
             wrapper.instance().onMouseMoveHover({ pageX: 96 });
             expect(wrapper.state("handlerHover")).toBe(true);
         });
@@ -124,8 +148,62 @@ describe('interaction', () => {
         it('sets "isDragging: true" when the area is onMouseDown()', () => {
             const wrapper = mount(<ScrollArea {...props} />);
 
+            wrapper.instance().onMouseEnter();
+            wrapper.instance().onMouseMoveHover({ pageX: 96 });
             wrapper.instance().onMouseDown({ pageX: 96 });
             expect(wrapper.state("isDragging")).toBe(true);
+        });
+
+        it('not sets "isDragging: true" when the area is onMouseDown() if track is not visible', () => {
+            const wrapper = mount(<ScrollArea {...props} />);
+
+            wrapper.instance().onMouseDown({ pageX: 96 });
+            expect(wrapper.state("isDragging")).toBe(false);
+        });
+
+        it('changes the scrollTop when isDragging', () => {
+            const wrapper = mount(<ScrollArea {...props} />);
+
+            wrapper.instance().onMouseEnter();
+            wrapper.instance().onMouseMoveHover({ pageX: 96 });
+            wrapper.instance().onMouseDown({ pageX: 96, pageY: 0 });
+            wrapper.instance().onMouseMoveFn({ pageY: 10 });
+            expect(wrapper.ref('overflow').getNode().scrollTop).toBe(20);
+
+            wrapper.instance().onMouseMoveFn({ pageY: 5 });
+            expect(wrapper.ref('overflow').getNode().scrollTop).toBe(10);
+
+            //Test the minimum
+            wrapper.instance().onMouseMoveFn({ pageY: -2 });
+            expect(wrapper.ref('overflow').getNode().scrollTop).toBe(0);
+
+            //Test the maximum
+            wrapper.instance().onMouseMoveFn({ pageY: 10000 });
+            expect(wrapper.ref('overflow').getNode().scrollTop).toBe(props.testInnerHeight - parseInt(props.height, 10));
+        });
+
+        it('hides track when onMouseUp on window if isDragging is true', () => {
+            const wrapper = mount(<ScrollArea {...props} trackHideTime={0} />);
+
+            wrapper.instance().onMouseEnter();
+            wrapper.instance().onMouseMoveHover({ pageX: 96 });
+            wrapper.instance().onMouseDown({ pageX: 96 });
+            wrapper.instance().onMouseLeave();
+            wrapper.instance().onMouseUpFn({ target: window });
+
+            expect(wrapper.state("trackActive")).toBe(false);
+        });
+
+        it('should not hide track when onMouseUp on window with "isDragging: true" if trackVisible is true', () => {
+            const wrapper = mount(<ScrollArea {...props} trackVisible={true} trackHideTime={0} />);
+
+            wrapper.instance().onMouseEnter();
+            wrapper.instance().onMouseMoveHover({ pageX: 96 });
+            wrapper.instance().onMouseDown({ pageX: 96 });
+            wrapper.instance().onMouseLeave();
+            wrapper.instance().onMouseUpFn({ target: window });
+
+            expect(wrapper.state("trackActive")).toBe(true);
         });
 
         it('changes the top after scrolling', () => {
@@ -151,10 +229,10 @@ describe('interaction', () => {
                 />
             );
 
-            expect(wrapper.ref('handler').getNode().style.height).toBe("100px");
+            expect(wrapper.ref('handler').getNode().style.height).toBe(props.height);
         });
 
-        it('cannot have more height than the track height', () => {
+        it('can not have more height than the track height', () => {
             const wrapper = mount(
                 <ScrollArea
                     {...props}
@@ -163,7 +241,7 @@ describe('interaction', () => {
                 />
             );
 
-            expect(wrapper.ref('handler').getNode().style.height).toBe("100px");
+            expect(wrapper.ref('handler').getNode().style.height).toBe(props.height);
         });
 
         it('subtracts the height if the props.handlerMargin has value', () => {

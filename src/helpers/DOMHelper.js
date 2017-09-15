@@ -63,7 +63,10 @@ function isChildOf(child, parent, checkEqual = false) {
 function ignoreSelection() {
     if (document.selection) {
         document.selection.empty();
-    } else {
+        return;
+    }
+
+    if (window.getSelection) {
         window.getSelection().removeAllRanges();
     }
 }

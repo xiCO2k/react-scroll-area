@@ -11,27 +11,15 @@ export default class App extends Component {
             right: 0,
             bottom: 0,
             background: '#FFF',
-            width: '400px',
-            height: '300px',
+            width: '100px',
+            height: '100px',
             margin: 'auto'
         };
 
         return (
             <div style={style}>
-                <ScrollArea>
-                    Lorem ipsum dolor sit amet, consectetur adipisicing elit. Iste id, animi repellat laborum eligendi impedit illum placeat mollitia similique eaque cupiditate neque, reiciendis eum consequuntur quibusdam dolores minus molestiae veniam.
-                    Lorem ipsum dolor sit amet, consectetur adipisicing elit. Iste id, animi repellat laborum eligendi impedit illum placeat mollitia similique eaque cupiditate neque, reiciendis eum consequuntur quibusdam dolores minus molestiae veniam.
-                    Lorem ipsum dolor sit amet, consectetur adipisicing elit. Iste id, animi repellat laborum eligendi impedit illum placeat mollitia similique eaque cupiditate neque, reiciendis eum consequuntur quibusdam dolores minus molestiae veniam.
-                    Lorem ipsum dolor sit amet, consectetur adipisicing elit. Iste id, animi repellat laborum eligendi impedit illum placeat mollitia similique eaque cupiditate neque, reiciendis eum consequuntur quibusdam dolores minus molestiae veniam.
-                    Lorem ipsum dolor sit amet, consectetur adipisicing elit. Iste id, animi repellat laborum eligendi impedit illum placeat mollitia similique eaque cupiditate neque, reiciendis eum consequuntur quibusdam dolores minus molestiae veniam.
-                    Lorem ipsum dolor sit amet, consectetur adipisicing elit. Iste id, animi repellat laborum eligendi impedit illum placeat mollitia similique eaque cupiditate neque, reiciendis eum consequuntur quibusdam dolores minus molestiae veniam.
-                    Lorem ipsum dolor sit amet, consectetur adipisicing elit. Iste id, animi repellat laborum eligendi impedit illum placeat mollitia similique eaque cupiditate neque, reiciendis eum consequuntur quibusdam dolores minus molestiae veniam.
-                    Lorem ipsum dolor sit amet, consectetur adipisicing elit. Iste id, animi repellat laborum eligendi impedit illum placeat mollitia similique eaque cupiditate neque, reiciendis eum consequuntur quibusdam dolores minus molestiae veniam.
-                    Lorem ipsum dolor sit amet, consectetur adipisicing elit. Iste id, animi repellat laborum eligendi impedit illum placeat mollitia similique eaque cupiditate neque, reiciendis eum consequuntur quibusdam dolores minus molestiae veniam.
-                    Lorem ipsum dolor sit amet, consectetur adipisicing elit. Iste id, animi repellat laborum eligendi impedit illum placeat mollitia similique eaque cupiditate neque, reiciendis eum consequuntur quibusdam dolores minus molestiae veniam.
-                    Lorem ipsum dolor sit amet, consectetur adipisicing elit. Iste id, animi repellat laborum eligendi impedit illum placeat mollitia similique eaque cupiditate neque, reiciendis eum consequuntur quibusdam dolores minus molestiae veniam.
-                    Lorem ipsum dolor sit amet, consectetur adipisicing elit. Iste id, animi repellat laborum eligendi impedit illum placeat mollitia similique eaque cupiditate neque, reiciendis eum consequuntur quibusdam dolores minus molestiae veniam.
-                    Lorem ipsum dolor sit amet, consectetur adipisicing elit. Iste id, animi repellat laborum eligendi impedit illum placeat mollitia similique eaque cupiditate neque, reiciendis eum consequuntur quibusdam dolores minus molestiae veniam.
+                <ScrollArea width="100px" height="100px" trackVisible>
+                    <div style={{ width: 10, height: 80, background: 'red', margin: '10px 0' }}></div>
                 </ScrollArea>
             </div>
         );

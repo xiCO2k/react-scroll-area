@@ -205,10 +205,6 @@ export default class ScrollArea extends Component {
         this.forceUpdate();
     }
 
-    onTrackHandlerDragging(offsetY) {
-        this.refs['overflow'].scrollTop = offsetY * this.getHandlerRatio(true);
-    }
-
     onMouseEnter() {
         if (!this.isTrackNeedEvents()) {
             return;
@@ -219,18 +215,11 @@ export default class ScrollArea extends Component {
     }
 
     onMouseLeave() {
-        if (!this.isTrackNeedEvents()) {
+        if (!this.isTrackNeedEvents() || this.state.isDragging) {
             return;
         }
 
-        if (!this.props.trackHideTime) {
-            this.setState({ trackActive: false });
-            return;
-        }
-
-        this.scrollTrackVisibleTimeout = _.delay(() => {
-            this.setState({ trackActive: false });
-        }, this.props.trackHideTime);
+        this.hideTrack();
     }
 
     onMouseDown(event) {
@@ -241,12 +230,13 @@ export default class ScrollArea extends Component {
             offset = { top: 0, left: this.getOuterWidth() - 5 };
         }
 
-        if (event.pageX < offset.left) {
+        if (event.pageX < offset.left || !this.state.handlerHover) {
             return;
         }
 
         this.setState({
             isDragging: true,
+            trackActive: !this.props.trackHidden,
             startY: event.pageY,
             originalY: position.top
         });
@@ -257,13 +247,18 @@ export default class ScrollArea extends Component {
         window.addEventListener('mouseup', this.onMouseUpFn, false);
     }
 
-    onMouseUp() {
+    onMouseUp(event) {
         this.setState({
             isDragging: false,
             handlerHover: false
         });
 
         DOMHelper.ignoreSelection();
+
+        if (!DOMHelper.isChildOf(event.target, this.refs['outer']) &&
+            this.isTrackNeedEvents()) {
+            this.hideTrack();
+        }
 
         window.removeEventListener('mouseup', this.onMouseUpFn);
         window.removeEventListener('mousemove', this.onMouseMoveFn);
@@ -278,11 +273,14 @@ export default class ScrollArea extends Component {
             offsetY = this.state.originalY + deltaY;
 
         DOMHelper.ignoreSelection();
-        this.onTrackHandlerDragging(offsetY);
+
+        this.refs['overflow'].scrollTop = Math.max(Math.min(
+            Math.floor(offsetY * this.getHandlerRatio(true))
+        , this.getInnerHeight(true) - this.getOuterHeight(true)), 0);
     }
 
     onMouseMoveHover(event) {
-        if (this.state.isDragging) {
+        if (this.state.isDragging || !this.state.trackActive) {
             return;
         }
 
@@ -298,6 +296,17 @@ export default class ScrollArea extends Component {
         }
 
         this.setState({ handlerHover });
+    }
+
+    hideTrack() {
+        if (!this.props.trackHideTime) {
+            this.setState({ trackActive: false });
+            return;
+        }
+
+        this.scrollTrackVisibleTimeout = _.delay(() => {
+            this.setState({ trackActive: false });
+        }, this.props.trackHideTime);
     }
 
     triggerScroll() {
