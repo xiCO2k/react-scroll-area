@@ -26,9 +26,79 @@ describe('interaction', () => {
         expect(props.onScroll).toHaveBeenCalledTimes(1);
     });
 
-    it('should scroll to bottom when the goToBottom() is called');
-    it('should scroll to top when the goToTop() is called');
-    it('should scroll to "pos" when the  goToPos() is called');
+    it('should scroll to bottom when the goToBottom() is called', () => {
+        const props = {
+                width: '100px',
+                height: '100px',
+                testInnerHeight: 200
+            },
+            bottomPos = props.testInnerHeight - parseInt(props.height, 10),
+            wrapper = mount(<ScrollArea {...props} />);
+
+        jest.useFakeTimers();
+
+        wrapper.instance().goToBottom();
+        expect(wrapper.ref('overflow').getNode().scrollTop).toBe(bottomPos);
+
+        wrapper.ref('overflow').getNode().scrollTop = 0;
+        wrapper.instance().goToBottom(400);
+
+        jest.runTimersToTime(400);
+
+        expect(wrapper.ref('overflow').getNode().scrollTop).toBe(bottomPos);
+
+    });
+
+    it('should scroll to top when the goToTop() is called', () => {
+        const props = {
+                width: '100px',
+                height: '100px',
+                testInnerHeight: 200,
+                minHandlerHeight: 1,
+                handlerMargin: 0
+            },
+            bottomPos = props.testInnerHeight - parseInt(props.height, 10),
+            wrapper = mount(<ScrollArea {...props} />);
+
+        jest.useFakeTimers();
+
+        wrapper.ref('overflow').getNode().scrollTop = 100;
+        wrapper.instance()
+            .triggerScroll()
+            .goToTop();
+
+        expect(wrapper.ref('overflow').getNode().scrollTop).toBe(0);
+
+        wrapper.ref('overflow').getNode().scrollTop = 100;
+        wrapper.instance()
+            .triggerScroll()
+            .goToTop(400);
+
+        jest.runTimersToTime(400);
+
+        expect(wrapper.ref('overflow').getNode().scrollTop).toBe(0);
+    });
+
+    it('should scroll to "pos" when the goToPos() is called', () => {
+        const props = {
+                width: '100px',
+                height: '100px',
+                testInnerHeight: 200
+            },
+            bottomPos = props.testInnerHeight - parseInt(props.height, 10),
+            wrapper = mount(<ScrollArea {...props} />);
+
+        jest.useFakeTimers();
+
+        wrapper.instance().goToPos(100);
+        expect(wrapper.ref('overflow').getNode().scrollTop).toBe(100);
+
+        wrapper.instance().goToPos(50, 400);
+
+        jest.runTimersToTime(400);
+
+        expect(wrapper.ref('overflow').getNode().scrollTop).toBe(50);
+    });
 
     describe('track', () => {
         it('should not show if the "outer" is >= than the "inner"', () => {
@@ -127,6 +197,25 @@ describe('interaction', () => {
             wrapper.instance().onMouseLeave();
 
             expect(wrapper.state('trackActive')).toBe(true);
+        });
+
+        it('checks if the handle works when scrolling if props.trackVisible is true', () => {
+            const wrapper = mount(
+                <ScrollArea
+                    width="100px"
+                    height="100px"
+                    testInnerHeight={200}
+                    trackVisible={true}
+                    trackHideTime={0}
+                    minHandlerHeight={1}
+                    handlerMargin={0}
+                />
+            );
+
+            wrapper.instance().goToBottom();
+            wrapper.instance().triggerScroll();
+            expect(wrapper.ref('handler').getNode().style.top).toBe('50px');
+
         });
     });
 

@@ -188,6 +188,7 @@ export default class ScrollArea extends Component {
 
     onScroll() {
         if (!this.isTrackNeedEvents()) {
+            this.forceUpdate();
             return;
         }
 
@@ -275,8 +276,9 @@ export default class ScrollArea extends Component {
         DOMHelper.ignoreSelection();
 
         this.refs['overflow'].scrollTop = Math.max(Math.min(
-            Math.floor(offsetY * this.getHandlerRatio(true))
-        , this.getInnerHeight(true) - this.getOuterHeight(true)), 0);
+            Math.floor(offsetY * this.getHandlerRatio(true)),
+            this.getInnerHeight(true) - this.getOuterHeight(true)
+        ), 0);
     }
 
     onMouseMoveHover(event) {
@@ -311,6 +313,29 @@ export default class ScrollArea extends Component {
 
     triggerScroll() {
         this.onScroll();
+
+        return this;
+    }
+
+    goToPos(scrollTop, duration = 0) {
+        let overflow = this.refs['overflow'];
+
+        if (duration) {
+            DOMHelper.scrollTo(overflow, scrollTop, duration);
+            return;
+        }
+
+        overflow.scrollTop = scrollTop;
+
+        return this;
+    }
+
+    goToTop(duration = 0) {
+        return this.goToPos(0, duration);
+    }
+
+    goToBottom(duration = 0) {
+        return this.goToPos(this.getInnerHeight(true) - this.getOuterHeight(true), duration);
     }
 
     getTrackClassNames() {
