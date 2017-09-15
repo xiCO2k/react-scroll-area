@@ -9,19 +9,25 @@ ShallowWrapper {
   },
   "length": 1,
   "node": <div
-    className="ScrollArea__outer___37v-o"
+    className="outer"
     onMouseDown={[Function]}
     onMouseEnter={[Function]}
     onMouseLeave={[Function]}
     onMouseMove={[Function]}
+    style={
+      Object {
+        "height": undefined,
+        "width": undefined,
+      }
+    }
   >
     <div
-      className="ScrollArea__overflow___3EGck"
+      className="overflow"
       onScroll={[Function]}
       onWheel={[Function]}
     >
       <div
-        className="ScrollArea__inner___34zZx"
+        className="inner"
         style={
           Object {
             "marginRight": -1,
@@ -30,10 +36,10 @@ ShallowWrapper {
       />
     </div>
     <div
-      className="ScrollArea__track___1Rpps ScrollArea__trackHidden_____l1I"
+      className="track trackHidden"
     >
       <div
-        className="ScrollArea__handler___hkHU7"
+        className="handler"
         style={
           Object {
             "height": 0,
@@ -45,19 +51,25 @@ ShallowWrapper {
   </div>,
   "nodes": Array [
     <div
-      className="ScrollArea__outer___37v-o"
+      className="outer"
       onMouseDown={[Function]}
       onMouseEnter={[Function]}
       onMouseLeave={[Function]}
       onMouseMove={[Function]}
+      style={
+        Object {
+          "height": undefined,
+          "width": undefined,
+        }
+      }
     >
       <div
-        className="ScrollArea__overflow___3EGck"
+        className="overflow"
         onScroll={[Function]}
         onWheel={[Function]}
       >
         <div
-          className="ScrollArea__inner___34zZx"
+          className="inner"
           style={
             Object {
               "marginRight": -1,
@@ -66,10 +78,10 @@ ShallowWrapper {
         />
       </div>
       <div
-        className="ScrollArea__track___1Rpps ScrollArea__trackHidden_____l1I"
+        className="track trackHidden"
       >
         <div
-          className="ScrollArea__handler___hkHU7"
+          className="handler"
           style={
             Object {
               "height": 0,
@@ -89,7 +101,10 @@ ShallowWrapper {
       "_currentElement": <ScrollArea
         handlerMargin={4}
         minHandlerHeight={70}
+        testInnerHeight={0}
         trackHidden={false}
+        trackHideTime={1000}
+        trackVisible={false}
       />,
       "_debugID": 1,
       "_hostContainerInfo": null,
@@ -100,7 +115,10 @@ ShallowWrapper {
         "props": Object {
           "handlerMargin": 4,
           "minHandlerHeight": 70,
+          "testInnerHeight": 0,
           "trackHidden": false,
+          "trackHideTime": 1000,
+          "trackVisible": false,
         },
         "refs": Object {},
         "state": Object {
@@ -108,10 +126,9 @@ ShallowWrapper {
           "innerMargin": -1,
           "isDragging": false,
           "outerHeight": 0,
+          "trackActive": false,
           "trackHandlerHeight": 0,
-          "trackVisible": false,
         },
-        "unmounted": false,
         "updater": Object {
           "enqueueCallback": [Function],
           "enqueueCallbackInternal": [Function],
@@ -131,19 +148,25 @@ ShallowWrapper {
       "_pendingStateQueue": null,
       "_renderedComponent": NoopInternalComponent {
         "_currentElement": <div
-          className="ScrollArea__outer___37v-o"
+          className="outer"
           onMouseDown={[Function]}
           onMouseEnter={[Function]}
           onMouseLeave={[Function]}
           onMouseMove={[Function]}
+          style={
+            Object {
+              "height": undefined,
+              "width": undefined,
+            }
+          }
         >
           <div
-            className="ScrollArea__overflow___3EGck"
+            className="overflow"
             onScroll={[Function]}
             onWheel={[Function]}
           >
             <div
-              className="ScrollArea__inner___34zZx"
+              className="inner"
               style={
                 Object {
                   "marginRight": -1,
@@ -152,10 +175,10 @@ ShallowWrapper {
             />
           </div>
           <div
-            className="ScrollArea__track___1Rpps ScrollArea__trackHidden_____l1I"
+            className="track trackHidden"
           >
             <div
-              className="ScrollArea__handler___hkHU7"
+              className="handler"
               style={
                 Object {
                   "height": 0,
@@ -167,19 +190,25 @@ ShallowWrapper {
         </div>,
         "_debugID": 2,
         "_renderedOutput": <div
-          className="ScrollArea__outer___37v-o"
+          className="outer"
           onMouseDown={[Function]}
           onMouseEnter={[Function]}
           onMouseLeave={[Function]}
           onMouseMove={[Function]}
+          style={
+            Object {
+              "height": undefined,
+              "width": undefined,
+            }
+          }
         >
           <div
-            className="ScrollArea__overflow___3EGck"
+            className="overflow"
             onScroll={[Function]}
             onWheel={[Function]}
           >
             <div
-              className="ScrollArea__inner___34zZx"
+              className="inner"
               style={
                 Object {
                   "marginRight": -1,
@@ -188,10 +217,10 @@ ShallowWrapper {
             />
           </div>
           <div
-            className="ScrollArea__track___1Rpps ScrollArea__trackHidden_____l1I"
+            className="track trackHidden"
           >
             <div
-              className="ScrollArea__handler___hkHU7"
+              className="handler"
               style={
                 Object {
                   "height": 0,
@@ -215,7 +244,10 @@ ShallowWrapper {
   "unrendered": <ScrollArea
     handlerMargin={4}
     minHandlerHeight={70}
+    testInnerHeight={0}
     trackHidden={false}
+    trackHideTime={1000}
+    trackVisible={false}
   />,
 }
 `;
