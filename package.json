@@ -36,7 +36,7 @@
   },
   "scripts": {
     "start": "cross-env NODE_ENV=development webpack-dev-server --config webpack.config.dev.js --open",
-    "lib": "cross-env NODE_ENV=production babel src --out-dir lib --copy-files --ignore '**/entry.js, **/demo' && webpack",
+    "lib": "rm -rf lib && cross-env NODE_ENV=production babel src --out-dir lib --copy-files --ignore '**/entry.js, **/demo, **/*.test.js' && webpack",
     "test": "cross-env NODE_ENV=testing jest"
   },
   "jest": {

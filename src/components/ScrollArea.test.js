@@ -4,7 +4,7 @@ import { shallow, mount } from 'enzyme';
 
 describe('rendering', () => {
     it('renders correctly', () => {
-        expect(shallow(<ScrollArea />)).toMatchSnapshot();
+        expect(shallow(<ScrollArea />)).toHaveLength(1);
     });
 
     it('has the width and height sent by the props', () => {
