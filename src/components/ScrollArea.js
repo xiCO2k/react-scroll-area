@@ -297,14 +297,6 @@ export default class ScrollArea extends Component {
             originalY: this.getTrackHeight(true) * ((this.getScrollTop()) / this.getInnerHeight(true))
         });
 
-        //handlerHeight = 70
-        //height = 100
-        //innerheight = 200
-        //ScrollTop = 100
-        // trackMargin = 10
-        //pos 0 --> top --> 0 -- 1
-        //pos 30 --> top --> 50 -- 1,66666667
-
         this.onMouseMoveFn = this.onMouseMove.bind(this);
         this.onMouseUpFn = this.onMouseUp.bind(this);
         window.addEventListener('mousemove', this.onMouseMoveFn, false);

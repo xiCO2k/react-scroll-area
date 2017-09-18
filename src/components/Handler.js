@@ -33,7 +33,7 @@ export default class Handler extends Component {
     render() {
         return (
             <div
-                ref={r => this.references.Handler = r}
+                ref={r => this.references.handler = r}
                 className={this.props.className}
                 style={{
                     height: this.props.height,
