@@ -3,7 +3,7 @@
         "lint": {"engine": "eslint"}
     },
     "ignore": [
-        **/demo/**,
-        **/lib/**
+        "**/demo/**",
+        "**/lib/**"
     ]
 }
