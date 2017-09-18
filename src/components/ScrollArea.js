@@ -18,6 +18,7 @@ export default class ScrollArea extends Component {
         minHandlerHeight: PropTypes.number,
         trackMargin: PropTypes.number,
         onScroll: PropTypes.func,
+        children: PropTypes.oneOfType([PropTypes.element, PropTypes.string]),
 
         //for testing purpose
         testInnerHeight: PropTypes.number,

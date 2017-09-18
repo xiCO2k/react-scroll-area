@@ -92,7 +92,6 @@ describe('Interaction', () => {
                 minHandlerHeight: 1,
                 trackMargin: 0
             },
-            bottomPos = props.testInnerHeight - parseInt(props.height, 10),
             wrapper = mount(<ScrollArea {...props} />);
 
         jest.useFakeTimers();
@@ -120,7 +119,6 @@ describe('Interaction', () => {
                 height: '100px',
                 testInnerHeight: 200
             },
-            bottomPos = props.testInnerHeight - parseInt(props.height, 10),
             wrapper = mount(<ScrollArea {...props} />);
 
         jest.useFakeTimers();
