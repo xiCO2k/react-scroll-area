@@ -22,10 +22,24 @@ On your component add:
 ```javascript
 import ScrollArea from 'xico2k-react-scroll-area';
 ```
-And like this on the render:
+To render:
 
 ```html
 <ScrollArea>
     Some Content
 </ScrollArea>
 ```
+
+### Props and Examples
+
+| Property | Type | Default Value | Description |
+|----------|------|---------------|-------------|
+width                | string / number |  | "100%" or "100px" or 100 |
+height               | string / number |  | 100%" |
+trackHidden          | bool | false |
+trackHideTime        | int | 1000 | Milliseconds |
+minHandlerHeight     | int | 70 | Pixels |
+trackMargin          | int | 4 | Pixels |
+onScroll             | func | callback with { scrollTop: 50, innerHeight: 100 outerHeight: 50, complete: 0.5 } |
+
+
