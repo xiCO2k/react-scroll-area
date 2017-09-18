@@ -9,7 +9,7 @@ describe('Render', () => {
 
     it('has no width and height on the style if there is no props', () => {
         const wrapper = mount(<ScrollArea />),
-            style = wrapper.ref('outer').getDOMNode().style;
+            style = wrapper.instance().references.outer.style;
 
         expect(style.width).toBe('');
         expect(style.height).toBe('');
@@ -17,7 +17,7 @@ describe('Render', () => {
 
     it('has the width and height sent by the props', () => {
         const wrapper = mount(<ScrollArea width='100px' height='100px' />),
-            style = wrapper.ref('outer').getDOMNode().style;
+            style = wrapper.instance().references.outer.style;
 
         expect(style.width).toBe('100px');
         expect(style.height).toBe('100px');
@@ -25,7 +25,7 @@ describe('Render', () => {
 
     it('can handle percentage on width / height', () => {
         const wrapper = mount(<ScrollArea width='25%' height='50%' testParentWidth={200} testParentHeight={200} />),
-            style = wrapper.ref('outer').getDOMNode().style;
+            style = wrapper.instance().references.outer.style;
 
         expect(style.width).toBe('25%');
         expect(style.height).toBe('50%');
@@ -73,7 +73,7 @@ describe('Interaction', () => {
         jest.useFakeTimers();
 
         wrapper.instance().goToBottom();
-        expect(wrapper.ref('overflow').getDOMNode().scrollTop).toBe(bottomPos);
+        expect(wrapper.instance().references.overflow.scrollTop).toBe(bottomPos);
 
         wrapper.ref('overflow').getDOMNode().scrollTop = 0;
         wrapper.instance().goToBottom(400);
