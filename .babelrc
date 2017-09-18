@@ -5,7 +5,7 @@
             "plugins": [
                 [
                     "css-modules-transform", {
-                        "extractCss": "./lib/style.js"
+                        "extractCss": "./lib/style.css"
                     }
                 ]
             ]
