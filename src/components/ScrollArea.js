@@ -20,7 +20,9 @@ export default class ScrollArea extends Component {
         onScroll: PropTypes.func,
 
         //for testing purpose
-        testInnerHeight: PropTypes.number
+        testInnerHeight: PropTypes.number,
+        testParentWidth: PropTypes.number,
+        testParentHeight: PropTypes.number
     };
 
     static defaultProps = {
@@ -31,7 +33,9 @@ export default class ScrollArea extends Component {
         trackMargin: 4,
 
         //for testing purpose
-        testInnerHeight: 0
+        testInnerHeight: 0,
+        testParentWidth: 0,
+        testParentHeight: 0
     };
 
     constructor(props) {
@@ -48,6 +52,8 @@ export default class ScrollArea extends Component {
     }
 
     componentDidMount() {
+        this.validateProps(); //It throws
+
         this.onResize(true);
     }
 
@@ -61,8 +67,31 @@ export default class ScrollArea extends Component {
         clearTimeout(this.scrollTrackVisibleTimeout);
     }
 
+    validateProps() {
+        if (this.props.width && !/^([0-9]+)(%|px)?$/.test(this.props.width)) {
+            throw new TypeError('Invalid width, must be a numeric or percentage.');
+        }
+
+        if (this.props.height && !/^([0-9]+)(%|px)?$/.test(this.props.height)) {
+            throw new TypeError('Invalid height, must be a numeric or percentage.');
+        }
+    }
+
     getOuterWidth() {
-        return parseInt(this.props.width || DOMHelper.getWidth(this.refs['outer']), 10);
+        let width = this.props.width,
+            isPercentage = /%/.test(width);
+
+        if (isPercentage) {
+            let percentage = parseInt(width, 10) / 100;
+
+            if (process.env.NODE_ENV === 'testing') {
+                return this.props.testParentWidth * percentage;
+            }
+
+            return DOMHelper.getWidth(this.refs['outer']) * percentage;
+        }
+
+        return parseInt(this.props.width || DOMHelper.getWidth(this.refs['outer']) || 0, 10);
     }
 
     getOuterHeight(fromState = false) {
@@ -70,11 +99,20 @@ export default class ScrollArea extends Component {
             return this.state.outerHeight;
         }
 
-        if (process.env.NODE_ENV === 'testing') {
-            return parseInt(this.props.height || 0, 10);
+        let height = this.props.height,
+            isPercentage = /%/.test(height);
+
+        if (isPercentage) {
+            let percentage = parseInt(height, 10) / 100;
+
+            if (process.env.NODE_ENV === 'testing') {
+                return this.props.testParentHeight * percentage;
+            }
+
+            return DOMHelper.getHeight(this.refs['outer']) * percentage;
         }
 
-        return parseInt(this.props.height || DOMHelper.getHeight(this.refs['outer']), 10);
+        return parseInt(this.props.height || DOMHelper.getHeight(this.refs['outer']) || 0, 10);
     }
 
     getInnerHeight(fromState = false) {

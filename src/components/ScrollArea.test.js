@@ -2,7 +2,7 @@ import React from 'react';
 import ScrollArea from './ScrollArea';
 import { shallow, mount } from 'enzyme';
 
-describe('render', () => {
+describe('Render', () => {
     it('renders correctly', () => {
         expect(shallow(<ScrollArea />)).toHaveLength(1);
     });
@@ -23,13 +23,35 @@ describe('render', () => {
         expect(style.height).toBe('100px');
     });
 
+    it('can handle percentage on width / height', () => {
+        const wrapper = mount(<ScrollArea width='25%' height='50%' testParentWidth={200} testParentHeight={200} />),
+            style = wrapper.ref('outer').getDOMNode().style;
+
+        expect(style.width).toBe('25%');
+        expect(style.height).toBe('50%');
+
+        expect(wrapper.instance().getOuterHeight()).toBe(100);
+        expect(wrapper.instance().getOuterWidth()).toBe(50);
+    })
+
     it('contains the children content', () => {
         expect(mount(<ScrollArea>Lorem Ipsum</ScrollArea>).text()).toBe('Lorem Ipsum');
         expect(mount(<ScrollArea><div>123</div></ScrollArea>).contains(<div>123</div>)).toBe(true);
     });
+
+    it('throws if you pass wrong width / height', () => {
+        expect(() => shallow(<ScrollArea width='1234%%' height='1234%%' />)
+            .instance().validateProps()).toThrow();
+
+        expect(() => shallow(<ScrollArea width='100xp' height='100px' />)
+            .instance().validateProps()).toThrow();
+
+        expect(() => shallow(<ScrollArea width={100} height="dummy" />)
+            .instance().validateProps()).toThrow();
+    });
 });
 
-describe('interaction', () => {
+describe('Interaction', () => {
     it('calls the callback props.onScroll', () => {
         const props = { onScroll: jest.fn(), testInnerHeight: 200 },
             wrapper = mount(<ScrollArea {...props} />);
@@ -113,7 +135,7 @@ describe('interaction', () => {
         expect(wrapper.ref('overflow').getDOMNode().scrollTop).toBe(50);
     });
 
-    describe('track', () => {
+    describe('Track', () => {
 
         it('shows when mouse enter', () => {
             const wrapper = mount(<ScrollArea
@@ -248,7 +270,7 @@ describe('interaction', () => {
         });
     });
 
-    describe('handler', () => {
+    describe('Handler', () => {
         const props = {
             width: '100px',
             height: '100px',
