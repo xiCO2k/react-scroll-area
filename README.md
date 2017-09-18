@@ -1,4 +1,5 @@
 [![Build Status](https://travis-ci.org/xiCO2k/react-scroll-area.svg?branch=master)](https://travis-ci.org/xiCO2k/react-scroll-area)
+[![npm downloads](https://img.shields.io/npm/dm/xico2k-react-scroll-area.svg?style=flat-square)](https://www.npmjs.com/package/xico2k-react-scroll-area)
 
 # react-scroll-area
 
