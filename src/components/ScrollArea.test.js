@@ -46,7 +46,7 @@ describe('Render', () => {
         expect(() => shallow(<ScrollArea width='100xp' height='100px' />)
             .instance().validateProps()).toThrow();
 
-        expect(() => shallow(<ScrollArea width={100} height="dummy" />)
+        expect(() => shallow(<ScrollArea width={100} height='dummy' />)
             .instance().validateProps()).toThrow();
     });
 });
@@ -75,12 +75,12 @@ describe('Interaction', () => {
         wrapper.instance().goToBottom();
         expect(wrapper.instance().references.overflow.scrollTop).toBe(bottomPos);
 
-        wrapper.ref('overflow').getDOMNode().scrollTop = 0;
+        wrapper.instance().references.overflow.scrollTop = 0;
         wrapper.instance().goToBottom(400);
 
         jest.runTimersToTime(400);
 
-        expect(wrapper.ref('overflow').getDOMNode().scrollTop).toBe(bottomPos);
+        expect(wrapper.instance().references.overflow.scrollTop).toBe(bottomPos);
 
     });
 
@@ -96,21 +96,21 @@ describe('Interaction', () => {
 
         jest.useFakeTimers();
 
-        wrapper.ref('overflow').getDOMNode().scrollTop = 100;
+        wrapper.instance().references.overflow.scrollTop = 100;
         wrapper.instance()
             .triggerScroll()
             .goToTop();
 
-        expect(wrapper.ref('overflow').getDOMNode().scrollTop).toBe(0);
+        expect(wrapper.instance().references.overflow.scrollTop).toBe(0);
 
-        wrapper.ref('overflow').getDOMNode().scrollTop = 100;
+        wrapper.instance().references.overflow.scrollTop = 100;
         wrapper.instance()
             .triggerScroll()
             .goToTop(400);
 
         jest.runTimersToTime(400);
 
-        expect(wrapper.ref('overflow').getDOMNode().scrollTop).toBe(0);
+        expect(wrapper.instance().references.overflow.scrollTop).toBe(0);
     });
 
     it('scrolls to "pos" when the goToPos() is called', () => {
@@ -124,13 +124,13 @@ describe('Interaction', () => {
         jest.useFakeTimers();
 
         wrapper.instance().goToPos(100);
-        expect(wrapper.ref('overflow').getDOMNode().scrollTop).toBe(100);
+        expect(wrapper.instance().references.overflow.scrollTop).toBe(100);
 
         wrapper.instance().goToPos(50, 400);
 
         jest.runTimersToTime(400);
 
-        expect(wrapper.ref('overflow').getDOMNode().scrollTop).toBe(50);
+        expect(wrapper.instance().references.overflow.scrollTop).toBe(50);
     });
 
     describe('Track', () => {
@@ -160,8 +160,8 @@ describe('Interaction', () => {
                     />
                 );
 
-            expect(wrapper.ref('track').getDOMNode().style.height).toBe((100 - margin) + 'px');
-            expect(wrapper.ref('track').getDOMNode().style.top).toBe((margin / 2) + 'px');
+            expect(wrapper.find('Track').getDOMNode().style.height).toBe((100 - margin) + 'px');
+            expect(wrapper.find('Track').getDOMNode().style.top).toBe((margin / 2) + 'px');
         });
 
         it('not show if the "outer" is >= than the "inner"', () => {
@@ -263,7 +263,7 @@ describe('Interaction', () => {
 
             wrapper.instance().goToBottom();
             wrapper.instance().triggerScroll();
-            expect(wrapper.ref('handler').getDOMNode().style.top).toBe('50px');
+            expect(wrapper.find('Handler').getDOMNode().style.top).toBe('50px');
 
         });
     });
@@ -306,18 +306,18 @@ describe('Interaction', () => {
             wrapper.instance().onMouseMoveHover({ pageX: 96 });
             wrapper.instance().onMouseDown({ pageX: 96, pageY: 0 });
             wrapper.instance().onMouseMoveFn({ pageY: 10 });
-            expect(wrapper.ref('overflow').getDOMNode().scrollTop).toBe(20);
+            expect(wrapper.instance().references.overflow.scrollTop).toBe(20);
 
             wrapper.instance().onMouseMoveFn({ pageY: 5 });
-            expect(wrapper.ref('overflow').getDOMNode().scrollTop).toBe(10);
+            expect(wrapper.instance().references.overflow.scrollTop).toBe(10);
 
             //Test the minimum
             wrapper.instance().onMouseMoveFn({ pageY: -2 });
-            expect(wrapper.ref('overflow').getDOMNode().scrollTop).toBe(0);
+            expect(wrapper.instance().references.overflow.scrollTop).toBe(0);
 
             //Test the maximum
             wrapper.instance().onMouseMoveFn({ pageY: 10000 });
-            expect(wrapper.ref('overflow').getDOMNode().scrollTop).toBe(props.testInnerHeight - parseInt(props.height, 10));
+            expect(wrapper.instance().references.overflow.scrollTop).toBe(props.testInnerHeight - parseInt(props.height, 10));
         });
 
         it('changes the scrollTop when isDragging correctly if it has the trackMargin', () => {
@@ -327,7 +327,7 @@ describe('Interaction', () => {
             wrapper.instance().onMouseMoveHover({ pageX: 96 });
             wrapper.instance().onMouseDown({ pageX: 96, pageY: 0 });
             wrapper.instance().onMouseMoveFn({ pageY: 9 });
-            expect(wrapper.ref('overflow').getDOMNode().scrollTop).toBe(20);
+            expect(wrapper.instance().references.overflow.scrollTop).toBe(20);
         });
 
         it('hides track when onMouseUp on window if isDragging is true', () => {
@@ -357,15 +357,15 @@ describe('Interaction', () => {
         it('changes the top after scrolling', () => {
             const wrapper = mount(<ScrollArea {...props} />);
 
-            wrapper.ref('overflow').getDOMNode().scrollTop = 100;
+            wrapper.instance().references.overflow.scrollTop = 100;
             wrapper.instance().onScroll();
 
-            expect(wrapper.ref('handler').getDOMNode().style.top).toBe('25px');
+            expect(wrapper.find('Handler').getDOMNode().style.top).toBe('25px');
 
-            wrapper.ref('overflow').getDOMNode().scrollTop = 0;
+            wrapper.instance().references.overflow.scrollTop = 0;
             wrapper.instance().onScroll();
 
-            expect(wrapper.ref('handler').getDOMNode().style.top).toBe('0px');
+            expect(wrapper.find('Handler').getDOMNode().style.top).toBe('0px');
         });
 
         it('has the right height based on the inner height', () => {
@@ -377,7 +377,7 @@ describe('Interaction', () => {
                 />
             );
 
-            expect(wrapper.ref('handler').getDOMNode().style.height).toBe(props.height);
+            expect(wrapper.find('Handler').getDOMNode().style.height).toBe(props.height);
         });
 
         it('can not have more height than the track height', () => {
@@ -389,7 +389,7 @@ describe('Interaction', () => {
                 />
             );
 
-            expect(wrapper.ref('handler').getDOMNode().style.height).toBe((parseInt(props.height, 10) - 50) + 'px');
+            expect(wrapper.find('Handler').getDOMNode().style.height).toBe((parseInt(props.height, 10) - 50) + 'px');
         });
 
         it('limits the minimum height to the value props.minHandlerHeight', () => {
@@ -403,7 +403,7 @@ describe('Interaction', () => {
                     />
                 );
 
-            expect(wrapper.ref('handler').getDOMNode().style.height).toBe(minHandlerHeight + 'px');
+            expect(wrapper.find('Handler').getDOMNode().style.height).toBe(minHandlerHeight + 'px');
         });
 
         it('not limits the minimum height to the value props.minHandlerHeight if its bigger than the track height', () => {
@@ -419,12 +419,12 @@ describe('Interaction', () => {
                 />
             );
 
-            expect(wrapper.ref('handler').getDOMNode().style.height).toBe((height - trackMargin) + 'px');
+            expect(wrapper.find('Handler').getDOMNode().style.height).toBe((height - trackMargin) + 'px');
 
-            wrapper.ref('overflow').getDOMNode().scrollTop = 250;
+            wrapper.instance().references.overflow.scrollTop = 250;
             wrapper.instance().triggerScroll();
 
-            expect(wrapper.ref('handler').getDOMNode().style.top).toBe('0px');
+            expect(wrapper.find('Handler').getDOMNode().style.top).toBe('0px');
         });
     });
 });
