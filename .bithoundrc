@@ -1,9 +1,9 @@
 {
-    "critics": {
-        "lint": {"engine": "eslint"}
-    },
     "ignore": [
         "**/demo/**",
         "**/lib/**"
-    ]
+    ],
+    "critics": {
+        "lint": {"engine": "eslint"}
+    }
 }
