@@ -13,14 +13,19 @@ export default class ScrollArea extends Component {
     static propTypes = {
         width: PropTypes.oneOfType([PropTypes.number, PropTypes.string]),
         height: PropTypes.oneOfType([PropTypes.number, PropTypes.string]),
+
+        trackVisible: PropTypes.bool,
         trackHidden: PropTypes.bool,
         trackHideTime: PropTypes.number,
         minHandlerHeight: PropTypes.number,
         trackMargin: PropTypes.number,
         onScroll: PropTypes.func,
+        children: PropTypes.oneOfType([PropTypes.element, PropTypes.string]),
 
         //for testing purpose
-        testInnerHeight: PropTypes.number
+        testInnerHeight: PropTypes.number,
+        testParentWidth: PropTypes.number,
+        testParentHeight: PropTypes.number
     };
 
     static defaultProps = {
@@ -31,7 +36,9 @@ export default class ScrollArea extends Component {
         trackMargin: 4,
 
         //for testing purpose
-        testInnerHeight: 0
+        testInnerHeight: 0,
+        testParentWidth: 0,
+        testParentHeight: 0
     };
 
     constructor(props) {
@@ -48,6 +55,8 @@ export default class ScrollArea extends Component {
     }
 
     componentDidMount() {
+        this.validateProps(); //It throws
+
         this.onResize(true);
     }
 
@@ -61,8 +70,31 @@ export default class ScrollArea extends Component {
         clearTimeout(this.scrollTrackVisibleTimeout);
     }
 
+    validateProps() {
+        if (this.props.width && !/^([0-9]+)(%|px)?$/.test(this.props.width)) {
+            throw new TypeError('Invalid width, must be a numeric or percentage.');
+        }
+
+        if (this.props.height && !/^([0-9]+)(%|px)?$/.test(this.props.height)) {
+            throw new TypeError('Invalid height, must be a numeric or percentage.');
+        }
+    }
+
     getOuterWidth() {
-        return parseInt(this.props.width || DOMHelper.getWidth(this.refs['outer']), 10);
+        let width = this.props.width,
+            isPercentage = /%/.test(width);
+
+        if (isPercentage) {
+            let percentage = parseInt(width, 10) / 100;
+
+            if (process.env.NODE_ENV === 'testing') {
+                return this.props.testParentWidth * percentage;
+            }
+
+            return DOMHelper.getWidth(this.refs.outer) * percentage;
+        }
+
+        return parseInt(this.props.width || DOMHelper.getWidth(this.refs.outer) || 0, 10);
     }
 
     getOuterHeight(fromState = false) {
@@ -70,11 +102,20 @@ export default class ScrollArea extends Component {
             return this.state.outerHeight;
         }
 
-        if (process.env.NODE_ENV === 'testing') {
-            return parseInt(this.props.height || 0, 10);
+        let height = this.props.height,
+            isPercentage = /%/.test(height);
+
+        if (isPercentage) {
+            let percentage = parseInt(height, 10) / 100;
+
+            if (process.env.NODE_ENV === 'testing') {
+                return this.props.testParentHeight * percentage;
+            }
+
+            return DOMHelper.getHeight(this.refs.outer) * percentage;
         }
 
-        return parseInt(this.props.height || DOMHelper.getHeight(this.refs['outer']), 10);
+        return parseInt(this.props.height || DOMHelper.getHeight(this.refs.outer) || 0, 10);
     }
 
     getInnerHeight(fromState = false) {
@@ -86,7 +127,7 @@ export default class ScrollArea extends Component {
             return this.props.testInnerHeight;
         }
 
-        return DOMHelper.getHeight(this.refs['inner']);
+        return DOMHelper.getHeight(this.refs.inner);
     }
 
     getTrackHeight(fromState = false) {
@@ -147,8 +188,8 @@ export default class ScrollArea extends Component {
     }
 
     getInnerMargin() {
-        let outer = this.refs['outer'],
-            inner = this.refs['inner'];
+        let outer = this.refs.outer,
+            inner = this.refs.inner;
 
         if (!inner.offsetWidth || !outer.offsetWidth) {
             return -1;
@@ -157,7 +198,7 @@ export default class ScrollArea extends Component {
         return (inner.offsetWidth - outer.offsetWidth) - 1;
     }
 
-    getScrollTop(target = this.refs['overflow']) {
+    getScrollTop(target = this.refs.overflow) {
         return target && target.scrollTop || 0;
     }
 
@@ -172,7 +213,7 @@ export default class ScrollArea extends Component {
             innerHeight = this.getInnerHeight(),
             outerHeight = this.getOuterHeight();
 
-        if (!DOMHelper.isChildOf(event.target, this.refs['outer'], true)) {
+        if (!DOMHelper.isChildOf(event.target, this.refs.outer, true)) {
             return;
         }
 
@@ -240,8 +281,8 @@ export default class ScrollArea extends Component {
     }
 
     onMouseDown(event) {
-        let position = this.refs['handler'].getPosition(),
-            offset = this.refs['handler'].getOffset();
+        let position = this.refs.handler.getPosition(),
+            offset = this.refs.handler.getOffset();
 
         if (event.pageX < offset.left ||
             !this.state.handlerHover) {
@@ -277,7 +318,7 @@ export default class ScrollArea extends Component {
 
         DOMHelper.ignoreSelection();
 
-        if (!DOMHelper.isChildOf(event.target, this.refs['outer']) &&
+        if (!DOMHelper.isChildOf(event.target, this.refs.outer) &&
             this.isTrackNeedEvents()) {
             this.hideTrack();
         }
@@ -296,7 +337,7 @@ export default class ScrollArea extends Component {
 
         DOMHelper.ignoreSelection();
 
-        this.refs['overflow'].scrollTop = Math.max(Math.min(
+        this.refs.overflow.scrollTop = Math.max(Math.min(
             Math.floor(offsetY * this.getHandlerRatio(true)),
             this.getInnerHeight(true) - this.getOuterHeight(true)
         ), 0);
@@ -307,7 +348,7 @@ export default class ScrollArea extends Component {
             return;
         }
 
-        let offset = this.refs['handler'].getOffset(),
+        let offset = this.refs.handler.getOffset(),
             handlerHover = false;
 
         if (event.pageX > offset.left) {
@@ -335,7 +376,7 @@ export default class ScrollArea extends Component {
     }
 
     goToPos(scrollTop, duration = 0) {
-        let overflow = this.refs['overflow'];
+        let overflow = this.refs.overflow;
 
         if (duration) {
             DOMHelper.scrollTo(overflow, scrollTop, duration);

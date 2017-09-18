@@ -1,15 +1,28 @@
-import _ from 'lodash';
 import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 
 import DOMHelper from '../helpers/DOMHelper';
 
 export default class Handler extends Component {
+    static propTypes = {
+        outerWidth: PropTypes.number,
+        className: PropTypes.string,
+        height: PropTypes.number,
+        top: PropTypes.number
+    }
+
+    constructor(props) {
+        super(props);
+
+        this.references = {};
+    }
+
     getPosition() {
-        return DOMHelper.position(this.refs['handler']);
+        return DOMHelper.position(this.references.handler);
     }
 
     getOffset() {
-        let offset = DOMHelper.offset(this.refs['handler']);
+        let offset = DOMHelper.offset(this.references.handler);
 
         if (process.env.NODE_ENV === 'testing') {
             offset = { top: 0, left: this.props.outerWidth - 5};
@@ -20,7 +33,7 @@ export default class Handler extends Component {
     render() {
         return (
             <div
-                ref='handler'
+                ref={r => this.references.Handler = r}
                 className={this.props.className}
                 style={{
                     height: this.props.height,
