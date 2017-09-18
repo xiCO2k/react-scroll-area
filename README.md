@@ -40,6 +40,6 @@ trackHidden          | bool | false |
 trackHideTime        | int | 1000 | Milliseconds |
 minHandlerHeight     | int | 70 | Pixels |
 trackMargin          | int | 4 | Pixels |
-onScroll             | func |  | callback with { scrollTop: 50, innerHeight: 100 outerHeight: 50, complete: 0.5 } |
+onScroll             | func |  | callback with <br> { <br>scrollTop: 50, <br>innerHeight: 100, <br>outerHeight: 50, <br>complete: 0.5 <br>} |
 
 
