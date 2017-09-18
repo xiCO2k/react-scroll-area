@@ -1,3 +1,5 @@
+[![Build Status](https://travis-ci.org/xiCO2k/react-scroll-area.svg?branch=master)](https://travis-ci.org/xiCO2k/react-scroll-area)
+
 # react-scroll-area
 
 [![NPM](https://nodei.co/npm/xico2k-react-scroll-area.png?downloads=true&downloadRank=true)](https://npmjs.org/package/xico2k-react-scroll-area)
