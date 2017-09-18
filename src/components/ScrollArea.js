@@ -5,6 +5,9 @@ import _ from 'lodash';
 import DOMHelper from '../helpers/DOMHelper';
 import style from './ScrollArea.css';
 
+import Track from './Track';
+import Handler from './Handler';
+
 export default class ScrollArea extends Component {
 
     static propTypes = {
@@ -108,7 +111,7 @@ export default class ScrollArea extends Component {
 
         return Math.min(Math.max(
             this.props.minHandlerHeight,
-            Math.round((trackHeight) / this.getHandlerRatio())
+            Math.round(trackHeight / this.getHandlerRatio())
         ), trackHeight);
     }
 
@@ -122,10 +125,10 @@ export default class ScrollArea extends Component {
             trackHeight = this.getTrackHeight(true),
             handlerHeight = this.getHandlerHeight(trackHeight);
 
-
         if (handlerHeight === this.getMinHandlerHeight()) {
             if (!trackHeight) {
-                throw new TypeError('the trackHeight can\'t be zero');
+                return 0;
+                // throw new TypeError('the trackHeight can\'t be zero');
             }
 
             return (
@@ -228,7 +231,8 @@ export default class ScrollArea extends Component {
     }
 
     onMouseLeave() {
-        if (!this.isTrackNeedEvents() || this.state.isDragging) {
+        if (!this.isTrackNeedEvents() ||
+            this.state.isDragging) {
             return;
         }
 
@@ -236,14 +240,11 @@ export default class ScrollArea extends Component {
     }
 
     onMouseDown(event) {
-        let position = DOMHelper.position(this.refs['handler']),
-            offset = DOMHelper.offset(this.refs['handler']);
+        let position = this.refs['handler'].getPosition(),
+            offset = this.refs['handler'].getOffset();
 
-        if (process.env.NODE_ENV === 'testing') {
-            offset = { top: 0, left: this.getOuterWidth() - 5 };
-        }
-
-        if (event.pageX < offset.left || !this.state.handlerHover) {
+        if (event.pageX < offset.left ||
+            !this.state.handlerHover) {
             return;
         }
 
@@ -251,8 +252,16 @@ export default class ScrollArea extends Component {
             isDragging: true,
             trackActive: !this.props.trackHidden,
             startY: event.pageY,
-            originalY: position.top
+            originalY: this.getTrackHeight(true) * ((this.getScrollTop()) / this.getInnerHeight(true))
         });
+
+        //handlerHeight = 70
+        //height = 100
+        //innerheight = 200
+        //ScrollTop = 100
+        // trackMargin = 10
+        //pos 0 --> top --> 0 -- 1
+        //pos 30 --> top --> 50 -- 1,66666667
 
         this.onMouseMoveFn = this.onMouseMove.bind(this);
         this.onMouseUpFn = this.onMouseUp.bind(this);
@@ -298,12 +307,8 @@ export default class ScrollArea extends Component {
             return;
         }
 
-        let offset = DOMHelper.offset(this.refs['handler']),
+        let offset = this.refs['handler'].getOffset(),
             handlerHover = false;
-
-        if (process.env.NODE_ENV === 'testing') {
-            offset = { top: 0, left: this.getOuterWidth() - 5};
-        }
 
         if (event.pageX > offset.left) {
             handlerHover = true;
@@ -402,23 +407,20 @@ export default class ScrollArea extends Component {
                         {this.props.children}
                     </div>
                 </div>
-                <div
+                <Track
                     ref='track'
                     className={this.getTrackClassNames()}
-                    style={{
-                        top: this.props.trackMargin / 2,
-                        height: this.getTrackHeight(true)
-                    }}
+                    top={this.props.trackMargin / 2}
+                    height={this.getTrackHeight(true)}
                 >
-                    <div
+                    <Handler
                         ref='handler'
                         className={this.getHandleClassNames()}
-                        style={{
-                            height: this.state.handlerHeight,
-                            top: this.getHandlerTop()
-                        }}
+                        top={this.getHandlerTop()}
+                        height={this.state.handlerHeight}
+                        outerWidth={this.getOuterWidth()}
                     />
-                </div>
+                </Track>
             </div>
         );
     }

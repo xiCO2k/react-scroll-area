@@ -31,7 +31,7 @@ export default class App extends Component {
 
         return (
             <div style={style}>
-                <ScrollArea ref="scroll" width="100px" height="100px" trackMargin={20} trackVisible>
+                <ScrollArea ref="scroll" trackMargin={10} trackVisible>
                     <div style={{ width: 10, height: 180, background: 'red', margin: '10px 0' }}></div>
                 </ScrollArea>
 
