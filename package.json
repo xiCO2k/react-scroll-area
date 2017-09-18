@@ -5,6 +5,7 @@
   "homepage": "https://xico2k.github.io/react-scroll-area/",
   "license": "MIT",
   "repository": "https://github.com/xico2k/react-scroll-area",
+  "main": "lib/index.js",
   "devDependencies": {
     "babel-cli": "^6.26.0",
     "babel-jest": "^21.0.2",
