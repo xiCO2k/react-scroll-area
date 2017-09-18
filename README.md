@@ -33,9 +33,9 @@ To render:
 ### Props and Examples
 
 | Property | Type | Default Value | Description |
-|----------|------|---------------|-------------|
-width                | string / number |  | "100%" or "100px" or 100 |
-height               | string / number |  | 100%" |
+|----------|-----------|------------------|----------------------|
+width                | string / number |  | Ex: 100% / 100px / 100 |
+height               | string / number |  | Ex: 100% / 100px / 100 |
 trackHidden          | bool | false |
 trackHideTime        | int | 1000 | Milliseconds |
 minHandlerHeight     | int | 70 | Pixels |
