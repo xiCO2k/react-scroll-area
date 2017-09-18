@@ -88,10 +88,10 @@ export default class ScrollArea extends Component {
                 return this.props.testParentWidth * percentage;
             }
 
-            return DOMHelper.getWidth(this.refs['outer']) * percentage;
+            return DOMHelper.getWidth(this.refs.outer) * percentage;
         }
 
-        return parseInt(this.props.width || DOMHelper.getWidth(this.refs['outer']) || 0, 10);
+        return parseInt(this.props.width || DOMHelper.getWidth(this.refs.outer) || 0, 10);
     }
 
     getOuterHeight(fromState = false) {
@@ -109,10 +109,10 @@ export default class ScrollArea extends Component {
                 return this.props.testParentHeight * percentage;
             }
 
-            return DOMHelper.getHeight(this.refs['outer']) * percentage;
+            return DOMHelper.getHeight(this.refs.outer) * percentage;
         }
 
-        return parseInt(this.props.height || DOMHelper.getHeight(this.refs['outer']) || 0, 10);
+        return parseInt(this.props.height || DOMHelper.getHeight(this.refs.outer) || 0, 10);
     }
 
     getInnerHeight(fromState = false) {
@@ -124,7 +124,7 @@ export default class ScrollArea extends Component {
             return this.props.testInnerHeight;
         }
 
-        return DOMHelper.getHeight(this.refs['inner']);
+        return DOMHelper.getHeight(this.refs.inner);
     }
 
     getTrackHeight(fromState = false) {
@@ -185,8 +185,8 @@ export default class ScrollArea extends Component {
     }
 
     getInnerMargin() {
-        let outer = this.refs['outer'],
-            inner = this.refs['inner'];
+        let outer = this.refs.outer,
+            inner = this.refs.inner;
 
         if (!inner.offsetWidth || !outer.offsetWidth) {
             return -1;
@@ -195,7 +195,7 @@ export default class ScrollArea extends Component {
         return (inner.offsetWidth - outer.offsetWidth) - 1;
     }
 
-    getScrollTop(target = this.refs['overflow']) {
+    getScrollTop(target = this.refs.overflow) {
         return target && target.scrollTop || 0;
     }
 
@@ -210,7 +210,7 @@ export default class ScrollArea extends Component {
             innerHeight = this.getInnerHeight(),
             outerHeight = this.getOuterHeight();
 
-        if (!DOMHelper.isChildOf(event.target, this.refs['outer'], true)) {
+        if (!DOMHelper.isChildOf(event.target, this.refs.outer, true)) {
             return;
         }
 
@@ -278,8 +278,8 @@ export default class ScrollArea extends Component {
     }
 
     onMouseDown(event) {
-        let position = this.refs['handler'].getPosition(),
-            offset = this.refs['handler'].getOffset();
+        let position = this.refs.handler.getPosition(),
+            offset = this.refs.handler.getOffset();
 
         if (event.pageX < offset.left ||
             !this.state.handlerHover) {
@@ -315,7 +315,7 @@ export default class ScrollArea extends Component {
 
         DOMHelper.ignoreSelection();
 
-        if (!DOMHelper.isChildOf(event.target, this.refs['outer']) &&
+        if (!DOMHelper.isChildOf(event.target, this.refs.outer) &&
             this.isTrackNeedEvents()) {
             this.hideTrack();
         }
@@ -334,7 +334,7 @@ export default class ScrollArea extends Component {
 
         DOMHelper.ignoreSelection();
 
-        this.refs['overflow'].scrollTop = Math.max(Math.min(
+        this.refs.overflow.scrollTop = Math.max(Math.min(
             Math.floor(offsetY * this.getHandlerRatio(true)),
             this.getInnerHeight(true) - this.getOuterHeight(true)
         ), 0);
@@ -345,7 +345,7 @@ export default class ScrollArea extends Component {
             return;
         }
 
-        let offset = this.refs['handler'].getOffset(),
+        let offset = this.refs.handler.getOffset(),
             handlerHover = false;
 
         if (event.pageX > offset.left) {
@@ -373,7 +373,7 @@ export default class ScrollArea extends Component {
     }
 
     goToPos(scrollTop, duration = 0) {
-        let overflow = this.refs['overflow'];
+        let overflow = this.refs.overflow;
 
         if (duration) {
             DOMHelper.scrollTo(overflow, scrollTop, duration);
