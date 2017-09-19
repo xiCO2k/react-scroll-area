@@ -1,24 +1,81 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 
+import Handler from './Handler';
+import style from './Track.css';
+
+import DOMHelper from '../helpers/DOMHelper';
+
+export { style };
 export default class Track extends Component {
     static propTypes = {
         className: PropTypes.string,
-        height: PropTypes.number,
-        top: PropTypes.number,
-        children: PropTypes.element
+        margin: PropTypes.number,
+        isActive: PropTypes.bool,
+        isDragging: PropTypes.bool,
+        isHover: PropTypes.bool,
+        minHandlerHeight: PropTypes.number,
+        scrollTop: PropTypes.number,
+        outerWidth: PropTypes.number,
+        outerHeight: PropTypes.number,
+        innerHeight: PropTypes.number
+    };
+
+    static defaultProps = {
+        className: ''
+    };
+
+    constructor(props) {
+        super(props);
+
+        this.state = {};
+        this.references = {};
+    }
+
+    getHeight() {
+        return this.props.outerHeight - this.props.margin;
+    }
+
+    getOffset() {
+        let offset = DOMHelper.offset(this.references.track);
+
+        if (process.env.NODE_ENV === 'testing') {
+            offset = { top: 0, left: this.props.outerWidth - 5};
+        }
+
+        return offset;
+    }
+
+    getClassNames() {
+        let classNames = [style.track, this.props.className];
+
+        if (!this.props.isActive) {
+            classNames.push(style.hidden);
+        }
+
+        return classNames.join(' ');
     }
 
     render() {
         return (
             <div
-                className={this.props.className}
+                ref={r => this.references.track = r}
+                className={this.getClassNames()}
                 style={{
-                    top: this.props.top,
-                    height: this.props.height
+                    top: this.props.margin / 2,
+                    height: this.getHeight()
                 }}
             >
-                {this.props.children}
+                <Handler
+                    ref={r => this.references.handler = r}
+                    scrollTop={this.props.scrollTop}
+                    outerWidth={this.props.outerWidth}
+                    outerHeight={this.getHeight()}
+                    innerHeight={this.props.innerHeight}
+                    minHeight={this.props.minHandlerHeight}
+                    isDragging={this.props.isDragging}
+                    isHover={this.props.isHover}
+                />
             </div>
         );
     }

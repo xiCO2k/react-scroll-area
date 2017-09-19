@@ -1,6 +1,7 @@
 import React from 'react';
 import ScrollArea from './ScrollArea';
 import { shallow, mount } from 'enzyme';
+import { style as trackStyle } from './Track';
 
 describe('Render', () => {
     it('renders correctly', () => {
@@ -149,6 +150,18 @@ describe('Interaction', () => {
             expect(wrapper.state('trackActive')).toBe(true);
         });
 
+        it('has className hidden if is not active', () => {
+            const wrapper = mount(<ScrollArea
+                width='100px'
+                height='100px'
+                testInnerHeight={200}
+            />);
+
+            expect(wrapper.find('Track').hasClass(trackStyle.hidden)).toBe(true);
+            wrapper.instance().onMouseEnter();
+            expect(wrapper.find('Track').hasClass(trackStyle.hidden)).toBe(false);
+        });
+
         it('subtracts the height if the props.trackMargin has value', () => {
             const margin = 10,
                 wrapper = mount(
@@ -275,12 +288,12 @@ describe('Interaction', () => {
             testInnerHeight: 200
         };
 
-        it('sets "handlerHover: true" when the area is hovered', () => {
+        it('sets "trackHover: true" when the area is hovered', () => {
             const wrapper = mount(<ScrollArea {...props} />);
 
             wrapper.instance().onMouseEnter();
             wrapper.instance().onMouseMoveHover({ pageX: 96 });
-            expect(wrapper.state('handlerHover')).toBe(true);
+            expect(wrapper.state('trackHover')).toBe(true);
         });
 
         it('sets "isDragging: true" when the area is onMouseDown()', () => {
