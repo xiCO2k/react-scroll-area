@@ -136,11 +136,10 @@ export default class ScrollArea extends Component {
     }
 
     onResize() {
-        let outerHeight = this.getOuterHeight(),
-            state = {
-                innerHeight: this.getInnerHeight(),
-                outerHeight
-            };
+        let state = {
+            innerHeight: this.getInnerHeight(),
+            outerHeight: this.getOuterHeight()
+        };
 
         if (this.state.innerMargin === -1) {
             state.innerMargin = this.getInnerMargin();
