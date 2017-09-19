@@ -4,7 +4,7 @@
 [![bitHound Dependencies](https://www.bithound.io/github/xiCO2k/react-scroll-area/badges/dependencies.svg)](https://www.bithound.io/github/xiCO2k/react-scroll-area/master/dependencies/npm)
 [![bitHound Dev Dependencies](https://www.bithound.io/github/xiCO2k/react-scroll-area/badges/devDependencies.svg)](https://www.bithound.io/github/xiCO2k/react-scroll-area/master/dependencies/npm)
 
-# react-scroll-area [![Demo](//xico2k.github.com/react-scroll-area/)]
+# react-scroll-area [![Demo](https://img.shields.io/badge/demo-live-brightgreen.svg)](//xico2k.github.com/react-scroll-area/)
 
 [![NPM](https://nodei.co/npm/xico2k-react-scroll-area.png?downloads=true&downloadRank=true)](https://npmjs.org/package/xico2k-react-scroll-area)
 
