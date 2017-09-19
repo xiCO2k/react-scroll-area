@@ -185,7 +185,6 @@ export default class ScrollArea extends Component {
     }
 
     onMouseEnter() {
-        console.log('onMouseEnter')
         if (!this.isTrackNeedEvents()) {
             return;
         }
