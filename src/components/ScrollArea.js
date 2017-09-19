@@ -60,7 +60,7 @@ export default class ScrollArea extends Component {
     }
 
     componentDidUpdate() {
-        if (this.getInnerHeight() !== this.getInnerHeight(true)) {
+        if (this.getInnerHeight() !== this.state.innerHeight) {
             this.onResize();
         }
     }
@@ -86,47 +86,33 @@ export default class ScrollArea extends Component {
         if (isPercentage) {
             let percentage = parseInt(width, 10) / 100;
 
-            if (process.env.NODE_ENV === 'testing') {
-                return this.props.testParentWidth * percentage;
-            }
-
-            return DOMHelper.getWidth(this.references.outer) * percentage;
+            return process.env.NODE_ENV === 'testing' ?
+                this.props.testParentWidth * percentage :
+                DOMHelper.getWidth(this.references.outer) * percentage;
         }
 
         return parseInt(this.props.width || DOMHelper.getWidth(this.references.outer) || 0, 10);
     }
 
-    getOuterHeight(fromState = false) {
-        if (fromState && this.state.outerHeight) {
-            return this.state.outerHeight;
-        }
-
+    getOuterHeight() {
         let height = this.props.height,
             isPercentage = /%/.test(height);
 
         if (isPercentage) {
             let percentage = parseInt(height, 10) / 100;
 
-            if (process.env.NODE_ENV === 'testing') {
-                return this.props.testParentHeight * percentage;
-            }
-
-            return DOMHelper.getHeight(this.references.outer) * percentage;
+            return process.env.NODE_ENV === 'testing' ?
+                this.props.testParentHeight * percentage :
+                DOMHelper.getHeight(this.references.outer) * percentage;
         }
 
         return parseInt(this.props.height || DOMHelper.getHeight(this.references.outer) || 0, 10);
     }
 
-    getInnerHeight(fromState = false) {
-        if (fromState) {
-            return this.state.innerHeight;
-        }
-
-        if (process.env.NODE_ENV === 'testing') {
-            return this.props.testInnerHeight;
-        }
-
-        return DOMHelper.getHeight(this.references.inner);
+    getInnerHeight() {
+        return process.env.NODE_ENV === 'testing' ?
+            this.props.testInnerHeight :
+            DOMHelper.getHeight(this.references.inner);
     }
 
     getInnerMargin() {
@@ -145,9 +131,8 @@ export default class ScrollArea extends Component {
     }
 
     isTrackNeedEvents() {
-        return !this.props.trackHidden &&
-            !this.props.trackVisible &&
-            this.getInnerHeight(true) > this.getOuterHeight(true);
+        return !this.props.trackHidden && !this.props.trackVisible &&
+            this.state.innerHeight > this.state.outerHeight;
     }
 
     onMouseWheel(event) {
@@ -163,7 +148,6 @@ export default class ScrollArea extends Component {
             (event.deltaY < 0 && scrollTop === 0)) {
             event.stopPropagation();
             event.preventDefault();
-            return;
         }
     }
 
@@ -222,8 +206,7 @@ export default class ScrollArea extends Component {
     onMouseDown(event) {
         let offset = this.references.track.getOffset();
 
-        if (event.pageX < offset.left ||
-            !this.state.trackHover) {
+        if (event.pageX < offset.left || !this.state.trackHover) {
             return;
         }
 
@@ -231,7 +214,7 @@ export default class ScrollArea extends Component {
             isDragging: true,
             trackActive: !this.props.trackHidden,
             startY: event.pageY,
-            originalY: this.references.track.getHeight() * ((this.getScrollTop()) / this.getInnerHeight(true))
+            originalY: this.references.track.getHeight() * ((this.getScrollTop()) / this.state.innerHeight)
         });
 
         this.onMouseMoveFn = this.onMouseMove.bind(this);
@@ -268,8 +251,8 @@ export default class ScrollArea extends Component {
         DOMHelper.ignoreSelection();
 
         this.references.overflow.scrollTop = Math.max(Math.min(
-            Math.floor(offsetY * (this.getInnerHeight(true) / (this.getOuterHeight(true) - this.props.trackMargin))),
-            this.getInnerHeight(true) - this.getOuterHeight(true)
+            Math.floor(offsetY * (this.state.innerHeight / (this.state.outerHeight - this.props.trackMargin))),
+            this.state.innerHeight - this.state.outerHeight
         ), 0);
     }
 
@@ -279,11 +262,7 @@ export default class ScrollArea extends Component {
         }
 
         let offset = this.references.track.getOffset(),
-            trackHover = false;
-
-        if (event.pageX > offset.left) {
-            trackHover = true;
-        }
+            trackHover = event.pageX > offset.left;
 
         this.setState({ trackHover });
     }
@@ -301,19 +280,15 @@ export default class ScrollArea extends Component {
 
     triggerScroll() {
         this.onScroll();
-
         return this;
     }
 
     goToPos(scrollTop, duration = 0) {
         let overflow = this.references.overflow;
 
-        if (duration) {
-            DOMHelper.scrollTo(overflow, scrollTop, duration);
-            return;
-        }
-
-        overflow.scrollTop = scrollTop;
+        duration ?
+            DOMHelper.scrollTo(overflow, scrollTop, duration) :
+            overflow.scrollTop = scrollTop;
 
         return this;
     }
@@ -323,7 +298,7 @@ export default class ScrollArea extends Component {
     }
 
     goToBottom(duration = 0) {
-        return this.goToPos(this.getInnerHeight(true) - this.getOuterHeight(true), duration);
+        return this.goToPos(this.state.innerHeight - this.state.outerHeight, duration);
     }
 
     render() {
@@ -363,8 +338,8 @@ export default class ScrollArea extends Component {
                     minHandlerHeight={this.props.minHandlerHeight}
                     scrollTop={this.getScrollTop()}
                     outerWidth={this.getOuterWidth()}
-                    outerHeight={this.getOuterHeight(true)}
-                    innerHeight={this.getInnerHeight(true)}
+                    outerHeight={this.state.outerHeight}
+                    innerHeight={this.state.innerHeight}
                 />
             </div>
         );
