@@ -135,22 +135,6 @@ export default class ScrollArea extends Component {
             this.state.innerHeight > this.state.outerHeight;
     }
 
-    onMouseWheel(event) {
-        var scrollTop = this.getScrollTop(),
-            innerHeight = this.getInnerHeight(),
-            outerHeight = this.getOuterHeight();
-
-        if (!DOMHelper.isChildOf(event.target, this.references.outer, true)) {
-            return;
-        }
-
-        if ((event.deltaY > 0 && scrollTop >= innerHeight - outerHeight) ||
-            (event.deltaY < 0 && scrollTop === 0)) {
-            event.stopPropagation();
-            event.preventDefault();
-        }
-    }
-
     onResize() {
         let outerHeight = this.getOuterHeight(),
             state = {
@@ -163,6 +147,22 @@ export default class ScrollArea extends Component {
         }
 
         this.setState(state);
+    }
+
+    onWheel(event) {
+        let scrollTop = this.getScrollTop(),
+            innerHeight = this.getInnerHeight(),
+            outerHeight = this.getOuterHeight();
+
+        if (!DOMHelper.isChildOf(event.target, this.references.outer, true)) {
+            return;
+        }
+
+        if ((event.deltaY > 0 && scrollTop >= innerHeight - outerHeight) ||
+            (event.deltaY < 0 && scrollTop === 0)) {
+            event.stopPropagation();
+            event.preventDefault();
+        }
     }
 
     onScroll() {
@@ -319,7 +319,7 @@ export default class ScrollArea extends Component {
                     ref={r => this.references.overflow = r}
                     className={style.overflow}
                     onScroll={this.onScroll.bind(this)}
-                    onWheel={this.onMouseWheel.bind(this)}
+                    onWheel={this.onWheel.bind(this)}
                 >
                     <div
                         ref={r => this.references.inner = r}
