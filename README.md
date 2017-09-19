@@ -49,7 +49,7 @@ All props are optional.
 **`trackHideTime`**    | `int`             | 1000  | Milliseconds           |
 **`minHandlerHeight`** | `int`             | 70    | Pixels                 |
 **`trackMargin`**      | `int`             | 4     | Pixels                 |
-**`onScroll`**         | `func`            |       | callback with **`{ scrollTop: 50, innerHeight: 100, outerHeight: 50, complete: 0.5 }`**|
+**`onScroll`**         | `func`            |       | callback with *`{ scrollTop: 50, innerHeight: 100, outerHeight: 50, complete: 0.5 }`*|
 
 ### Methods
 

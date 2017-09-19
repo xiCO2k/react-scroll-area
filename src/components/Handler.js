@@ -74,10 +74,6 @@ export default class Handler extends Component {
         return Math.round(scrollTop / this.getRatio());
     }
 
-    getPosition() {
-        return DOMHelper.position(this.references.handler);
-    }
-
     getOffset() {
         let offset = DOMHelper.offset(this.references.handler);
 

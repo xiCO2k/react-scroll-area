@@ -1,5 +1,4 @@
-const
-    { resolve } = require('path'),
+const { resolve } = require('path'),
     webpack = require('webpack');
 
 module.exports = {

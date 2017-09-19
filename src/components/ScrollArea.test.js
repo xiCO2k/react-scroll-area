@@ -2,6 +2,7 @@ import React from 'react';
 import ScrollArea from './ScrollArea';
 import { shallow, mount } from 'enzyme';
 import { style as trackStyle } from './Track';
+import { style as handlerStyle } from './Handler';
 
 describe('Render', () => {
     it('renders correctly', () => {
@@ -279,6 +280,14 @@ describe('Interaction', () => {
             expect(wrapper.find('Handler').getDOMNode().style.top).toBe('50px');
 
         });
+
+        it('sets "trackHover: true" when the area is hovered', () => {
+            const wrapper = mount(<ScrollArea width='100px' height='100px' testInnerHeight={200} />);
+
+            wrapper.instance().onMouseEnter();
+            wrapper.instance().onMouseMoveHover({ pageX: 96 });
+            expect(wrapper.state('trackHover')).toBe(true);
+        });
     });
 
     describe('Handler', () => {
@@ -287,14 +296,6 @@ describe('Interaction', () => {
             height: '100px',
             testInnerHeight: 200
         };
-
-        it('sets "trackHover: true" when the area is hovered', () => {
-            const wrapper = mount(<ScrollArea {...props} />);
-
-            wrapper.instance().onMouseEnter();
-            wrapper.instance().onMouseMoveHover({ pageX: 96 });
-            expect(wrapper.state('trackHover')).toBe(true);
-        });
 
         it('sets "isDragging: true" when the area is onMouseDown()', () => {
             const wrapper = mount(<ScrollArea {...props} />);
@@ -310,6 +311,22 @@ describe('Interaction', () => {
 
             wrapper.instance().onMouseDown({ pageX: 96 });
             expect(wrapper.state('isDragging')).toBe(false);
+        });
+
+        it('has className isDragging if state.isDragging = true', () => {
+            const wrapper = mount(<ScrollArea {...props} />);
+            wrapper.instance().onMouseEnter();
+            wrapper.instance().onMouseMoveHover({ pageX: 96 });
+            wrapper.instance().onMouseDown({ pageX: 96 });
+            expect(wrapper.find('Handler').hasClass(handlerStyle.dragging)).toBe(true);
+        });
+
+        it('has className isHover if state.trackHover = true', () => {
+            const wrapper = mount(<ScrollArea {...props} />);
+
+            wrapper.instance().onMouseEnter();
+            wrapper.instance().onMouseMoveHover({ pageX: 96 });
+            expect(wrapper.find('Handler').hasClass(handlerStyle.hover)).toBe(true);
         });
 
         it('changes the scrollTop when isDragging', () => {
