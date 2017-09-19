@@ -36,7 +36,9 @@ To render:
 </ScrollArea>
 ```
 
-### Props and Examples
+### Props
+
+All props are optional.
 
 | Property       | Type            | Default Value | Description            |
 |----------------|-----------------|---------------|------------------------|
@@ -50,6 +52,7 @@ onScroll         | func            |               | callback with { <br>scrollT
 
 ### Methods
 
-* goToBottom(animate = false);
-* goToTop(animate = false);
-* goToPos(pos = 50, animate = false);
+* goToBottom(duration = 400);
+* goToTop(duration = 400);
+* goToPos(pos = 50, duration = 400);
+* triggerScroll();
