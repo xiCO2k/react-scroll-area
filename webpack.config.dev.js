@@ -17,6 +17,10 @@ module.exports = {
                 'css-loader?importLoaders=1&modules'
             ],
             exclude: /node_modules/
+        }, {
+            test: /\.(jpe?g|png|gif|svg)/,
+            use: ['file-loader'],
+            exclude: /node_modules/
         }]
     }
 };

@@ -1,3 +1,25 @@
+/*  imported from App.css  */
+
+.App__wrapper___1mIKZ {
+    width: 100%; height: 100%;
+    max-width: 980px;
+    margin: auto;
+}
+
+.App__example___3aKkg {
+    margin-bottom: 40px;
+}
+
+.App__example___3aKkg img {
+    display: block;
+    pointer-events: none;
+}
+
+.App__exampleContainer___39ZFc {
+    width: 360px;
+    height: 500px;
+    background: #FFF;
+}
 /*  imported from ScrollArea.css  */
 
 .ScrollArea__outer___37v-o {
@@ -32,8 +54,9 @@
  .ScrollArea__inner___34zZx:after {
     clear: both;
 }
+/*  imported from Track.css  */
 
-.ScrollArea__track___1Rpps {
+.Track__track___UisIH {
     position: absolute;
     top: 0px; right: 2px;
     width: 7px;
@@ -54,7 +77,12 @@
     -o-transition: opacity .4s linear;
 }
 
-.ScrollArea__handler___hkHU7 {
+.Track__hidden___ZW_yW {
+    opacity: 0;
+}
+/*  imported from Handler.css  */
+
+.Handler__handler___1Y841 {
     position: absolute;
     top: 0px; left: -1px;
     width: 7px; height: 50px;
@@ -69,11 +97,6 @@
     -o-transition: background .2s linear;
 }
 
-.ScrollArea__handlerHover___coLlQ,
-.ScrollArea__handlerIsDragging___34UZt {
+.Handler__hover___2edsf, .Handler__dragging___3Cd15 {
     background: #909090;
-}
-
-.ScrollArea__trackHidden_____l1I {
-    opacity: 0;
 }

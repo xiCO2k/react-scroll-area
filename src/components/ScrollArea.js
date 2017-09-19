@@ -132,7 +132,7 @@ export default class ScrollArea extends Component {
 
     isTrackNeedEvents() {
         return !this.props.trackHidden && !this.props.trackVisible &&
-            this.state.innerHeight > this.state.outerHeight;
+            this.getInnerHeight() > this.state.outerHeight;
     }
 
     onResize() {
@@ -185,6 +185,7 @@ export default class ScrollArea extends Component {
     }
 
     onMouseEnter() {
+        console.log('onMouseEnter')
         if (!this.isTrackNeedEvents()) {
             return;
         }
