@@ -29,7 +29,7 @@ module.exports = {
             use: [{
                 loader: 'file-loader',
                 options: {
-                    name: '[path][name].[ext]'
+                    name: '[name].[ext]'
                 }
             }],
             exclude: /node_modules/

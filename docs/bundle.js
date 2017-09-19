@@ -40800,7 +40800,7 @@ exports.default = Handler;
 /* 195 */
 /***/ (function(module, exports, __webpack_require__) {
 
-module.exports = __webpack_require__.p + "src/demo/example.png";
+module.exports = __webpack_require__.p + "example.png";
 
 /***/ }),
 /* 196 */
