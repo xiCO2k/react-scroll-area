@@ -1,5 +1,6 @@
 [![Build Status](https://travis-ci.org/xiCO2k/react-scroll-area.svg?branch=master)](https://travis-ci.org/xiCO2k/react-scroll-area)
 [![npm downloads](https://img.shields.io/npm/dm/xico2k-react-scroll-area.svg?style=flat-square)](https://www.npmjs.com/package/xico2k-react-scroll-area)
+[![bitHound Code](https://www.bithound.io/github/xiCO2k/react-scroll-area/badges/code.svg)](https://www.bithound.io/github/xiCO2k/react-scroll-area)
 [![bitHound Dependencies](https://www.bithound.io/github/xiCO2k/react-scroll-area/badges/dependencies.svg)](https://www.bithound.io/github/xiCO2k/react-scroll-area/master/dependencies/npm)
 [![bitHound Dev Dependencies](https://www.bithound.io/github/xiCO2k/react-scroll-area/badges/devDependencies.svg)](https://www.bithound.io/github/xiCO2k/react-scroll-area/master/dependencies/npm)
 
@@ -47,4 +48,8 @@ minHandlerHeight     | int | 70 | Pixels |
 trackMargin          | int | 4 | Pixels |
 onScroll             | func |  | callback with { <br>scrollTop: 50, <br>    innerHeight: 100, <br>  outerHeight: 50, <br>   complete: 0.5 } |
 
+### Methods
 
+* goToBottom(animate = false);
+* goToTop(animate = false);
+* goToPos(pos = 50, animate = false);
