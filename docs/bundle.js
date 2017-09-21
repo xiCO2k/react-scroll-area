@@ -40955,7 +40955,7 @@ ScrollArea.propTypes = {
     minHandlerHeight: _propTypes2.default.number,
     trackMargin: _propTypes2.default.number,
     onScroll: _propTypes2.default.func,
-    children: _propTypes2.default.oneOfType([_propTypes2.default.element, _propTypes2.default.string]),
+    children: _propTypes2.default.node,
 
     className: _propTypes2.default.string,
     innerClassName: _propTypes2.default.string,
@@ -41720,7 +41720,7 @@ var Inner = function (_Component) {
 Inner.propTypes = {
     innerMargin: _propTypes2.default.number,
     className: _propTypes2.default.string,
-    children: _propTypes2.default.oneOfType([_propTypes2.default.element, _propTypes2.default.string])
+    children: _propTypes2.default.node
 };
 exports.default = Inner;
 
