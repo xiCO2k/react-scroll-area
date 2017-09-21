@@ -50,6 +50,11 @@ All props are optional.
 **`minHandlerHeight`** | `int`             | 70    | Pixels                 |
 **`trackMargin`**      | `int`             | 4     | Pixels                 |
 **`onScroll`**         | `func`            |       | callback with *`{ scrollTop: 50, innerHeight: 100, outerHeight: 50, complete: 0.5 }`*|
+**`className`**         | `string`         |       | class added to the outer container |
+**`innerClassName`**    | `string`         |       | class added to the inner container |
+**`overflowClassName`** | `string`         |       | class added to the overflow container |
+**`trackClassName`**    | `string`         |       | class added to the track container |
+**`handlerClassName`**  | `string`         |       | class added to the handler container |
 
 ### Methods
 

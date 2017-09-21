@@ -25,7 +25,7 @@ export default class App extends Component {
                 <div className="columns is-multiline">
                     <div className="column">
                         <div className={style.example}>
-                            <h2 className="title is-5">Without Params</h2>
+                            <h2 className="title is-5">Without params</h2>
                             <div className={style.preview}>
                                 <div className={style.exampleContainer}>
                                     <ScrollArea>
@@ -39,7 +39,7 @@ export default class App extends Component {
                     </div>
                     <div className="column">
                         <div className={style.example}>
-                            <h2 className="title is-5">With Track always visible</h2>
+                            <h2 className="title is-5">Always visible</h2>
                             <div className={style.preview}>
                                 <div className={style.exampleContainer}>
                                     <ScrollArea trackVisible>
@@ -53,7 +53,7 @@ export default class App extends Component {
                     </div>
                     <div className="column">
                         <div className={style.example}>
-                            <h2 className="title is-5">With Track always hidden</h2>
+                            <h2 className="title is-5">Always hidden</h2>
                             <div className={style.preview}>
                                 <div className={style.exampleContainer}>
                                     <ScrollArea trackHidden>
@@ -81,7 +81,7 @@ export default class App extends Component {
                     </div>
                     <div className="column">
                         <div className={style.example}>
-                            <h2 className="title is-5">With track hide time set to zero</h2>
+                            <h2 className="title is-5">With hide time set to zero</h2>
                             <div className={style.preview}>
                                 <div className={style.exampleContainer}>
                                     <ScrollArea trackHideTime={0}>
@@ -95,7 +95,7 @@ export default class App extends Component {
                     </div>
                     <div className="column">
                         <div className={style.example}>
-                            <h2 className="title is-5">With track margin set to 100px</h2>
+                            <h2 className="title is-5">With margin set to 100px</h2>
                             <div className={style.preview}>
                                 <div className={style.exampleContainer}>
                                     <ScrollArea trackMargin={100} trackVisible>

@@ -33,6 +33,7 @@
     "webpack-dev-server": "^2.8.2"
   },
   "dependencies": {
+    "classname": "^0.0.0",
     "lodash": "^4.17.4",
     "prop-types": "^15.5.10",
     "react": ">= 0.13.x",

@@ -51,6 +51,46 @@ describe('Render', () => {
         expect(() => shallow(<ScrollArea width={100} height='dummy' />)
             .instance().validateProps()).toThrow();
     });
+
+    describe('classNames', () => {
+        let wrapper,
+            props = {
+                className: 'outer-custom-class outer-custom-class-2',
+                innerClassName: 'inner-custom-class',
+                overflowClassName: 'overflow-custom-class',
+                trackClassName: 'track-custom-class',
+                handlerClassName: 'handler-custom-class'
+            };
+
+        beforeEach(() => {
+            wrapper = mount(<ScrollArea {...props} />);
+        });
+
+        it('ScrollArea has classNames sent from the prop.className', () => {
+            let classNames = props.className.split(' ');
+            classNames.map(className => expect(wrapper.hasClass(className)).toBe(true));
+        });
+
+        it('Overflow has classNames sent from the prop.overflowClassName', () => {
+            let classNames = props.overflowClassName.split(' ');
+            classNames.map(className => expect(wrapper.find('Overflow').hasClass(className)).toBe(true));
+        });
+
+        it('Inner has classNames sent from the prop.innerClassName', () => {
+            let classNames = props.innerClassName.split(' ');
+            classNames.map(className => expect(wrapper.find('Inner').hasClass(className)).toBe(true));
+        });
+
+        it('Track has classNames sent from the prop.trackClassName', () => {
+            let classNames = props.trackClassName.split(' ');
+            classNames.map(className => expect(wrapper.find('Track').hasClass(className)).toBe(true));
+        });
+
+        it('Handler has className sent from the prop.handlerClassName', () => {
+            let classNames = props.handlerClassName.split(' ');
+            classNames.map(className => expect(wrapper.find('Handler').hasClass(className)).toBe(true));
+        });
+    });
 });
 
 describe('Interaction', () => {
@@ -75,14 +115,15 @@ describe('Interaction', () => {
         jest.useFakeTimers();
 
         wrapper.instance().goToBottom();
-        expect(wrapper.instance().references.overflow.scrollTop).toBe(bottomPos);
 
-        wrapper.instance().references.overflow.scrollTop = 0;
+        expect(wrapper.find("Overflow").getDOMNode().scrollTop).toBe(bottomPos);
+
+        wrapper.find("Overflow").getDOMNode().scrollTop = 0;
         wrapper.instance().goToBottom(400);
 
         jest.runTimersToTime(400);
 
-        expect(wrapper.instance().references.overflow.scrollTop).toBe(bottomPos);
+        expect(wrapper.find("Overflow").getDOMNode().scrollTop).toBe(bottomPos);
 
     });
 
@@ -98,21 +139,21 @@ describe('Interaction', () => {
 
         jest.useFakeTimers();
 
-        wrapper.instance().references.overflow.scrollTop = 100;
+        wrapper.find("Overflow").getDOMNode().scrollTop = 100;
         wrapper.instance()
             .triggerScroll()
             .goToTop();
 
-        expect(wrapper.instance().references.overflow.scrollTop).toBe(0);
+        expect(wrapper.find("Overflow").getDOMNode().scrollTop).toBe(0);
 
-        wrapper.instance().references.overflow.scrollTop = 100;
+        wrapper.find("Overflow").getDOMNode().scrollTop = 100;
         wrapper.instance()
             .triggerScroll()
             .goToTop(400);
 
         jest.runTimersToTime(400);
 
-        expect(wrapper.instance().references.overflow.scrollTop).toBe(0);
+        expect(wrapper.find("Overflow").getDOMNode().scrollTop).toBe(0);
     });
 
     it('scrolls to "pos" when the goToPos() is called', () => {
@@ -126,17 +167,16 @@ describe('Interaction', () => {
         jest.useFakeTimers();
 
         wrapper.instance().goToPos(100);
-        expect(wrapper.instance().references.overflow.scrollTop).toBe(100);
+        expect(wrapper.find("Overflow").getDOMNode().scrollTop).toBe(100);
 
         wrapper.instance().goToPos(50, 400);
 
         jest.runTimersToTime(400);
 
-        expect(wrapper.instance().references.overflow.scrollTop).toBe(50);
+        expect(wrapper.find("Overflow").getDOMNode().scrollTop).toBe(50);
     });
 
     describe('Track', () => {
-
         it('shows when mouse enter', () => {
             const wrapper = mount(<ScrollArea
                 width='100px'
@@ -336,18 +376,18 @@ describe('Interaction', () => {
             wrapper.instance().onMouseMoveHover({ pageX: 96 });
             wrapper.instance().onMouseDown({ pageX: 96, pageY: 0 });
             wrapper.instance().onMouseMoveFn({ pageY: 10 });
-            expect(wrapper.instance().references.overflow.scrollTop).toBe(20);
+            expect(wrapper.find("Overflow").getDOMNode().scrollTop).toBe(20);
 
             wrapper.instance().onMouseMoveFn({ pageY: 5 });
-            expect(wrapper.instance().references.overflow.scrollTop).toBe(10);
+            expect(wrapper.find("Overflow").getDOMNode().scrollTop).toBe(10);
 
             //Test the minimum
             wrapper.instance().onMouseMoveFn({ pageY: -2 });
-            expect(wrapper.instance().references.overflow.scrollTop).toBe(0);
+            expect(wrapper.find("Overflow").getDOMNode().scrollTop).toBe(0);
 
             //Test the maximum
             wrapper.instance().onMouseMoveFn({ pageY: 10000 });
-            expect(wrapper.instance().references.overflow.scrollTop).toBe(props.testInnerHeight - parseInt(props.height, 10));
+            expect(wrapper.find("Overflow").getDOMNode().scrollTop).toBe(props.testInnerHeight - parseInt(props.height, 10));
         });
 
         it('changes the scrollTop when isDragging correctly if it has the trackMargin', () => {
@@ -357,7 +397,7 @@ describe('Interaction', () => {
             wrapper.instance().onMouseMoveHover({ pageX: 96 });
             wrapper.instance().onMouseDown({ pageX: 96, pageY: 0 });
             wrapper.instance().onMouseMoveFn({ pageY: 9 });
-            expect(wrapper.instance().references.overflow.scrollTop).toBe(20);
+            expect(wrapper.find("Overflow").getDOMNode().scrollTop).toBe(20);
         });
 
         it('hides track when onMouseUp on window if isDragging is true', () => {
@@ -387,12 +427,12 @@ describe('Interaction', () => {
         it('changes the top after scrolling', () => {
             const wrapper = mount(<ScrollArea {...props} />);
 
-            wrapper.instance().references.overflow.scrollTop = 100;
+            wrapper.find("Overflow").getDOMNode().scrollTop = 100;
             wrapper.instance().onScroll();
 
             expect(wrapper.find('Handler').getDOMNode().style.top).toBe('25px');
 
-            wrapper.instance().references.overflow.scrollTop = 0;
+            wrapper.find("Overflow").getDOMNode().scrollTop = 0;
             wrapper.instance().onScroll();
 
             expect(wrapper.find('Handler').getDOMNode().style.top).toBe('0px');
@@ -440,18 +480,18 @@ describe('Interaction', () => {
             const trackMargin = 100,
                 height = 500,
                 wrapper = mount(
-                <ScrollArea
-                    {...props}
-                    height={height}
-                    testInnerHeight={10000}
-                    trackMargin={trackMargin}
-                    minHandlerHeight={height}
-                />
-            );
+                    <ScrollArea
+                        {...props}
+                        height={height}
+                        testInnerHeight={10000}
+                        trackMargin={trackMargin}
+                        minHandlerHeight={height}
+                    />
+                );
 
             expect(wrapper.find('Handler').getDOMNode().style.height).toBe((height - trackMargin) + 'px');
 
-            wrapper.instance().references.overflow.scrollTop = 250;
+            wrapper.find("Overflow").getDOMNode().scrollTop = 250;
             wrapper.instance().triggerScroll();
 
             expect(wrapper.find('Handler').getDOMNode().style.top).toBe('0px');
