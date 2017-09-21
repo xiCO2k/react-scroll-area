@@ -5,7 +5,7 @@ export default class Inner extends Component {
     static propTypes = {
         innerMargin: PropTypes.number,
         className: PropTypes.string,
-        children: PropTypes.oneOfType([PropTypes.element, PropTypes.string])
+        children: PropTypes.node
     };
 
     render() {

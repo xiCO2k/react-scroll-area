@@ -22,7 +22,7 @@ export default class ScrollArea extends Component {
         minHandlerHeight: PropTypes.number,
         trackMargin: PropTypes.number,
         onScroll: PropTypes.func,
-        children: PropTypes.oneOfType([PropTypes.element, PropTypes.string]),
+        children: PropTypes.node,
 
         className: PropTypes.string,
         innerClassName: PropTypes.string,
