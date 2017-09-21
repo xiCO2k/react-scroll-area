@@ -43,18 +43,18 @@ All props are optional.
 
 | Name | Type | Default | Description |
 |:----:|:----:|:-------:|:------------|
-**`width`**            | `string / number` |       | Ex: 100% / 100px / 100 |
-**`height`**           | `string / number` |       | Ex: 100% / 100px / 100 |
-**`trackHidden`**      | `bool`            | false |                        |
-**`trackHideTime`**    | `int`             | 1000  | Milliseconds           |
-**`minHandlerHeight`** | `int`             | 70    | Pixels                 |
-**`trackMargin`**      | `int`             | 4     | Pixels                 |
-**`onScroll`**         | `func`            |       | callback with *`{ scrollTop: 50, innerHeight: 100, outerHeight: 50, complete: 0.5 }`*|
-**`className`**         | `string`         |       | class added to the outer container |
-**`innerClassName`**    | `string`         |       | class added to the inner container |
-**`overflowClassName`** | `string`         |       | class added to the overflow container |
-**`trackClassName`**    | `string`         |       | class added to the track container |
-**`handlerClassName`**  | `string`         |       | class added to the handler container |
+**`width`**             | `string / number` |       | Ex: 100% / 100px / 100 |
+**`height`**            | `string / number` |       | Ex: 100% / 100px / 100 |
+**`trackHidden`**       | `bool`            | false |                        |
+**`trackHideTime`**     | `int`             | 1000  | Milliseconds           |
+**`minHandlerHeight`**  | `int`             | 70    | Pixels                 |
+**`trackMargin`**       | `int`             | 4     | Pixels                 |
+**`onScroll`**          | `func`            |       | callback with *`{ scrollTop: 50, innerHeight: 100, outerHeight: 50, complete: 0.5 }`*|
+**`className`**         | `string`          |       | class added to the outer container |
+**`innerClassName`**    | `string`          |       | class added to the inner container |
+**`overflowClassName`** | `string`          |       | class added to the overflow container |
+**`trackClassName`**    | `string`          |       | class added to the track container |
+**`handlerClassName`**  | `string`          |       | class added to the handler container |
 
 ### Methods
 
