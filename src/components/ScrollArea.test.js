@@ -53,18 +53,14 @@ describe('Render', () => {
     });
 
     describe('classNames', () => {
-        let wrapper,
-            props = {
+        let props = {
                 className: 'outer-custom-class outer-custom-class-2',
                 innerClassName: 'inner-custom-class',
                 overflowClassName: 'overflow-custom-class',
                 trackClassName: 'track-custom-class',
                 handlerClassName: 'handler-custom-class'
-            };
-
-        beforeEach(() => {
+            },
             wrapper = mount(<ScrollArea {...props} />);
-        });
 
         it('ScrollArea has classNames sent from the prop.className', () => {
             let classNames = props.className.split(' ');

@@ -6,7 +6,7 @@ export default class Overflow extends Component {
         className: PropTypes.string,
         onScroll: PropTypes.func,
         onWheel: PropTypes.func,
-        children: PropTypes.element
+        children: PropTypes.node
     };
 
     render() {
