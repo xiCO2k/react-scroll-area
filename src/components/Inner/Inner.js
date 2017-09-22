@@ -1,11 +1,13 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
+import className from 'classname';
+import style from './Inner.css';
 
-export default class Overflow extends Component {
+export { style };
+export default class Inner extends Component {
     static propTypes = {
+        innerMargin: PropTypes.number,
         className: PropTypes.string,
-        onScroll: PropTypes.func,
-        onWheel: PropTypes.func,
         children: PropTypes.node
     };
 
@@ -13,9 +15,8 @@ export default class Overflow extends Component {
         return (
             <div
                 ref={r => this.node = r}
-                className={this.props.className}
-                onScroll={this.props.onScroll}
-                onWheel={this.props.onWheel}
+                className={className(style.inner, this.props.className)}
+                style={{marginRight: this.props.innerMargin}}
             >
                 {this.props.children}
             </div>

@@ -1,0 +1,13 @@
+.inner {
+    position: relative;
+}
+
+.inner:before,
+.inner:after {
+    content: " ";
+    display: table;
+}
+
+ .inner:after {
+    clear: both;
+}

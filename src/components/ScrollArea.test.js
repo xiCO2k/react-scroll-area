@@ -1,8 +1,8 @@
 import React from 'react';
 import ScrollArea from './ScrollArea';
 import { shallow, mount } from 'enzyme';
-import { style as trackStyle } from './Track';
-import { style as handlerStyle } from './Handler';
+import { style as trackStyle } from './Track/Track';
+import { style as handlerStyle } from './Track/Handler/Handler';
 
 describe('Render', () => {
     it('renders correctly', () => {

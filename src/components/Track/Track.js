@@ -1,11 +1,9 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import className from 'classname';
-
-import Handler from './Handler';
+import Handler from './Handler/Handler';
 import style from './Track.css';
-
-import DOMHelper from '../helpers/DOMHelper';
+import DOMHelper from '../../helpers/DOMHelper';
 
 export { style };
 export default class Track extends Component {

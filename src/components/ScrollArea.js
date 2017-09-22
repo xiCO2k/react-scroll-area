@@ -6,9 +6,9 @@ import className from 'classname';
 import DOMHelper from '../helpers/DOMHelper';
 import style from './ScrollArea.css';
 
-import Track from './Track';
-import Overflow from './Overflow';
-import Inner from './Inner';
+import Track from './Track/Track';
+import Overflow from './Overflow/Overflow';
+import Inner from './Inner/Inner';
 
 export default class ScrollArea extends Component {
 
@@ -331,13 +331,13 @@ export default class ScrollArea extends Component {
             >
                 <Overflow
                     ref={r => this.references.overflow = r}
-                    className={className(style.overflow, this.props.overflowClassName)}
+                    className={this.props.overflowClassName}
                     onScroll={this.onScroll.bind(this)}
                     onWheel={this.onWheel.bind(this)}
                 >
                     <Inner
                         ref={r => this.references.inner = r}
-                        className={className(style.inner, this.props.innerClassName)}
+                        className={this.props.innerClassName}
                         innerMargin={this.state.innerMargin}
                     >
                         {this.props.children}
