@@ -168,7 +168,7 @@ export default class ScrollArea extends Component {
     }
 
     goToPos(scrollTop, duration = 0) {
-        let overflow = this.references.overflow;
+        let overflow = this.references.overflow.node;
 
         duration ?
             DOMHelper.scrollTo(overflow, scrollTop, duration) :
@@ -351,7 +351,6 @@ export default class ScrollArea extends Component {
 
                     className={this.props.trackClassName}
                     handlerClassName={this.props.handlerClassName}
-
                     isActive={this.state.trackActive}
                     isDragging={this.state.isDragging}
                     isHover={this.state.trackHover}

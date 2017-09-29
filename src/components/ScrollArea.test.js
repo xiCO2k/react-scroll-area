@@ -291,7 +291,6 @@ describe('Interaction', () => {
             );
 
             expect(wrapper.state('trackActive')).toBe(true);
-
             wrapper.instance().onMouseEnter();
             wrapper.instance().onMouseLeave();
 
