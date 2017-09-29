@@ -11,6 +11,14 @@ export default class Inner extends Component {
         children: PropTypes.node
     };
 
+    constructor(props) {
+        super(props);
+
+        this.state = {
+            node: null
+        }
+    }
+
     render() {
         return (
             <div

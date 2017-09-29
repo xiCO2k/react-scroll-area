@@ -186,6 +186,7 @@ export default class ScrollArea extends Component {
     }
 
     //Events
+
     onResize = event => {
         let state = {
             innerHeight: this.getInnerHeight(),
@@ -197,7 +198,7 @@ export default class ScrollArea extends Component {
         }
 
         this.setState(state);
-    };
+    }
 
     onWheel = event => {
         let scrollTop = this.getScrollTop(),

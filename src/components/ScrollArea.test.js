@@ -1,12 +1,19 @@
 import React from 'react';
 import ScrollArea from './ScrollArea';
-import { shallow, mount } from 'enzyme';
+import Enzyme, { shallow, mount } from 'enzyme';
+import Adapter from 'enzyme-adapter-react-16';
 import { style as trackStyle } from './Track/Track';
 import { style as handlerStyle } from './Track/Handler/Handler';
 
+Enzyme.configure({ adapter: new Adapter() });
+
+global.requestAnimationFrame = function(callback) {
+  setTimeout(callback, 0);
+};
+
 describe('Render', () => {
     it('renders correctly', () => {
-        expect(shallow(<ScrollArea />)).toHaveLength(1);
+        expect(mount(<ScrollArea />)).toHaveLength(1);
     });
 
     it('has no width and height on the style if there is no props', () => {
@@ -194,9 +201,9 @@ describe('Interaction', () => {
                 testInnerHeight={200}
             />);
 
-            expect(wrapper.find('Track').hasClass(trackStyle.hidden)).toBe(true);
+            expect(wrapper.find('Track').getDOMNode().classList.contains(trackStyle.hidden)).toBe(true);
             wrapper.instance().onMouseEnter();
-            expect(wrapper.find('Track').hasClass(trackStyle.hidden)).toBe(false);
+            expect(wrapper.find('Track').getDOMNode().classList.contains(trackStyle.hidden)).toBe(false);
         });
 
         it('subtracts the height if the props.trackMargin has value', () => {
@@ -353,7 +360,7 @@ describe('Interaction', () => {
             wrapper.instance().onMouseEnter();
             wrapper.instance().onMouseMoveHover({ pageX: 96 });
             wrapper.instance().onMouseDown({ pageX: 96 });
-            expect(wrapper.find('Handler').hasClass(handlerStyle.dragging)).toBe(true);
+            expect(wrapper.find('Handler').getDOMNode().classList.contains(handlerStyle.dragging)).toBe(true);
         });
 
         it('has className isHover if state.trackHover = true', () => {
@@ -361,7 +368,7 @@ describe('Interaction', () => {
 
             wrapper.instance().onMouseEnter();
             wrapper.instance().onMouseMoveHover({ pageX: 96 });
-            expect(wrapper.find('Handler').hasClass(handlerStyle.hover)).toBe(true);
+            expect(wrapper.find('Handler').getDOMNode().classList.contains(handlerStyle.hover)).toBe(true);
         });
 
         it('changes the scrollTop when isDragging', () => {
