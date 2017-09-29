@@ -1,15 +1,15 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-
-import Handler from './Handler';
+import className from 'classname';
+import Handler from './Handler/Handler';
 import style from './Track.css';
-
-import DOMHelper from '../helpers/DOMHelper';
+import DOMHelper from '../../helpers/DOMHelper';
 
 export { style };
 export default class Track extends Component {
     static propTypes = {
         className: PropTypes.string,
+        handlerClassName: PropTypes.string,
         margin: PropTypes.number,
         isActive: PropTypes.bool,
         isDragging: PropTypes.bool,
@@ -46,21 +46,15 @@ export default class Track extends Component {
         return offset;
     }
 
-    getClassNames() {
-        let classNames = [style.track, this.props.className];
-
-        if (!this.props.isActive) {
-            classNames.push(style.hidden);
-        }
-
-        return classNames.join(' ');
-    }
-
     render() {
         return (
             <div
                 ref={r => this.references.track = r}
-                className={this.getClassNames()}
+                className={className({
+                    [style.track]: true,
+                    [this.props.className]: true,
+                    [style.hidden]: !this.props.isActive
+                })}
                 style={{
                     top: this.props.margin / 2,
                     height: this.getHeight()
@@ -68,6 +62,7 @@ export default class Track extends Component {
             >
                 <Handler
                     ref={r => this.references.handler = r}
+                    className={this.props.handlerClassName}
                     scrollTop={this.props.scrollTop}
                     outerWidth={this.props.outerWidth}
                     outerHeight={this.getHeight()}

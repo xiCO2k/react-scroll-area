@@ -1,6 +1,6 @@
 {
   "name": "xico2k-react-scroll-area",
-  "version": "0.1.2",
+  "version": "1.0.4",
   "author": "Francisco Madeira",
   "homepage": "https://xico2k.github.io/react-scroll-area/",
   "license": "MIT",
@@ -15,7 +15,6 @@
     "babel-preset-env": "^1.6.0",
     "babel-preset-react": "^6.24.1",
     "babel-preset-stage-0": "^6.24.1",
-    "cross-env": "^5.0.5",
     "css-loader": "^0.28.7",
     "enzyme": "^2.9.1",
     "eslint": "^4.7.0",
@@ -33,16 +32,17 @@
     "webpack-dev-server": "^2.8.2"
   },
   "dependencies": {
+    "classname": "^0.0.0",
     "lodash": "^4.17.4",
     "prop-types": "^15.5.10",
     "react": ">= 0.13.x",
     "react-dom": ">= 0.13.x"
   },
   "scripts": {
-    "start": "cross-env NODE_ENV=development webpack-dev-server --config webpack.config.dev.js --open",
-    "build": "rm -rf docs && cross-env NODE_ENV=development webpack --config webpack.config.docs.js",
-    "lib": "rm -rf lib && cross-env NODE_ENV=production babel src --out-dir lib --copy-files --ignore '**/entry.js, **/demo, **/*.test.js' && webpack",
-    "test": "cross-env NODE_ENV=testing jest",
+    "start": "NODE_ENV=development webpack-dev-server --config webpack.config.dev.js --open",
+    "build": "rm -rf docs && NODE_ENV=development webpack --config webpack.config.docs.js",
+    "lib": "rm -rf lib && NODE_ENV=production babel src --out-dir lib --copy-files --ignore '**/entry.js, **/demo, **/*.test.js' && webpack",
+    "test": "NODE_ENV=testing jest",
     "lint": "eslint ."
   },
   "jest": {

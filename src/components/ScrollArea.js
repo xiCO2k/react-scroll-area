@@ -1,11 +1,14 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import _ from 'lodash';
+import className from 'classname';
 
 import DOMHelper from '../helpers/DOMHelper';
 import style from './ScrollArea.css';
 
-import Track from './Track';
+import Track from './Track/Track';
+import Overflow from './Overflow/Overflow';
+import Inner from './Inner/Inner';
 
 export default class ScrollArea extends Component {
 
@@ -19,7 +22,13 @@ export default class ScrollArea extends Component {
         minHandlerHeight: PropTypes.number,
         trackMargin: PropTypes.number,
         onScroll: PropTypes.func,
-        children: PropTypes.oneOfType([PropTypes.element, PropTypes.string]),
+        children: PropTypes.node,
+
+        className: PropTypes.string,
+        innerClassName: PropTypes.string,
+        overflowClassName: PropTypes.string,
+        trackClassName: PropTypes.string,
+        handlerClassName: PropTypes.string,
 
         //for testing purpose
         testInnerHeight: PropTypes.number,
@@ -33,6 +42,12 @@ export default class ScrollArea extends Component {
         trackHideTime: 1000,
         minHandlerHeight: 70,
         trackMargin: 4,
+
+        className: '',
+        innerClassName: '',
+        overflowClassName: '',
+        trackClassName: '',
+        handlerClassName: '',
 
         //for testing purpose
         testInnerHeight: 0,
@@ -112,12 +127,12 @@ export default class ScrollArea extends Component {
     getInnerHeight() {
         return process.env.NODE_ENV === 'testing' ?
             this.props.testInnerHeight :
-            DOMHelper.getHeight(this.references.inner);
+            DOMHelper.getHeight(this.references.inner.node);
     }
 
     getInnerMargin() {
         let outer = this.references.outer,
-            inner = this.references.inner;
+            inner = this.references.inner.node;
 
         if (!inner.offsetWidth || !outer.offsetWidth) {
             return -1;
@@ -127,7 +142,7 @@ export default class ScrollArea extends Component {
     }
 
     getScrollTop(target = this.references.overflow) {
-        return target && target.scrollTop || 0;
+        return target && target.node.scrollTop || 0;
     }
 
     isTrackNeedEvents() {
@@ -285,7 +300,7 @@ export default class ScrollArea extends Component {
 
         DOMHelper.ignoreSelection();
 
-        this.references.overflow.scrollTop = Math.max(Math.min(
+        this.references.overflow.node.scrollTop = Math.max(Math.min(
             Math.floor(offsetY * (this.state.innerHeight / (this.state.outerHeight - this.props.trackMargin))),
             this.state.innerHeight - this.state.outerHeight
         ), 0);
@@ -310,28 +325,33 @@ export default class ScrollArea extends Component {
                     width: this.props.width,
                     height: this.props.height
                 }}
-                className={style.outer}
+                className={className(style.outer, this.props.className)}
                 onMouseEnter={this.onMouseEnter}
                 onMouseLeave={this.onMouseLeave}
                 onMouseDown={this.onMouseDown}
                 onMouseMove={this.onMouseMoveHover}
             >
-                <div
+                <Overflow
                     ref={r => this.references.overflow = r}
                     className={style.overflow}
                     onScroll={this.onScroll}
                     onWheel={this.onWheel}
+                    className={this.props.overflowClassName}
                 >
-                    <div
+                    <Inner
                         ref={r => this.references.inner = r}
-                        className={style.inner}
-                        style={{marginRight: this.state.innerMargin}}
+                        className={this.props.innerClassName}
+                        innerMargin={this.state.innerMargin}
                     >
                         {this.props.children}
-                    </div>
-                </div>
+                    </Inner>
+                </Overflow>
                 <Track
                     ref={r => this.references.track = r}
+
+                    className={this.props.trackClassName}
+                    handlerClassName={this.props.handlerClassName}
+
                     isActive={this.state.trackActive}
                     isDragging={this.state.isDragging}
                     isHover={this.state.trackHover}

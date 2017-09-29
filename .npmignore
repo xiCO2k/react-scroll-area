@@ -1,8 +1,11 @@
-#bild lib
-/lib
-
 # dependencies
 /node_modules
+
+# docs
+/docs
+.bithoundrc
+.webpack.*
+.travis.yml
 
 # misc
 .DS_Store

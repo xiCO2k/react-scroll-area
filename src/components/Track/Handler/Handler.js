@@ -1,8 +1,9 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
+import className from 'classname';
 
 import style from './Handler.css';
-import DOMHelper from '../helpers/DOMHelper';
+import DOMHelper from '../../../helpers/DOMHelper';
 
 export { style };
 export default class Handler extends Component {
@@ -16,7 +17,11 @@ export default class Handler extends Component {
         outerWidth: PropTypes.number,
         outerHeight: PropTypes.number,
         innerHeight: PropTypes.number
-    }
+    };
+
+    static defaultProps = {
+        className: ''
+    };
 
     constructor(props) {
         super(props);
@@ -84,25 +89,16 @@ export default class Handler extends Component {
         return offset;
     }
 
-    getClassNames() {
-        let classNames = [style.handler, this.props.className];
-
-        if (this.props.isDragging) {
-            classNames.push(style.dragging);
-        }
-
-        if (this.props.isHover) {
-            classNames.push(style.hover);
-        }
-
-        return classNames.join(' ');
-    }
-
     render() {
         return (
             <div
                 ref={r => this.references.handler = r}
-                className={this.getClassNames()}
+                className={className({
+                    [style.handler]: true,
+                    [style.dragging]: this.props.isDragging,
+                    [style.hover]: this.props.isHover,
+                    [this.props.className]: true
+                })}
                 style={{
                     height: this.getHeight(),
                     top: this.getTop()
