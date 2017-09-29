@@ -187,7 +187,7 @@ export default class ScrollArea extends Component {
 
     //Events
 
-    onResize = event => {
+    onResize = () => {
         let state = {
             innerHeight: this.getInnerHeight(),
             outerHeight: this.getOuterHeight()
@@ -216,7 +216,7 @@ export default class ScrollArea extends Component {
         }
     }
 
-    onScroll = event => {
+    onScroll = () => {
         if (!this.isTrackNeedEvents()) {
             this.forceUpdate();
             return;
@@ -236,7 +236,7 @@ export default class ScrollArea extends Component {
         this.forceUpdate();
     }
 
-    onMouseEnter = event => {
+    onMouseEnter = () => {
         if (!this.isTrackNeedEvents()) {
             return;
         }
@@ -245,7 +245,7 @@ export default class ScrollArea extends Component {
         this.setState({ trackActive: true });
     }
 
-    onMouseLeave = event => {
+    onMouseLeave = () => {
         if (!this.isTrackNeedEvents() ||
             this.state.isDragging) {
             return;
@@ -334,10 +334,9 @@ export default class ScrollArea extends Component {
             >
                 <Overflow
                     ref={r => this.references.overflow = r}
-                    className={style.overflow}
+                    className={this.props.overflowClassName}
                     onScroll={this.onScroll}
                     onWheel={this.onWheel}
-                    className={this.props.overflowClassName}
                 >
                     <Inner
                         ref={r => this.references.inner = r}
