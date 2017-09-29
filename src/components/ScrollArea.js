@@ -135,137 +135,6 @@ export default class ScrollArea extends Component {
             this.getInnerHeight() > this.state.outerHeight;
     }
 
-    onResize() {
-        let state = {
-            innerHeight: this.getInnerHeight(),
-            outerHeight: this.getOuterHeight()
-        };
-
-        if (this.state.innerMargin === -1) {
-            state.innerMargin = this.getInnerMargin();
-        }
-
-        this.setState(state);
-    }
-
-    onWheel(event) {
-        let scrollTop = this.getScrollTop(),
-            innerHeight = this.getInnerHeight(),
-            outerHeight = this.getOuterHeight();
-
-        if (!DOMHelper.isChildOf(event.target, this.references.outer, true)) {
-            return;
-        }
-
-        if ((event.deltaY > 0 && scrollTop >= innerHeight - outerHeight) ||
-            (event.deltaY < 0 && scrollTop === 0)) {
-            event.stopPropagation();
-            event.preventDefault();
-        }
-    }
-
-    onScroll() {
-        if (!this.isTrackNeedEvents()) {
-            this.forceUpdate();
-            return;
-        }
-
-        if (this.props.onScroll) {
-            let data = {
-                scrollTop: this.getScrollTop(),
-                innerHeight: this.getInnerHeight(),
-                outerHeight: this.getOuterHeight()
-            };
-            data.complete = (data.scrollTop + data.outerHeight) / data.innerHeight;
-
-            this.props.onScroll(data, this);
-        }
-
-        this.forceUpdate();
-    }
-
-    onMouseEnter() {
-        if (!this.isTrackNeedEvents()) {
-            return;
-        }
-
-        clearTimeout(this.scrollTrackVisibleTimeout);
-        this.setState({ trackActive: true });
-    }
-
-    onMouseLeave() {
-        if (!this.isTrackNeedEvents() ||
-            this.state.isDragging) {
-            return;
-        }
-
-        this.hideTrack();
-    }
-
-    onMouseDown(event) {
-        let offset = this.references.track.getOffset();
-
-        if (event.pageX < offset.left || !this.state.trackHover) {
-            return;
-        }
-
-        this.setState({
-            isDragging: true,
-            trackActive: !this.props.trackHidden,
-            startY: event.pageY,
-            originalY: this.references.track.getHeight() * ((this.getScrollTop()) / this.state.innerHeight)
-        });
-
-        this.onMouseMoveFn = this.onMouseMove.bind(this);
-        this.onMouseUpFn = this.onMouseUp.bind(this);
-        window.addEventListener('mousemove', this.onMouseMoveFn, false);
-        window.addEventListener('mouseup', this.onMouseUpFn, false);
-    }
-
-    onMouseUp(event) {
-        this.setState({
-            isDragging: false,
-            trackHover: false
-        });
-
-        DOMHelper.ignoreSelection();
-
-        if (!DOMHelper.isChildOf(event.target, this.references.outer) &&
-            this.isTrackNeedEvents()) {
-            this.hideTrack();
-        }
-
-        window.removeEventListener('mouseup', this.onMouseUpFn);
-        window.removeEventListener('mousemove', this.onMouseMoveFn);
-    }
-
-    onMouseMove(event) {
-        if (!this.state.isDragging) {
-            return;
-        }
-
-        let deltaY = event.pageY - this.state.startY,
-            offsetY = this.state.originalY + deltaY;
-
-        DOMHelper.ignoreSelection();
-
-        this.references.overflow.scrollTop = Math.max(Math.min(
-            Math.floor(offsetY * (this.state.innerHeight / (this.state.outerHeight - this.props.trackMargin))),
-            this.state.innerHeight - this.state.outerHeight
-        ), 0);
-    }
-
-    onMouseMoveHover(event) {
-        if (this.state.isDragging || !this.state.trackActive) {
-            return;
-        }
-
-        let offset = this.references.track.getOffset(),
-            trackHover = event.pageX > offset.left;
-
-        this.setState({ trackHover });
-    }
-
     hideTrack() {
         if (!this.props.trackHideTime) {
             this.setState({ trackActive: false });
@@ -277,6 +146,7 @@ export default class ScrollArea extends Component {
         }, this.props.trackHideTime);
     }
 
+    //Methods
     triggerScroll() {
         this.onScroll();
         return this;
@@ -300,6 +170,138 @@ export default class ScrollArea extends Component {
         return this.goToPos(this.state.innerHeight - this.state.outerHeight, duration);
     }
 
+    //Events
+    onResize = event => {
+        let state = {
+            innerHeight: this.getInnerHeight(),
+            outerHeight: this.getOuterHeight()
+        };
+
+        if (this.state.innerMargin === -1) {
+            state.innerMargin = this.getInnerMargin();
+        }
+
+        this.setState(state);
+    };
+
+    onWheel = event => {
+        let scrollTop = this.getScrollTop(),
+            innerHeight = this.getInnerHeight(),
+            outerHeight = this.getOuterHeight();
+
+        if (!DOMHelper.isChildOf(event.target, this.references.outer, true)) {
+            return;
+        }
+
+        if ((event.deltaY > 0 && scrollTop >= innerHeight - outerHeight) ||
+            (event.deltaY < 0 && scrollTop === 0)) {
+            event.stopPropagation();
+            event.preventDefault();
+        }
+    }
+
+    onScroll = event => {
+        if (!this.isTrackNeedEvents()) {
+            this.forceUpdate();
+            return;
+        }
+
+        if (this.props.onScroll) {
+            let data = {
+                scrollTop: this.getScrollTop(),
+                innerHeight: this.getInnerHeight(),
+                outerHeight: this.getOuterHeight()
+            };
+            data.complete = (data.scrollTop + data.outerHeight) / data.innerHeight;
+
+            this.props.onScroll(data, this);
+        }
+
+        this.forceUpdate();
+    }
+
+    onMouseEnter = event => {
+        if (!this.isTrackNeedEvents()) {
+            return;
+        }
+
+        clearTimeout(this.scrollTrackVisibleTimeout);
+        this.setState({ trackActive: true });
+    }
+
+    onMouseLeave = event => {
+        if (!this.isTrackNeedEvents() ||
+            this.state.isDragging) {
+            return;
+        }
+
+        this.hideTrack();
+    }
+
+    onMouseDown = event => {
+        let offset = this.references.track.getOffset();
+
+        if (event.pageX < offset.left || !this.state.trackHover) {
+            return;
+        }
+
+        this.setState({
+            isDragging: true,
+            trackActive: !this.props.trackHidden,
+            startY: event.pageY,
+            originalY: this.references.track.getHeight() * ((this.getScrollTop()) / this.state.innerHeight)
+        });
+
+        this.onMouseMoveFn = this.onMouseMove;
+        this.onMouseUpFn = this.onMouseUp;
+        window.addEventListener('mousemove', this.onMouseMoveFn, false);
+        window.addEventListener('mouseup', this.onMouseUpFn, false);
+    }
+
+    onMouseUp = event => {
+        this.setState({
+            isDragging: false,
+            trackHover: false
+        });
+
+        DOMHelper.ignoreSelection();
+
+        if (!DOMHelper.isChildOf(event.target, this.references.outer) &&
+            this.isTrackNeedEvents()) {
+            this.hideTrack();
+        }
+
+        window.removeEventListener('mouseup', this.onMouseUpFn);
+        window.removeEventListener('mousemove', this.onMouseMoveFn);
+    }
+
+    onMouseMove = event => {
+        if (!this.state.isDragging) {
+            return;
+        }
+
+        let deltaY = event.pageY - this.state.startY,
+            offsetY = this.state.originalY + deltaY;
+
+        DOMHelper.ignoreSelection();
+
+        this.references.overflow.scrollTop = Math.max(Math.min(
+            Math.floor(offsetY * (this.state.innerHeight / (this.state.outerHeight - this.props.trackMargin))),
+            this.state.innerHeight - this.state.outerHeight
+        ), 0);
+    }
+
+    onMouseMoveHover = event => {
+        if (this.state.isDragging || !this.state.trackActive) {
+            return;
+        }
+
+        let offset = this.references.track.getOffset(),
+            trackHover = event.pageX > offset.left;
+
+        this.setState({ trackHover });
+    }
+
     render() {
         return (
             <div
@@ -309,16 +311,16 @@ export default class ScrollArea extends Component {
                     height: this.props.height
                 }}
                 className={style.outer}
-                onMouseEnter={this.onMouseEnter.bind(this)}
-                onMouseLeave={this.onMouseLeave.bind(this)}
-                onMouseDown={this.onMouseDown.bind(this)}
-                onMouseMove={this.onMouseMoveHover.bind(this)}
+                onMouseEnter={this.onMouseEnter}
+                onMouseLeave={this.onMouseLeave}
+                onMouseDown={this.onMouseDown}
+                onMouseMove={this.onMouseMoveHover}
             >
                 <div
                     ref={r => this.references.overflow = r}
                     className={style.overflow}
-                    onScroll={this.onScroll.bind(this)}
-                    onWheel={this.onWheel.bind(this)}
+                    onScroll={this.onScroll}
+                    onWheel={this.onWheel}
                 >
                     <div
                         ref={r => this.references.inner = r}
