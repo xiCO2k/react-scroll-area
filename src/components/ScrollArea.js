@@ -11,7 +11,6 @@ import Overflow from './Overflow/Overflow';
 import Inner from './Inner/Inner';
 
 export default class ScrollArea extends Component {
-
     static propTypes = {
         width: PropTypes.oneOfType([PropTypes.number, PropTypes.string]),
         height: PropTypes.oneOfType([PropTypes.number, PropTypes.string]),
@@ -96,9 +95,9 @@ export default class ScrollArea extends Component {
 
     getOuterWidth() {
         let width = this.props.width,
-            isPercentage = /%/.test(width);
+            isPercent = /%/.test(width);
 
-        if (isPercentage) {
+        if (isPercent) {
             let percentage = parseInt(width, 10) / 100;
 
             return process.env.NODE_ENV === 'testing' ?
@@ -111,9 +110,9 @@ export default class ScrollArea extends Component {
 
     getOuterHeight() {
         let height = this.props.height,
-            isPercentage = /%/.test(height);
+            isPercent = /%/.test(height);
 
-        if (isPercentage) {
+        if (isPercent) {
             let percentage = parseInt(height, 10) / 100;
 
             return process.env.NODE_ENV === 'testing' ?
@@ -186,8 +185,7 @@ export default class ScrollArea extends Component {
     }
 
     //Events
-
-    onResize = event => {
+    onResize = () => {
         let state = {
             innerHeight: this.getInnerHeight(),
             outerHeight: this.getOuterHeight()
@@ -198,7 +196,7 @@ export default class ScrollArea extends Component {
         }
 
         this.setState(state);
-    }
+    };
 
     onWheel = event => {
         let scrollTop = this.getScrollTop(),
@@ -214,9 +212,9 @@ export default class ScrollArea extends Component {
             event.stopPropagation();
             event.preventDefault();
         }
-    }
+    };
 
-    onScroll = event => {
+    onScroll = () => {
         if (!this.isTrackNeedEvents()) {
             this.forceUpdate();
             return;
@@ -234,25 +232,25 @@ export default class ScrollArea extends Component {
         }
 
         this.forceUpdate();
-    }
+    };
 
-    onMouseEnter = event => {
+    onMouseEnter = () => {
         if (!this.isTrackNeedEvents()) {
             return;
         }
 
         clearTimeout(this.scrollTrackVisibleTimeout);
         this.setState({ trackActive: true });
-    }
+    };
 
-    onMouseLeave = event => {
+    onMouseLeave = () => {
         if (!this.isTrackNeedEvents() ||
             this.state.isDragging) {
             return;
         }
 
         this.hideTrack();
-    }
+    };
 
     onMouseDown = event => {
         let offset = this.references.track.getOffset();
@@ -272,7 +270,7 @@ export default class ScrollArea extends Component {
         this.onMouseUpFn = this.onMouseUp;
         window.addEventListener('mousemove', this.onMouseMoveFn, false);
         window.addEventListener('mouseup', this.onMouseUpFn, false);
-    }
+    };
 
     onMouseUp = event => {
         this.setState({
@@ -289,7 +287,7 @@ export default class ScrollArea extends Component {
 
         window.removeEventListener('mouseup', this.onMouseUpFn);
         window.removeEventListener('mousemove', this.onMouseMoveFn);
-    }
+    };
 
     onMouseMove = event => {
         if (!this.state.isDragging) {
@@ -305,7 +303,7 @@ export default class ScrollArea extends Component {
             Math.floor(offsetY * (this.state.innerHeight / (this.state.outerHeight - this.props.trackMargin))),
             this.state.innerHeight - this.state.outerHeight
         ), 0);
-    }
+    };
 
     onMouseMoveHover = event => {
         if (this.state.isDragging || !this.state.trackActive) {
@@ -316,7 +314,7 @@ export default class ScrollArea extends Component {
             trackHover = event.pageX > offset.left;
 
         this.setState({ trackHover });
-    }
+    };
 
     render() {
         return (
@@ -334,10 +332,9 @@ export default class ScrollArea extends Component {
             >
                 <Overflow
                     ref={r => this.references.overflow = r}
-                    className={style.overflow}
+                    className={this.props.overflowClassName}
                     onScroll={this.onScroll}
                     onWheel={this.onWheel}
-                    className={this.props.overflowClassName}
                 >
                     <Inner
                         ref={r => this.references.inner = r}
@@ -349,7 +346,6 @@ export default class ScrollArea extends Component {
                 </Overflow>
                 <Track
                     ref={r => this.references.track = r}
-
                     className={this.props.trackClassName}
                     handlerClassName={this.props.handlerClassName}
                     isActive={this.state.trackActive}
