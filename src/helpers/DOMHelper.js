@@ -1,5 +1,3 @@
-import _ from 'lodash';
-
 function position(elem) {
     if (!elem) {
         return;
@@ -47,15 +45,15 @@ function isChildOf(child, parent, checkEqual = false) {
         parent = [parent];
     }
 
-    _.each(parent, _parent => {
+    for (let i; i < parent.length; i++) {
         let _child = child;
 
-        if (found) return false;
-        if (checkEqual && _child === _parent) return true;
+        if (found) break;
+        if (checkEqual && _child === parent[i]) continue;
 
-        while ((_child = _child.parentNode) && _child !== _parent);
+        while ((_child = _child.parentNode) && _child !== parent[i]);
         found = !!_child;
-    });
+    }
 
     return found;
 }

@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import _ from 'lodash';
 import className from 'classname';
 
 import DOMHelper from '../helpers/DOMHelper';
@@ -155,7 +154,7 @@ export default class ScrollArea extends Component {
             return;
         }
 
-        this.scrollTrackVisibleTimeout = _.delay(() => {
+        this.scrollTrackVisibleTimeout = setTimeout(() => {
             this.setState({ trackActive: false });
         }, this.props.trackHideTime);
     }
