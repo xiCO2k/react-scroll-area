@@ -22195,6 +22195,8 @@ var ScrollArea = function (_Component) {
             }
 
             _this.setState(state);
+
+            _this.props.onResize();
         };
 
         _this.onWheel = function (event) {
@@ -22326,6 +22328,10 @@ var ScrollArea = function (_Component) {
         value: function componentDidMount() {
             this.validateProps(); //It throws
             this.onResize();
+
+            if (!this.props.width || !this.props.height || /%/.test(this.props.width) || /%/.test(this.props.height)) {
+                window.addEventListener('resize', this.onResize, true);
+            }
         }
     }, {
         key: 'componentDidUpdate',
@@ -22338,6 +22344,8 @@ var ScrollArea = function (_Component) {
         key: 'componentWillUnmount',
         value: function componentWillUnmount() {
             clearTimeout(this.scrollTrackVisibleTimeout);
+
+            window.removeEventListener('resize', this.onResize);
         }
     }, {
         key: 'validateProps',
@@ -22534,6 +22542,7 @@ ScrollArea.propTypes = {
     minHandlerHeight: _propTypes2.default.number,
     trackMargin: _propTypes2.default.number,
     onScroll: _propTypes2.default.func,
+    onResize: _propTypes2.default.func,
     children: _propTypes2.default.node,
 
     className: _propTypes2.default.string,
@@ -22559,6 +22568,8 @@ ScrollArea.defaultProps = {
     overflowClassName: '',
     trackClassName: '',
     handlerClassName: '',
+
+    onResize: function onResize() {},
 
     //for testing purpose
     testInnerHeight: 0,

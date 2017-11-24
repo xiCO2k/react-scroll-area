@@ -7,8 +7,8 @@ import { style as handlerStyle } from './Track/Handler/Handler';
 
 Enzyme.configure({ adapter: new Adapter() });
 
-global.requestAnimationFrame = function(callback) {
-  setTimeout(callback, 0);
+global.requestAnimationFrame = (callback) => {
+    setTimeout(callback, 0);
 };
 
 describe('Render', () => {
@@ -177,6 +177,46 @@ describe('Interaction', () => {
         jest.runTimersToTime(400);
 
         expect(wrapper.find("Overflow").getDOMNode().scrollTop).toBe(50);
+    });
+
+    describe('onResize()', () => {
+        it('calls on window resize if the height or width are %', () => {
+            const props = {
+                    testInnerHeight: 200,
+                    onResize: jest.fn()
+                },
+                wrapper = mount(<ScrollArea {...props} />);
+
+            //its called on compoment mount
+            expect(props.onResize).toHaveBeenCalledTimes(1);
+
+            props.onResize.mockClear();
+
+            global.innerWidth = 500;
+            global.dispatchEvent(new Event('resize'));
+
+            expect(props.onResize).toHaveBeenCalledTimes(1);
+        });
+
+        it('does not call on window resize if the height and width are not percentage', () => {
+            const props = {
+                    width: '100px',
+                    height: '100px',
+                    testInnerHeight: 200,
+                    onResize: jest.fn()
+                },
+                wrapper = mount(<ScrollArea {...props} />);
+
+            //its called on compoment mount
+            expect(props.onResize).toHaveBeenCalledTimes(1);
+
+            props.onResize.mockClear();
+
+            global.innerWidth = 500;
+            global.dispatchEvent(new Event('resize'));
+
+            expect(props.onResize).toHaveBeenCalledTimes(0);
+        });
     });
 
     describe('Track', () => {

@@ -20,6 +20,7 @@ export default class ScrollArea extends Component {
         minHandlerHeight: PropTypes.number,
         trackMargin: PropTypes.number,
         onScroll: PropTypes.func,
+        onResize: PropTypes.func,
         children: PropTypes.node,
 
         className: PropTypes.string,
@@ -47,6 +48,8 @@ export default class ScrollArea extends Component {
         trackClassName: '',
         handlerClassName: '',
 
+        onResize: () => {},
+
         //for testing purpose
         testInnerHeight: 0,
         testParentWidth: 0,
@@ -70,6 +73,11 @@ export default class ScrollArea extends Component {
     componentDidMount() {
         this.validateProps(); //It throws
         this.onResize();
+
+        if (!this.props.width || !this.props.height ||
+            /%/.test(this.props.width) || /%/.test(this.props.height)) {
+            window.addEventListener('resize', this.onResize, true);
+        }
     }
 
     componentDidUpdate() {
@@ -80,6 +88,8 @@ export default class ScrollArea extends Component {
 
     componentWillUnmount() {
         clearTimeout(this.scrollTrackVisibleTimeout);
+
+        window.removeEventListener('resize', this.onResize);
     }
 
     validateProps() {
@@ -195,6 +205,8 @@ export default class ScrollArea extends Component {
         }
 
         this.setState(state);
+
+        this.props.onResize();
     };
 
     onWheel = event => {
