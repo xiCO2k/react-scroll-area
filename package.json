@@ -9,7 +9,7 @@
   "devDependencies": {
     "babel-cli": "^6.26.0",
     "babel-eslint": "^8.0.1",
-    "babel-jest": "^21.2.0",
+    "babel-jest": "^23.0.0-alpha.0",
     "babel-loader": "^7.1.2",
     "babel-plugin-css-modules-transform": "^1.2.7",
     "babel-preset-env": "^1.6.0",
@@ -24,14 +24,15 @@
     "eslint-plugin-react": "^7.4.0",
     "file-loader": "^1.1.4",
     "identity-obj-proxy": "^3.0.0",
-    "jest": "^21.2.1",
+    "jest": "^22.4.2",
     "jsdom": "^11.3.0",
     "raf": "^3.4.0",
     "react-test-renderer": "^16.0.0",
     "regenerator-runtime": "^0.11.0",
-    "style-loader": "^0.18.2",
-    "webpack": "^3.6.0",
-    "webpack-dev-server": "^2.9.1"
+    "style-loader": "^0.20.3",
+    "webpack": "^4.1.1",
+    "webpack-cli": "^2.0.12",
+    "webpack-dev-server": "^3.1.1"
   },
   "dependencies": {
     "classname": "^0.0.0",
@@ -40,9 +41,9 @@
     "react-dom": ">= 0.13.x"
   },
   "scripts": {
-    "start": "NODE_ENV=development webpack-dev-server --config webpack.config.dev.js --open",
-    "build": "rm -rf docs && NODE_ENV=development webpack --config webpack.config.docs.js",
-    "lib": "rm -rf lib && NODE_ENV=production babel src --out-dir lib --copy-files --ignore '**/entry.js, **/demo, **/*.test.js' && webpack",
+    "start": "webpack-dev-server --mode development --config webpack.config.dev.js --open",
+    "build": "rm -rf docs && webpack --mode development --config webpack.config.docs.js",
+    "lib": "rm -rf lib && NODE_ENV=production babel src --out-dir lib --copy-files --ignore '**/entry.js, **/demo, **/*.test.js' && webpack --mode production",
     "test": "NODE_ENV=testing jest",
     "lint": "eslint ."
   },

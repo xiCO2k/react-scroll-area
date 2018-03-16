@@ -182,10 +182,11 @@ describe('Interaction', () => {
     describe('onResize()', () => {
         it('calls on window resize if the height or width are %', () => {
             const props = {
-                    testInnerHeight: 200,
-                    onResize: jest.fn()
-                },
-                wrapper = mount(<ScrollArea {...props} />);
+                testInnerHeight: 200,
+                onResize: jest.fn()
+            };
+
+            mount(<ScrollArea {...props} />);
 
             //its called on compoment mount
             expect(props.onResize).toHaveBeenCalledTimes(1);
@@ -200,12 +201,13 @@ describe('Interaction', () => {
 
         it('does not call on window resize if the height and width are not percentage', () => {
             const props = {
-                    width: '100px',
-                    height: '100px',
-                    testInnerHeight: 200,
-                    onResize: jest.fn()
-                },
-                wrapper = mount(<ScrollArea {...props} />);
+                width: '100px',
+                height: '100px',
+                testInnerHeight: 200,
+                onResize: jest.fn()
+            };
+
+            mount(<ScrollArea {...props} />);
 
             //its called on compoment mount
             expect(props.onResize).toHaveBeenCalledTimes(1);
