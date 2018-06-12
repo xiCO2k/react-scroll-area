@@ -1,8 +1,5 @@
 [![Build Status](https://travis-ci.org/xiCO2k/react-scroll-area.svg?branch=master)](https://travis-ci.org/xiCO2k/react-scroll-area)
 [![npm downloads](https://img.shields.io/npm/dt/xico2k-react-scroll-area.svg)](https://npmcharts.com/compare/xico2k-react-scroll-area?minimal=true)
-[![bitHound Code](https://www.bithound.io/github/xiCO2k/react-scroll-area/badges/code.svg)](https://www.bithound.io/github/xiCO2k/react-scroll-area)
-[![bitHound Dependencies](https://www.bithound.io/github/xiCO2k/react-scroll-area/badges/dependencies.svg)](https://www.bithound.io/github/xiCO2k/react-scroll-area/master/dependencies/npm)
-[![bitHound Dev Dependencies](https://www.bithound.io/github/xiCO2k/react-scroll-area/badges/devDependencies.svg)](https://www.bithound.io/github/xiCO2k/react-scroll-area/master/dependencies/npm)
 
 # react-scroll-area [![Demo](https://img.shields.io/badge/demo-live-brightgreen.svg)](//xico2k.github.com/react-scroll-area/)
 

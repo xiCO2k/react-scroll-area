@@ -70,7 +70,7 @@ export default class ScrollArea extends Component {
             outerHeight: 0,
             isDragging: false,
             trackMarginTop: props.trackMargin !== undefined ? props.trackMargin / 2 : props.trackMarginTop,
-            trackMarginBottom: props.trackMargin !== undefined ? props.trackMargin / 2 : props.trackMarginBottom,
+            trackMarginBottom: props.trackMargin !== undefined ? props.trackMargin / 2 : props.trackMarginBottom
         };
 
         this.references = {};

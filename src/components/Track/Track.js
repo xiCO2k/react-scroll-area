@@ -34,7 +34,7 @@ export default class Track extends Component {
     }
 
     getHeight() {
-        return this.props.outerHeight - this.props.marginTop - this.props.marginBottom;
+        return this.props.outerHeight - this.props.marginBottom;
     }
 
     getOffset() {
