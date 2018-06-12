@@ -34,7 +34,7 @@ export default class Track extends Component {
     }
 
     getHeight() {
-        return this.props.outerHeight - this.props.marginBottom;
+        return this.props.outerHeight - this.props.marginTop - this.props.marginBottom;
     }
 
     getOffset() {
@@ -66,7 +66,8 @@ export default class Track extends Component {
                     className={this.props.handlerClassName}
                     scrollTop={this.props.scrollTop}
                     outerWidth={this.props.outerWidth}
-                    outerHeight={this.getHeight()}
+                    outerHeight={this.props.outerHeight}
+                    trackHeight={this.getHeight()}
                     innerHeight={this.props.innerHeight}
                     minHeight={this.props.minHandlerHeight}
                     isDragging={this.props.isDragging}

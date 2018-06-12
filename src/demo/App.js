@@ -97,7 +97,7 @@ export default class App extends Component {
                             <h2 className="title is-5">With margin set to 100px</h2>
                             <div className={style.preview}>
                                 <div className={style.exampleContainer}>
-                                    <ScrollArea trackMargin={100} trackVisible>
+                                    <ScrollArea trackMarginTop={200} trackMarginBottom={0} minHandlerHeight={1} trackVisible>
                                         <div style={{ minHeight: "2798px" }}>
                                             <img src={exampleImg} height="2798" />
                                         </div>

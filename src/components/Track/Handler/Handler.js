@@ -16,6 +16,7 @@ export default class Handler extends Component {
         scrollTop: PropTypes.number,
         outerWidth: PropTypes.number,
         outerHeight: PropTypes.number,
+        trackHeight: PropTypes.number,
         innerHeight: PropTypes.number
     };
 
@@ -31,34 +32,35 @@ export default class Handler extends Component {
 
     getRatio() {
         let innerHeight = this.props.innerHeight,
-            outerHeight = this.props.outerHeight;
+            trackHeight = this.props.trackHeight;
 
-        if (!innerHeight || !outerHeight) {
+        if (!innerHeight || !trackHeight) {
             return 0;
         }
 
-        return innerHeight / outerHeight;
+        return innerHeight / trackHeight;
     }
 
     getHeight() {
-        if (!this.props.outerHeight) {
+        if (!this.props.trackHeight) {
             return 0;
         }
 
         return Math.min(Math.max(
             this.getMinHeight(),
             Math.round(this.props.outerHeight / this.getRatio())
-        ), this.props.outerHeight);
+        ), this.props.trackHeight);
     }
 
     getMinHeight() {
-        return Math.min(this.props.outerHeight, this.props.minHeight);
+        return Math.min(this.props.trackHeight, this.props.minHeight);
     }
 
     getTop() {
         let scrollTop = this.props.scrollTop,
             innerHeight = this.props.innerHeight,
-            trackHeight = this.props.outerHeight,
+            outerHeight = this.props.outerHeight,
+            trackHeight = this.props.trackHeight,
             handlerHeight = this.getHeight();
 
         if (handlerHeight === this.getMinHeight()) {
@@ -68,7 +70,7 @@ export default class Handler extends Component {
 
             return (
                 (trackHeight - handlerHeight) *
-                (scrollTop / (innerHeight - trackHeight))
+                (scrollTop / (innerHeight - outerHeight))
             );
         }
 
