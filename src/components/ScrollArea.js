@@ -73,8 +73,6 @@ export default class ScrollArea extends Component {
             trackMarginBottom: props.trackMargin !== undefined ? props.trackMargin / 2 : props.trackMarginBottom
         };
 
-        console.log(this.state);
-
         this.references = {};
     }
 

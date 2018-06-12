@@ -42,7 +42,7 @@ export default class Handler extends Component {
     }
 
     getHeight() {
-        if (!this.props.trackHeight) {
+        if (! this.props.trackHeight || ! this.props.outerHeight) {
             return 0;
         }
 

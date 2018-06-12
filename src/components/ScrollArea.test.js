@@ -501,12 +501,12 @@ describe('Interaction', () => {
         });
 
         it('changes the top after scrolling', () => {
-            const wrapper = mount(<ScrollArea {...props} />);
+            const wrapper = mount(<ScrollArea {...props} trackMargin={0} />);
 
             wrapper.find("Overflow").getDOMNode().scrollTop = 100;
             wrapper.instance().onScroll();
 
-            expect(wrapper.find('Handler').getDOMNode().style.top).toBe('25px');
+            expect(wrapper.find('Handler').getDOMNode().style.top).toBe('30px');
 
             wrapper.find("Overflow").getDOMNode().scrollTop = 0;
             wrapper.instance().onScroll();
