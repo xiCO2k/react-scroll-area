@@ -10,7 +10,8 @@ export default class Track extends Component {
     static propTypes = {
         className: PropTypes.string,
         handlerClassName: PropTypes.string,
-        margin: PropTypes.number,
+        marginTop: PropTypes.number,
+        marginBottom: PropTypes.number,
         isActive: PropTypes.bool,
         isDragging: PropTypes.bool,
         isHover: PropTypes.bool,
@@ -33,7 +34,7 @@ export default class Track extends Component {
     }
 
     getHeight() {
-        return this.props.outerHeight - this.props.margin;
+        return this.props.outerHeight - this.props.marginTop - this.props.marginBottom;
     }
 
     getOffset() {
@@ -56,7 +57,7 @@ export default class Track extends Component {
                     [style.hidden]: !this.props.isActive
                 })}
                 style={{
-                    top: this.props.margin / 2,
+                    top: this.props.marginTop,
                     height: this.getHeight()
                 }}
             >

@@ -19,6 +19,8 @@ export default class ScrollArea extends Component {
         trackHideTime: PropTypes.number,
         minHandlerHeight: PropTypes.number,
         trackMargin: PropTypes.number,
+        trackMarginTop: PropTypes.number,
+        trackMarginBottom: PropTypes.number,
         onScroll: PropTypes.func,
         onResize: PropTypes.func,
         children: PropTypes.node,
@@ -40,7 +42,9 @@ export default class ScrollArea extends Component {
         trackHidden: false,
         trackHideTime: 1000,
         minHandlerHeight: 70,
-        trackMargin: 4,
+
+        trackMarginTop: 2,
+        trackMarginBottom: 2,
 
         className: '',
         innerClassName: '',
@@ -64,7 +68,9 @@ export default class ScrollArea extends Component {
             innerMargin: -1,
             innerHeight: 0,
             outerHeight: 0,
-            isDragging: false
+            isDragging: false,
+            trackMarginTop: props.trackMargin !== undefined ? props.trackMargin / 2 : props.trackMarginTop,
+            trackMarginBottom: props.trackMargin !== undefined ? props.trackMargin / 2 : props.trackMarginBottom,
         };
 
         this.references = {};
@@ -193,6 +199,10 @@ export default class ScrollArea extends Component {
         return this.goToPos(this.state.innerHeight - this.state.outerHeight, duration);
     }
 
+    getTotalMargin() {
+        return this.state.trackMarginTop + this.state.trackMarginBottom;
+    }
+
     //Events
     onResize = () => {
         let state = {
@@ -311,7 +321,7 @@ export default class ScrollArea extends Component {
         DOMHelper.ignoreSelection();
 
         this.references.overflow.node.scrollTop = Math.max(Math.min(
-            Math.floor(offsetY * (this.state.innerHeight / (this.state.outerHeight - this.props.trackMargin))),
+            Math.floor(offsetY * (this.state.innerHeight / (this.state.outerHeight - this.getTotalMargin()))),
             this.state.innerHeight - this.state.outerHeight
         ), 0);
     };
@@ -362,7 +372,8 @@ export default class ScrollArea extends Component {
                     isActive={this.state.trackActive}
                     isDragging={this.state.isDragging}
                     isHover={this.state.trackHover}
-                    margin={this.props.trackMargin}
+                    marginTop={this.state.trackMarginTop}
+                    marginBottom={this.state.trackMarginBottom}
                     minHandlerHeight={this.props.minHandlerHeight}
                     scrollTop={this.getScrollTop()}
                     outerWidth={this.getOuterWidth()}

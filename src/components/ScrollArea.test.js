@@ -263,6 +263,38 @@ describe('Interaction', () => {
             expect(wrapper.find('Track').getDOMNode().style.top).toBe((margin / 2) + 'px');
         });
 
+        it('subtracts the height if the props.trackMarginTop has value', () => {
+            const marginTop = 10,
+                wrapper = mount(
+                    <ScrollArea
+                        width='100px'
+                        height='100px'
+                        testInnerHeight={100}
+                        trackMarginTop={marginTop}
+                        trackMarginBottom={0}
+                    />
+                );
+
+            expect(wrapper.find('Track').getDOMNode().style.height).toBe((100 - marginTop) + 'px');
+            expect(wrapper.find('Track').getDOMNode().style.top).toBe(marginTop + 'px');
+        });
+
+        it('subtracts the height if the props.trackMarginBottom has value', () => {
+            const marginBottom = 10,
+                wrapper = mount(
+                    <ScrollArea
+                        width='100px'
+                        height='100px'
+                        testInnerHeight={100}
+                        trackMarginTop={marginBottom}
+                        trackMarginBottom={0}
+                    />
+                );
+
+            expect(wrapper.find('Track').getDOMNode().style.height).toBe((100 - marginBottom) + 'px');
+            expect(wrapper.find('Track').getDOMNode().style.top).toBe(marginBottom + 'px');
+        });
+
         it('not show if the "outer" is >= than the "inner"', () => {
             const wrapper = mount(<ScrollArea />);
 
