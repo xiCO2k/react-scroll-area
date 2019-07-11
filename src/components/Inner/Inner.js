@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import className from 'classname';
+import className from 'classnames';
 import style from './Inner.css';
 
 export { style };

@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import className from 'classname';
+import className from 'classnames';
 
 import DOMHelper from '../helpers/DOMHelper';
 import style from './ScrollArea.css';
@@ -248,7 +248,6 @@ export default class ScrollArea extends Component {
                 outerHeight: this.getOuterHeight()
             };
             data.complete = (data.scrollTop + data.outerHeight) / data.innerHeight;
-
             this.props.onScroll(data, this);
         }
 

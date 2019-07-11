@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import className from 'classname';
+import className from 'classnames';
 import Handler from './Handler/Handler';
 import style from './Track.css';
 import DOMHelper from '../../helpers/DOMHelper';

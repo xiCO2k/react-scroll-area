@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import className from 'classname';
+import className from 'classnames';
 
 import style from './Handler.css';
 import DOMHelper from '../../../helpers/DOMHelper';
@@ -64,7 +64,10 @@ export default class Handler extends Component {
             handlerHeight = this.getHeight();
 
         if (handlerHeight === this.getMinHeight()) {
-            if (!trackHeight) {
+            if (!trackHeight || (
+                scrollTop === 0 &&
+                innerHeight - trackHeight === 0
+            )) {
                 return 0;
             }
 
