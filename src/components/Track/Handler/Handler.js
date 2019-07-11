@@ -66,7 +66,7 @@ export default class Handler extends Component {
         if (handlerHeight === this.getMinHeight()) {
             if (!trackHeight || (
                 scrollTop === 0 &&
-                innerHeight - trackHeight === 0
+                innerHeight - outerHeight === 0
             )) {
                 return 0;
             }
