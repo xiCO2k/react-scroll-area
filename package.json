@@ -1,16 +1,16 @@
 {
   "name": "xico2k-react-scroll-area",
-  "version": "1.1.5",
+  "version": "1.1.6",
   "author": "Francisco Madeira",
   "homepage": "https://xico2k.github.io/react-scroll-area/",
   "license": "MIT",
   "repository": "https://github.com/xico2k/react-scroll-area",
   "main": "index.js",
   "devDependencies": {
-    "@babel/cli": "^7.5.5",
-    "@babel/core": "^7.5.5",
+    "@babel/cli": "^7.6.0",
+    "@babel/core": "^7.6.0",
     "@babel/plugin-proposal-class-properties": "^7.5.5",
-    "@babel/preset-env": "^7.5.5",
+    "@babel/preset-env": "^7.6.0",
     "@babel/preset-react": "^7.0.0",
     "babel-eslint": "^10.0.3",
     "babel-jest": "^24.9.0",
@@ -19,7 +19,7 @@
     "css-loader": "^3.2.0",
     "enzyme": "^3.10.0",
     "enzyme-adapter-react-16": "^1.14.0",
-    "eslint": "^6.2.2",
+    "eslint": "^6.3.0",
     "eslint-plugin-babel": "^5.3.0",
     "eslint-plugin-import": "^2.18.2",
     "eslint-plugin-react": "^7.14.3",
@@ -32,7 +32,7 @@
     "regenerator-runtime": "^0.13.3",
     "style-loader": "^1.0.0",
     "webpack": "^4.39.3",
-    "webpack-cli": "^3.3.7",
+    "webpack-cli": "^3.3.8",
     "webpack-dev-server": "^3.8.0"
   },
   "dependencies": {
@@ -46,7 +46,8 @@
     "build": "rm -rf docs && webpack --mode development --config webpack.config.docs.js",
     "lib": "rm -rf lib && NODE_ENV=production babel src --out-dir lib --copy-files --ignore '**/entry.js, **/demo, **/*.test.js' && webpack --mode production",
     "test": "NODE_ENV=testing jest",
-    "lint": "eslint ."
+    "lint": "eslint .",
+    "postpublish": "PACKAGE_VERSION=$(cat package.json | grep \\\"version\\\" | head -1 | awk -F: '{ print $2 }' | sed 's/[\",]//g' | tr -d '[[:space:]]') && git tag v$PACKAGE_VERSION && git push --tags"
   },
   "jest": {
     "roots": [
