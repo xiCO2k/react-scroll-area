@@ -12,11 +12,11 @@ A scroll area wrapper to mimic Facebook Scroll Area
 ## Installation
 With [npm](https://www.npmjs.com):
 ```sh
-$ npm i xico2k-react-scroll-area
+$ npm i @xico2k/react-scroll-area
 ```
 or with [yarn](https://yarnpkg.com):
 ```sh
-$ yarn add xico2k-react-scroll-area
+$ yarn add @xico2k/react-scroll-area
 ```
 
 ## Usage
@@ -24,7 +24,7 @@ $ yarn add xico2k-react-scroll-area
 On your component add:
 
 ```javascript
-import ScrollArea from 'xico2k-react-scroll-area';
+import ScrollArea from '@xico2k/react-scroll-area';
 ```
 To render:
 
