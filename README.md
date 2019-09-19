@@ -1,9 +1,9 @@
 [![Build Status](https://travis-ci.org/xiCO2k/react-scroll-area.svg?branch=master)](https://travis-ci.org/xiCO2k/react-scroll-area)
-[![npm downloads](https://img.shields.io/npm/dt/xico2k-react-scroll-area.svg)](https://npmcharts.com/compare/xico2k-react-scroll-area?minimal=true)
+[![npm downloads](https://img.shields.io/npm/dt/@xico2k/react-scroll-area.svg)](https://npmcharts.com/compare/@xico2k/react-scroll-area?minimal=true)
 
 # react-scroll-area [![Demo](https://img.shields.io/badge/demo-live-brightgreen.svg)](//xico2k.github.com/react-scroll-area/)
 
-[![NPM](https://nodei.co/npm/xico2k-react-scroll-area.png?downloads=true&downloadRank=true)](https://npmjs.org/package/xico2k-react-scroll-area)
+[![NPM](https://nodei.co/npm/@xico2k/react-scroll-area.png?downloads=true&downloadRank=true)](https://npmjs.org/package/@xico2k/react-scroll-area)
 
 A scroll area wrapper to mimic Facebook Scroll Area
 
