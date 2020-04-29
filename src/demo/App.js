@@ -28,8 +28,8 @@ export default class App extends Component {
                             <div className={style.preview}>
                                 <div className={style.exampleContainer}>
                                     <ScrollArea>
-                                        <div style={{ minHeight: "2798px" }}>
-                                            <img src={exampleImg} height="2798" />
+                                        <div style={{ minHeight: "2466px" }}>
+                                            <img src={exampleImg} height="2466" />
                                         </div>
                                     </ScrollArea>
                                 </div>
@@ -42,8 +42,8 @@ export default class App extends Component {
                             <div className={style.preview}>
                                 <div className={style.exampleContainer}>
                                     <ScrollArea trackVisible>
-                                        <div style={{ minHeight: "2798px" }}>
-                                            <img src={exampleImg} height="2798" />
+                                        <div style={{ minHeight: "2466px" }}>
+                                            <img src={exampleImg} height="2466" />
                                         </div>
                                     </ScrollArea>
                                 </div>
@@ -56,8 +56,8 @@ export default class App extends Component {
                             <div className={style.preview}>
                                 <div className={style.exampleContainer}>
                                     <ScrollArea trackHidden>
-                                        <div style={{ minHeight: "2798px" }}>
-                                            <img src={exampleImg} height="2798" />
+                                        <div style={{ minHeight: "2466px" }}>
+                                            <img src={exampleImg} height="2466" />
                                         </div>
                                     </ScrollArea>
                                 </div>
@@ -70,8 +70,8 @@ export default class App extends Component {
                             <div className={style.preview}>
                                 <div className={style.exampleContainer}>
                                     <ScrollArea minHandlerHeight={300}>
-                                        <div style={{ minHeight: "2798px" }}>
-                                            <img src={exampleImg} height="2798" />
+                                        <div style={{ minHeight: "2466px" }}>
+                                            <img src={exampleImg} height="2466" />
                                         </div>
                                     </ScrollArea>
                                 </div>
@@ -84,8 +84,8 @@ export default class App extends Component {
                             <div className={style.preview}>
                                 <div className={style.exampleContainer}>
                                     <ScrollArea trackHideTime={0}>
-                                        <div style={{ minHeight: "2798px" }}>
-                                            <img src={exampleImg} height="2798" />
+                                        <div style={{ minHeight: "2466px" }}>
+                                            <img src={exampleImg} height="2466" />
                                         </div>
                                     </ScrollArea>
                                 </div>
@@ -98,8 +98,8 @@ export default class App extends Component {
                             <div className={style.preview}>
                                 <div className={style.exampleContainer}>
                                     <ScrollArea trackMarginTop={200} trackMarginBottom={0} minHandlerHeight={1} trackVisible>
-                                        <div style={{ minHeight: "2798px" }}>
-                                            <img src={exampleImg} height="2798" />
+                                        <div style={{ minHeight: "2466px" }}>
+                                            <img src={exampleImg} height="2466" />
                                         </div>
                                     </ScrollArea>
                                 </div>
