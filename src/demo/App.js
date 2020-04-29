@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import ScrollArea from '../components/ScrollArea.js';
 
 import style from './App.css';
-import exampleImg from './example.png';
+import exampleImg from './example.jpg';
 
 export default class App extends Component {
 
