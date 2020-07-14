@@ -236,11 +236,6 @@ export default class ScrollArea extends Component {
     };
 
     onScroll = () => {
-        if (!this.isTrackNeedEvents()) {
-            this.forceUpdate();
-            return;
-        }
-
         if (this.props.onScroll) {
             let data = {
                 scrollTop: this.getScrollTop(),
