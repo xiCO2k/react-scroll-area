@@ -1,5 +1,8 @@
 module.exports = {
-    entry: './src/entry.js',
+    entry: [
+        './src/entry.js',
+        './index.html'
+    ],
     output: {
         filename: './bundle.js'
     },
@@ -23,6 +26,15 @@ module.exports = {
         }, {
             test: /\.(jpe?g|png|gif|svg)/,
             use: ['file-loader'],
+            exclude: /node_modules/
+        }, {
+            test: /\.html/,
+            use: [{
+                loader: 'file-loader',
+                options: {
+                    name: '[name].[ext]'
+                }
+            }],
             exclude: /node_modules/
         }]
     }
