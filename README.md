@@ -7,7 +7,7 @@
 
 A scroll area wrapper to mimic Facebook Scroll Area
 
-[Demo](//xico2k.github.com/react-scroll-area/)
+[Demo](//xico2k.github.io/react-scroll-area/)
 
 ## Installation
 With [npm](https://www.npmjs.com):
